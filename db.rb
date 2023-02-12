@@ -2,13 +2,16 @@ $types = 'nrdc'.chars
 
 class Entry
 
-    attr_accessor :match, :args, :sd, :formal, :verbal, :specs
+    attr_accessor :lvl, :match, :args, :sd, :formal, :verbal, :specs
 
     def initialize line
         @args = []
         @match = :exact
 
-        lvl, *words = line.split
+        @lvl, *words = line.split
+        lower = words[-1] == 'LOWER'
+        upper = words[-1] == 'UPPER'
+        words.pop if lower || upper
 
         while $types.include? words[-1]
             @match = :prefix
@@ -21,7 +24,7 @@ class Entry
         end
 
         @sd = words.join(' ').gsub(?&, 'and')
-        @sd.upcase! if @args == [?c]
+        @sd.upcase! if upper || (@args == [?c] && @match == :prefix && !lower)
 
         @formal = words.join.gsub(?-, '')
         @verbal = words.join ' '
@@ -40,7 +43,6 @@ class Number
     end
     def formal; self.n; end
     def verbal; self.n; end
-    def specs; {}; end
 end
 
 class Direction
@@ -51,7 +53,6 @@ class Direction
     end
     def formal; self.r; end
     def verbal; self.r; end
-    def specs; {}; end
 end
 
 class Designator
@@ -62,7 +63,6 @@ class Designator
     end
     def formal; self.d; end
     def verbal; self.d.sub 'very', 'very '; end
-    def specs; {}; end
 end
 
 class Node
@@ -72,8 +72,15 @@ class Node
         @children = children
     end
     def verbal
-        s = self.head.specs[self.children.map{|c| c.head.formal}.join ' ']
-        return s if s
+        # TODO this sucks lmao
+        if self.children.size > 0
+            arr = self.children.map{|c| c.head.formal}
+            (1..self.children.size).each do |i|
+                arr = self.children.map{|c| c.head.formal}
+                s = self.head.specs[arr[0...i].join ' ']
+                return s.verbal.gsub(/\$(\d+)/) { self.children[$1.to_i-1+i].verbal } if s
+            end
+        end
         return self.head.verbal.gsub(/\$(\d+)/) { self.children[$1.to_i-1].verbal }
     end
 end
@@ -102,8 +109,11 @@ class Db
             when 'OUT'
                 cur.verbal = args.join ' '
             when 'SPEC'
-                k, v = args.join(' ').split(' = ')
-                cur.specs[k] = v
+                k, v = args.include?(?=) ? args.join(' ').split(' = ') : [args.join(' '), cur.lvl+' '+cur.sd]
+                cur.specs[k] = Entry.new v
+                a = Entry.new v
+                a.formal = "#{cur.formal} #{k}"
+                @aliases.push a
             else
                 cur = Entry.new line
                 @entries.push cur
@@ -133,7 +143,7 @@ class Db
         when ?n then
             return sd if sd =~ /^[0-9]+(\/[0-9]+)?$/
         when ?r then
-            return sd if sd =~ /^(right|left|in|out)$/
+            return sd if sd =~ /^(right|left|in|out|forward|backward)$/
         when ?d then
             return sd if sd =~ /^(boys|girls|leads|trailers|(very )?(centers|ends))$/
         when ?c then
@@ -148,14 +158,18 @@ class Db
             when :exact
                 return e.formal if sd == e.sd
             when :prefix
-                if sd.start_with?(e.sd + ' ')
-                    x = self.parse_arg e.args[0], sd[e.sd.size+1..-1]
-                    return "#{e.formal} #{x}" if x
+                [[' ', ''], [', ', ''], [' [', ']']].each do |s,t|
+                    if sd.start_with?(e.sd + s) && sd.end_with?(t)
+                        x = self.parse_arg e.args[0], sd[e.sd.size+s.size..-1-t.size]
+                        return "#{e.formal} #{x}" if x
+                    end
                 end
             when :suffix
-                if sd.end_with?(' ' + e.sd)
-                    x = self.parse_arg e.args[0], sd[0...-(e.sd.size+1)]
-                    return "#{e.formal} #{x}" if x
+                [['', ' '], ['[', '] ']].each do |s,t|
+                    if sd.end_with?(t + e.sd)
+                        x = self.parse_arg e.args[0], sd[s.size...-e.sd.size-t.size]
+                        return "#{e.formal} #{x}" if x
+                    end
                 end
             end
         end

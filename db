@@ -1,6 +1,14 @@
 ms just d c
 MATCH fail
 OUT $1 $2
+ALIAS heads move in and c = just heads
+ALIAS sides move in and c = just sides
+
+ms do n c
+MATCH fail
+SPEC 2 = ms c twice UPPER
+
+ms nothing
 
 ms d cross fold
 ms d cross run
@@ -9,8 +17,6 @@ ms d run
 ms (anyone) walk (others) dodge
 ms (anything) & 1/4 more
 ms (anything) on (n-th hand) c
-ms 1/2 tag (the line)
-ms 1/4 tag (the line)
 ms alamo style
 ms around (n) to a line
 ms bend the line
@@ -18,7 +24,7 @@ ms box circulate
 ms box the gnat
 ms california twirl
 ms cast (right|left) (fract)
-ms cast off (fract)
+ms cast off n
 ms centers in
 ms centers out
 ms chain down the line
@@ -26,12 +32,10 @@ ms circle (left|right)
 ms circle to a line
 ms circulate
 ms cloverleaf
-ms couples circulate
-ms couples hinge
-ms couples trade
 ms courtesy turn
 ms dive thru
-ms dixie style (to an ocean wave)
+ms dixie style
+MATCH exact dixie style to a wave
 ms do paso
 ms do your part c
 ms double pass thru
@@ -46,7 +50,7 @@ ms half sashay
 ms hinge
 ms ladies chain (fract)
 ms ladies in, men sashay
-ms lead (right|left)
+ms lead r
 ms left swing thru
 ms move along (to lines)
 ms pass the ocean
@@ -80,7 +84,8 @@ ms step to a wave
 ms sweep (fract)
 ms swing (your partner|corner)
 ms swing thru
-ms tag the line (full) r
+ms n tag
+SPEC 1 = ms tag the line
 ms those who can c
 ms touch n
 ms trade
@@ -100,11 +105,9 @@ ms wrong way grand
 ms wrong way promenade (fract)
 ms zoom
 plus (chase (r|l)) but
-plus 3/4 tag (the line)
 plus acey deucey
 plus all 8 spin the top
 plus chase right
-ALIAS left chase = mirror chaseright
 ALIAS chase left = mirror chaseright
 plus coordinate
 plus cross fire
@@ -125,8 +128,10 @@ plus load the boat
 plus peel off
 plus peel the top
 plus ping pong circulate
+MATCH exact ping-pong circulate
 plus relay the deucey
-plus roll
+plus c & roll
+SPEC nothing = plus roll
 plus single circle to a wave
 plus slide (right|left) to a line
 plus spin chain & exchange the gears
@@ -138,27 +143,35 @@ plus trade the wave
 plus triple scoot
 a1 (anyone) cross
 a1 (anyone) scoot (others) dodge
-a1 (anything) & cross
+a1 c & cross
+SPEC nothing = a1 cross
 a1 (cast a shadow) don't spread
 a1 r roll to a wave
 a1 1/2 top
 a1 1/4 in
 a1 1/4 out
 a1 1/4 thru
+MATCH exact quarter thru
 a1 1/4 top
 a1 3/4 thru
+MATCH exact three quarter thru
 a1 3/4 top
 a1 6 by 2 acey deucey
-a1 any hand c
+MATCH exact 6X2 acey deucey
+a1 any hand c LOWER
 a1 as couples c
+SPEC circulate = ms couples circulate
+SPEC hinge = ms couples hinge
+SPEC trade = ms couples trade
 a1 beau(s) identifier
 a1 belle(s) identifier
 a1 brace thru
 a1 cast a shadow
 a1 chain reaction
-a1 clover and (anything)
+a1 clover and c LOWER
 a1 couple of 3 c
-a1 cross clover and (anything)
+a1 cross clover and c
+MATCH prefix CROSS clover and
 a1 cross cloverleaf
 a1 cross trail thru
 a1 crossover circulate
@@ -187,7 +200,9 @@ a1 replace (any) with (any) c
 a1 reverse swap around
 a1 scoot & dodge
 a1 split square chain thru
+MATCH exact SPLIT square chain thru
 a1 split square thru n
+MATCH prefix SPLIT square thru
 a1 square chain thru
 a1 start (a) c
 a1 step & slide
@@ -232,7 +247,8 @@ a2 slide
 a2 slip
 a2 slither
 a2 spin the windmill r
-a2 split counter rotate (fract)
+a2 split counter rotate
+SPEC 1/4
 a2 split transfer
 a2 swing
 a2 swing & mix
@@ -241,19 +257,21 @@ a2 switch to a diamond
 a2 switch to an hourglass
 a2 trade circulate
 a2 trail off
-a2 transfer and (anything)
+a2 transfer and c LOWER
 a2 zag
 a2 zig
-c1 "o" formation
+c1 O c
 c1 (any tag call) back (to a wave)
 c1 (any tag call) your cross neighbor
 c1 (anyone) point triangle formation
 c1 (anyone)-based (setup) identifier
 c1 (anything diamond) chain thru
 c1 (anything the axle) but (cast 1/4|3/4)
-c1 (anything) the axle
+c1 c the axle
+SPEC nothing
+SPEC passthru = c1 pass the axle
 c1 (anything) the windmill r
-c1 (anything) to a wave c
+c1 c to a wave
 c1 (flip back) but (anything)
 c1 (percolate) but (anything)
 c1 (replace) each (occurrence of)
@@ -266,20 +284,22 @@ c1 alter the wave
 c1 in your blocks c
 c1 box recycle
 c1 but (centers replace last part with)
-c1 butterfly formation
+c1 butterfly c
 c1 cast back
 c1 chase your neighbor
 c1 checkover
 c1 circle by (fract) by (anything)
 c1 concentric c
-c1 counter rotate (fract)
+c1 counter rotate n
+SPEC 1/4
 c1 cross & turn
 c1 cross by
 c1 cross cast back
 c1 cross chain & roll
 c1 cross chain thru
 c1 cross extend
-c1 cross roll (to a line|wave)
+c1 cross roll
+ALIAS cross roll to a wave = crossroll
 c1 cross your neighbor
 c1 cut the galaxy
 c1 distorted (setup) c
@@ -303,13 +323,11 @@ c1 magic column c
 c1 make magic
 c1 outpoint triangle formation
 c1 outside triangle formation
-c1 pass the axle
 c1 percolate
 c1 phantom c
 c1 phantom wave of 12 formation
 c1 plenty
 c1 prefer the (anyone) for (anything)
-c1 press ahead
 c1 ramble
 c1 regroup
 c1 relay the shadow
@@ -318,7 +336,7 @@ c1 reverse cross & turn
 c1 reverse explode (from a wave)
 c1 reverse rotate (from sqset)
 c1 reverse single rotate (from sqset)
-c1 reverse wheel and (anything)
+c1 reverse wheel and c LOWER
 c1 rotary spin
 c1 rotate (from sqset)
 c1 scatter scoot
@@ -330,12 +348,15 @@ c1 shakedown
 c1 siamese c
 c1 single rotate (from sqset)
 c1 skip (delete) (the) c
-c1 split (square thru) c
 c1 split dixie diamond
+MATCH exact SPLIT dixie diamond
 c1 split dixie sashay
-c1 split dixie style to a wave
+MATCH exact SPLIT dixie sashay
+c1 split dixie style
+MATCH exact SPLIT dixie style to a wave
 c1 split recycle
 c1 split square chain the top
+MATCH exact SPLIT square chain the top
 c1 square chain the top
 c1 square the bases
 c1 squeeze
@@ -348,7 +369,8 @@ c1 step & flip
 c1 step & fold
 c1 stretch c
 c1 substitute
-c1 swing & circle (fract)
+c1 swing & circle n
+SPEC 1
 c1 swing the fractions
 c1 switch the line
 c1 switch to an interlocked diamond
@@ -362,13 +384,13 @@ c1 triangle formation
 c1 triple (line|wave) formation
 c1 triple box formation
 c1 triple column formation
-c1 twist and (anything)
+c1 twist and c LOWER
 c1 twist the line
 c1 vertical (fract) tag (the line)
 c1 vertical tag back (to a wave)
 c1 wave-based triangle formation
 c1 weave
-c1 wheel and (anything)
+c1 wheel and c LOWER
 c1 wheel fan thru
 c1 with the flow
 c1 zing
@@ -409,11 +431,11 @@ c2 cross the "k"
 c2 cross trade & wheel
 c2 detour
 c2 disconnected (setup) c
-c2 dodge (anything)
+c2 dodge c LOWER
 c2 drop r
 c2 exchange the diamonds (fract)
 c2 fascinate
-c2 fascinating (anything)
+c2 fascinating c LOWER
 c2 file to a line
 c2 flip your neighbor
 c2 funny c
@@ -425,7 +447,7 @@ c2 grand single cross & wheel
 c2 grand single cross trade & wheel
 c2 here comes the judge
 c2 hocus pocus
-c2 hubs trade (anything)
+c2 hubs trade c LOWER
 c2 hubs trade back
 c2 inlet
 c2 interlocked (setup) c
@@ -442,10 +464,12 @@ c2 offset (setup) c
 c2 once removed c
 c2 once removed diamond formation
 c2 outlet
-c2 parallelogram formation
+c2 parallelogram c
 c2 peel to a diamond
 c2 perk up
 c2 press r
+SPEC forward = c1 press ahead
+SPEC backward = c2 press back
 c2 relay the shadow (anyone) criss cross
 c2 relocate (the setup)
 c2 relocate the diamond
@@ -459,9 +483,9 @@ c2 reverse rotate (from lines)
 c2 reverse single rotate (from lines)
 c2 reverse split swap
 c2 reverse truck
-c2 rims trade (anything)
+c2 rims trade c LOWER
 c2 rims trade back
-c2 rotary (anything)
+c2 rotary c LOWER
 c2 rotate (from lines)
 c2 scoot & counter
 c2 scoot & cross ramble
@@ -494,7 +518,7 @@ c2 triangle (peel|trail off) c
 c2 truck
 c2 turn to a line
 c2 unwrap the (setup) c
-c2 vertical (anything)
+c2 vertical c LOWER
 c2 walk out to a wave
 c2 wheel the ocean
 c2 wheel the sea
@@ -574,12 +598,12 @@ c3a patch (anyone)
 c3a peel chain thru
 c3a plan ahead
 c3a polly wally
-c3a quick (anything)
+c3a quick c LOWER
 c3a quick step
 c3a rally
 c3a reach out
 c3a recoil
-c3a release (anything)
+c3a release c LOWER
 c3a reverse (mirror) swap the top
 c3a scatter circulate
 c3a scoot & cross counter
@@ -643,7 +667,7 @@ c3b 1 by solid-of-(n) c
 c3b 2/3 cross cycle
 c3b bingo
 c3b boomerang
-c3b busy (anything)
+c3b busy c LOWER
 c3b cast & relay (fract)
 c3b change lanes
 c3b change the centers
@@ -685,7 +709,8 @@ c3b lift off
 c3b lock 'em up
 c3b loop & (fract) tag
 c3b mirror c
-SPEC chaseright = left chase
+SPEC chaseright = plus left chase
+ALIAS left c = mirror
 c3b mirror cross swap the top
 c3b nuclear reaction
 c3b oddly c
