@@ -23,9 +23,10 @@ class Call
 end
 
 class Sequence
-    attr_accessor :date, :tags, :name, :calls
+    attr_accessor :periphery, :date, :tags, :name, :calls
 
-    def initialize date, tags, name=nil, calls=[]
+    def initialize periphery, date, tags, name=nil, calls=[]
+        @periphery = periphery
         @date = date
         @tags = tags
         @name = name
@@ -33,7 +34,7 @@ class Sequence
     end
 
     def totxt f
-        f.puts "* #{@date} #{@tags.join ' '}"
+        f.puts "* #{@periphery} #{@date} #{@tags.join ' '}"
         f.puts @name
         f.puts
         calls.each do |c| c.totxt f end
@@ -51,7 +52,7 @@ def fromtxt f
         when nil then nil
         when ?*
             parts = line[2..-1].split
-            cur = Sequence.new parts[0..1].join(' '), parts[2..-1]
+            cur = Sequence.new parts[0], parts[1..2].join(' '), parts[3..-1]
             seqs.push cur
         when ?=
             call.formal = line[1..-1]
