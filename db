@@ -1,4 +1,5 @@
 ms just d c
+MATCH fail
 OUT $1 $2
 
 ms d cross fold

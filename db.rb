@@ -160,6 +160,15 @@ class Db
             end
         end
         nil
+        # if m = Regexp.new('^' + e.sd.gsub(/\$(\d+)/, '(?<a\1>.+)') + '$').match(sd)
+        #     args = [e.formal]
+        #     e.args.each.with_index do |a,i|
+        #         x = self.parse_arg e, m["a#{i+1}"]
+        #         return nil unless x
+        #         args.push x
+        #     end
+        #     return args.join ' '
+        # end
     end
 
     def read_token type, tokens
