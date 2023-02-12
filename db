@@ -1,0 +1,774 @@
+ms just d c
+OUT $1 $2
+
+ALIAS boys c = just boys
+ALIAS girls c = just girls
+ALIAS heads c = just heads
+ALIAS sides c = just sides
+ALIAS centers c = just centers
+ALIAS ends c = just ends
+ALIAS very centers c = just very centers
+ALIAS very ends c = just very ends
+ALIAS leads c = just leads
+ALIAS trailers c = just trailers
+
+ALIAS boys c = just boys
+MATCH prefix boys
+ALIAS girls c = just girls
+MATCH prefix girls
+ALIAS heads c = just heads
+MATCH prefix heads
+ALIAS sides c = just sides
+MATCH prefix sides
+ALIAS centers c = just centers
+MATCH prefix centers
+ALIAS ends c = just ends
+MATCH prefix ends
+ALIAS very centers c = just very centers
+MATCH prefix very centers
+ALIAS very ends c = just very ends
+MATCH prefix very ends
+ALIAS leads c = just leads
+MATCH prefix leads
+ALIAS trailers c = just trailers
+MATCH prefix trailers
+
+ms d cross fold
+ms d cross run
+ms d fold
+ms d run
+ms (anyone) walk (others) dodge
+ms (anything) & 1/4 more
+ms (anything) on (n-th hand) c
+ms 1/2 tag (the line)
+ms 1/4 tag (the line)
+ms alamo style
+ms around (n) to a line
+ms bend the line
+ms box circulate
+ms box the gnat
+ms california twirl
+ms cast (right|left) (fract)
+ms cast off (fract)
+ms centers in
+ms centers out
+ms chain down the line
+ms circle (left|right)
+ms circle to a line
+ms circulate
+ms cloverleaf
+ms couples circulate
+ms couples hinge
+ms couples trade
+ms courtesy turn
+ms dive thru
+ms dixie style (to an ocean wave)
+ms do paso
+ms do your part c
+ms double pass thru
+ms eight chain (thru|n)
+ms face r
+ms face (right|left)
+ms ferris wheel
+ms first right, next left
+ms flutter wheel
+ms grand square
+ms half sashay
+ms hinge
+ms ladies chain (fract)
+ms ladies in, men sashay
+ms lead (right|left)
+ms left swing thru
+ms move along (to lines)
+ms pass the ocean
+ms pass thru
+ms pass to the center
+ms promenade (fract)
+ms recycle
+ms reverse flutter wheel
+ms right & left grand
+ms right & left thru
+ms roll back (n) (from promenade)
+ms rollaway
+ms scoot back
+ms see saw
+ms separate
+ms shoot the star
+ms single file promenade
+ms single hinge
+ms slide thru
+ms slip the clutch
+ms spin chain thru
+ms spin the top
+ms split (two, the outside couple)
+ms split circulate
+ms square thru n
+ms star (right|left)
+ms star promenade
+ms star thru
+ms step thru
+ms step to a wave
+ms sweep (fract)
+ms swing (your partner|corner)
+ms swing thru
+ms tag the line (full) r
+ms those who can c
+ms touch n
+ms trade
+ALIAS partner trade = trade
+ms trade by
+ms turn thru
+ms u-turn back
+MATCH exact U-turn back
+ms veer r
+ms walk & dodge
+ms walk around the corner
+ms weave the ring
+ms wheel & deal
+ms wheel around
+ms wrong way
+ms wrong way grand
+ms wrong way promenade (fract)
+ms zoom
+plus (chase (r|l)) but
+plus 3/4 tag (the line)
+plus acey deucey
+plus all 8 spin the top
+plus chase right
+ALIAS left chase = mirror chaseright
+ALIAS chase left = mirror chaseright
+plus coordinate
+plus cross fire
+plus cut the diamond
+plus diamond circulate
+plus dixie grand
+plus do the centers part concept (central)
+plus do the ends part concept (peripheral)
+plus explode (from a wave)
+plus explode the wave
+plus extend
+plus fan the top
+plus flip the diamond
+plus follow your neighbor
+plus grand swing thru
+plus linear cycle
+plus load the boat
+plus peel off
+plus peel the top
+plus ping pong circulate
+plus relay the deucey
+plus roll
+plus single circle to a wave
+plus slide (right|left) to a line
+plus spin chain & exchange the gears
+plus spin chain the gears
+plus spread
+plus teacup chain
+plus track 2
+plus trade the wave
+plus triple scoot
+a1 (anyone) cross
+a1 (anyone) scoot (others) dodge
+a1 (anything) & cross
+a1 (cast a shadow) don't spread
+a1 r roll to a wave
+a1 1/2 top
+a1 1/4 in
+a1 1/4 out
+a1 1/4 thru
+a1 1/4 top
+a1 3/4 thru
+a1 3/4 top
+a1 6 by 2 acey deucey
+a1 any hand c
+a1 as couples c
+a1 beau(s) identifier
+a1 belle(s) identifier
+a1 brace thru
+a1 cast a shadow
+a1 chain reaction
+a1 clover and (anything)
+a1 couple of 3 c
+a1 cross clover and (anything)
+a1 cross cloverleaf
+a1 cross trail thru
+a1 crossover circulate
+ALIAS cross over circulate = crossovercirculate
+a1 cycle & wheel
+a1 double cross
+a1 double star thru
+a1 ends bend
+a1 explode (from a line)
+a1 explode the line
+a1 grand 1/4 thru
+a1 grand 3/4 thru
+a1 grand follow your neighbor
+a1 horseshoe turn
+a1 ignore (anyone) for (anything)
+a1 left wheel thru
+a1 lockit
+a1 mix
+a1 pair off
+a1 partner hinge
+a1 partner tag
+a1 pass in
+a1 pass out
+a1 pass the sea
+a1 replace (any) with (any) c
+a1 reverse swap around
+a1 scoot & dodge
+a1 split square chain thru
+a1 split square thru n
+a1 square chain thru
+a1 start (a) c
+a1 step & slide
+a1 swap around
+a1 transfer the column
+a1 triple cross
+a1 triple star thru
+a1 triple trade
+a1 turn & deal
+a1 wheel thru
+a2 (anyone) scoot chain thru (others) dodge
+a2 (pass & roll) but (anything)
+a2 (the windmill) (dir) but (anything)
+a2 all 4 couples c
+a2 all 8 c
+a2 box counter rotate (fract)
+a2 box transfer
+a2 checkmate
+ALIAS checkmate the column = checkmate
+a2 cut the hourglass
+a2 diamond chain thru
+a2 flip the hourglass
+a2 grand c
+a2 grand remake
+a2 hourglass circulate
+a2 hourglass formation
+a2 inroll circulate
+ALIAS in roll circulate = inrollcirculate
+a2 mini busy
+a2 motivate
+a2 outroll circulate
+ALIAS out roll circulate = inrollcirculate
+a2 pass & roll
+a2 pass & roll your neighbor
+a2 peel & trail
+a2 remake
+a2 remake the thar
+a2 scoot & weave
+a2 scoot chain thru
+a2 single wheel
+a2 slide
+a2 slip
+a2 slither
+a2 spin the windmill r
+a2 split counter rotate (fract)
+a2 split transfer
+a2 swing
+a2 swing & mix
+a2 switch the wave
+a2 switch to a diamond
+a2 switch to an hourglass
+a2 trade circulate
+a2 trail off
+a2 transfer and (anything)
+a2 zag
+a2 zig
+c1 "o" formation
+c1 (any tag call) back (to a wave)
+c1 (any tag call) your cross neighbor
+c1 (anyone) point triangle formation
+c1 (anyone)-based (setup) identifier
+c1 (anything diamond) chain thru
+c1 (anything the axle) but (cast 1/4|3/4)
+c1 (anything) the axle
+c1 (anything) the windmill r
+c1 (anything) to a wave c
+c1 (flip back) but (anything)
+c1 (percolate) but (anything)
+c1 (replace) each (occurrence of)
+c1 (square the bases) but (anything)
+c1 2/3 recycle
+c1 3 by 2 acey deucey
+c1 ah so
+c1 all 8 recycle
+c1 alter the wave
+c1 in your blocks c
+c1 box recycle
+c1 but (centers replace last part with)
+c1 butterfly formation
+c1 cast back
+c1 chase your neighbor
+c1 checkover
+c1 circle by (fract) by (anything)
+c1 concentric c
+c1 counter rotate (fract)
+c1 cross & turn
+c1 cross by
+c1 cross cast back
+c1 cross chain & roll
+c1 cross chain thru
+c1 cross extend
+c1 cross roll (to a line|wave)
+c1 cross your neighbor
+c1 cut the galaxy
+c1 distorted (setup) c
+c1 dixie diamond
+c1 dixie sashay
+c1 finish c
+c1 flip back
+c1 flip the galaxy
+c1 flip the line
+c1 follow thru
+c1 galaxy circulate
+c1 galaxy formation
+c1 inpoint triangle formation
+c1 inside triangle formation
+c1 interlocked diamond formation
+c1 interrupt c
+c1 jaywalk
+c1 linear action
+c1 little
+c1 magic column c
+c1 make magic
+c1 outpoint triangle formation
+c1 outside triangle formation
+c1 pass the axle
+c1 percolate
+c1 phantom c
+c1 phantom wave of 12 formation
+c1 plenty
+c1 prefer the (anyone) for (anything)
+c1 press ahead
+c1 ramble
+c1 regroup
+c1 relay the shadow
+c1 relay the top
+c1 reverse cross & turn
+c1 reverse explode (from a wave)
+c1 reverse rotate (from sqset)
+c1 reverse single rotate (from sqset)
+c1 reverse wheel and (anything)
+c1 rotary spin
+c1 rotate (from sqset)
+c1 scatter scoot
+c1 scatter scoot chain thru
+c1 scoot & little
+c1 scoot & plenty
+c1 scoot & ramble
+c1 shakedown
+c1 siamese c
+c1 single rotate (from sqset)
+c1 skip (delete) (the) c
+c1 split (square thru) c
+c1 split dixie diamond
+c1 split dixie sashay
+c1 split dixie style to a wave
+c1 split recycle
+c1 split square chain the top
+c1 square chain the top
+c1 square the bases
+c1 squeeze
+c1 squeeze the "o"
+c1 squeeze the butterfly
+c1 squeeze the diamond
+c1 squeeze the galaxy
+c1 squeeze the hourglass
+c1 step & flip
+c1 step & fold
+c1 stretch c
+c1 substitute
+c1 swing & circle (fract)
+c1 swing the fractions
+c1 switch the line
+c1 switch to an interlocked diamond
+c1 tag back (to a wave)
+c1 tally ho
+c1 tandem c
+c1 tandem of 3 c
+c1 tandem-based triangle formation
+c1 track n
+c1 triangle formation
+c1 triple (line|wave) formation
+c1 triple box formation
+c1 triple column formation
+c1 twist and (anything)
+c1 twist the line
+c1 vertical (fract) tag (the line)
+c1 vertical tag back (to a wave)
+c1 wave-based triangle formation
+c1 weave
+c1 wheel and (anything)
+c1 wheel fan thru
+c1 with the flow
+c1 zing
+c2 (along) but circulate twice
+c2 (any tag call) your criss cross neighbor
+c2 (any tag call) your neighbor
+c2 (anyone) cross kick off
+c2 (anyone) kick off
+c2 (anyone) like a ripple c
+c2 (anyone) ripple (the wave) n
+c2 (anything) & circle (fract)
+c2 (anything) coordinate
+c2 (anything) motivate
+c2 (anything) percolate
+c2 (anything) perk up
+c2 (anything) the "k"
+c2 (n) by (m) concept (transfer|checkmate)
+c2 (sets in motion) hold the column
+c2 3 by 1 triangle formation
+c2 along
+c2 alter & circulate
+c2 bounce (anyone)
+c2 catch n
+c2 chain the square
+c2 checkpoint (anything) by (anything)
+c2 chisel thru
+c2 circle (fract) to a wave
+c2 counter
+c2 crazy c
+c2 criss cross the shadow
+c2 criss cross your neighbor
+c2 cross & wheel
+c2 cross back
+c2 cross concentric c
+c2 cross invert the column (fract)
+c2 cross ramble
+c2 cross the "k"
+c2 cross trade & wheel
+c2 detour
+c2 disconnected (setup) c
+c2 dodge (anything)
+c2 drop r
+c2 exchange the diamonds (fract)
+c2 fascinate
+c2 fascinating (anything)
+c2 file to a line
+c2 flip your neighbor
+c2 funny c
+c2 funny square thru n
+c2 grand chain eight
+c2 grand cross back
+c2 grand cross trade & wheel
+c2 grand single cross & wheel
+c2 grand single cross trade & wheel
+c2 here comes the judge
+c2 hocus pocus
+c2 hubs trade (anything)
+c2 hubs trade back
+c2 inlet
+c2 interlocked (setup) c
+c2 interlocked 3 by 1 triangles formation
+c2 interlocked triangle formation
+c2 invert the column (fract)
+c2 invert the tag
+c2 lateral substitute
+c2 lines (anything) thru
+c2 little more
+c2 loop n
+c2 offset (c|l|w) formation
+c2 offset (setup) c
+c2 once removed c
+c2 once removed diamond formation
+c2 outlet
+c2 parallelogram formation
+c2 peel to a diamond
+c2 perk up
+c2 press r
+c2 relay the shadow (anyone) criss cross
+c2 relocate (the setup)
+c2 relocate the diamond
+c2 reshape (the triangle)
+c2 reverse crazy c
+c2 reverse cut the diamond
+c2 reverse cut the galaxy
+c2 reverse flip the diamond
+c2 reverse flip the galaxy
+c2 reverse rotate (from lines)
+c2 reverse single rotate (from lines)
+c2 reverse split swap
+c2 reverse truck
+c2 rims trade (anything)
+c2 rims trade back
+c2 rotary (anything)
+c2 rotate (from lines)
+c2 scoot & counter
+c2 scoot & cross ramble
+c2 scoot & little more
+c2 sets in motion
+c2 shazam
+c2 single bounce (anyone)
+c2 single cross & wheel
+c2 single cross trade & wheel
+c2 single rotate (from lines)
+c2 sock it to me
+c2 solid c
+c2 solid-of-(n) c
+c2 split catch n
+c2 split grand chain eight
+c2 split swap
+c2 split trade circulate
+c2 stack the line
+c2 stagger c
+c2 staggered (c|l|w) formation
+c2 staggered box formation
+c2 step and (anything)
+c2 stretched (column|line|wave) c
+c2 stretched box c
+c2 swap the wave
+c2 swing along
+c2 tag your neighbor
+c2 trail to a diamond
+c2 triangle (peel|trail off) c
+c2 truck
+c2 turn to a line
+c2 unwrap the (setup) c
+c2 vertical (anything)
+c2 walk out to a wave
+c2 wheel the ocean
+c2 wheel the sea
+c2 zip code n
+c3a (any tag call) chain thru
+c3a (anyone) hop
+c3a (anything fan) the top
+c3a (anything) (like a) couple up
+c3a (anything) like a recoil
+c3a (anything) reaction
+c3a (anything) the gamut
+c3a (anything) the lock
+c3a (anything) the pulley
+c3a (anything) the pulley but (anything)
+c3a (anything) your leader
+c3a (fancy) but (anything)
+c3a (rally) but (anything)
+c3a 1/4 mix
+c3a 1/4 the deucey
+c3a 1/4 wheel the (ocean|sea)
+c3a 3/4 mix
+c3a 3/4 the deucey
+c3a 3/4 wheel the (ocean|sea)
+c3a bias circulate
+c3a big block c
+c3a breaker (anything)
+c3a breaker n
+c3a catch (anything) n
+c3a central c
+c3a checker board c
+c3a checker box c
+c3a choice
+c3a couple up
+c3a couple(s) twosome c
+c3a cross chain reaction
+c3a cross counter
+c3a delight
+c3a dilemma
+c3a drift apart
+c3a ease off
+c3a eight by (anything)
+c3a exchange the 3 by 1 triangles (fract)
+c3a exchange the boxes (fract)
+c3a exchange the triangles (fract)
+c3a expand (the column)
+c3a explode the top
+c3a fancy
+c3a finally c
+c3a flare out to a line
+c3a flip reaction
+c3a follow to a diamond
+c3a follow your leader
+c3a grand 1/4 mix
+c3a grand 3/4 mix
+c3a grand mix
+c3a grand swing & mix
+c3a hinge the lock
+c3a initially c
+c3a interlocked extend (from 1/4 tag)
+c3a interlocked little
+c3a interlocked little more
+c3a interlocked plenty
+c3a interlocked scoot (back)
+c3a interlocked scoot chain thru
+c3a jay c
+c3a keep busy
+c3a latch on (fract)
+c3a link up
+c3a lock the (anything)
+c3a lock the hinge
+c3a locker's choice
+c3a mini chase
+c3a open up but (anything)
+c3a open up the column
+c3a own the (anyone) c
+c3a patch (anyone)
+c3a peel chain thru
+c3a plan ahead
+c3a polly wally
+c3a quick (anything)
+c3a quick step
+c3a rally
+c3a reach out
+c3a recoil
+c3a release (anything)
+c3a reverse (mirror) swap the top
+c3a scatter circulate
+c3a scoot & cross counter
+c3a scoot & fancy
+c3a scoot & rally
+c3a scoot reaction
+c3a scoot the (setup)
+c3a scoot the diamond
+c3a siamese twosome c
+c3a single checkmate
+c3a single ferris wheel
+c3a single file (recycle|recoil)
+c3a single polly wally
+c3a single rotary spin
+c3a single shakedown
+c3a single turn & deal
+c3a single turn to a line
+c3a slant (anything) (by anything)
+c3a snap the lock
+c3a something new
+c3a spin chain the line
+c3a spin the pulley
+c3a spin the pulley but (anything)
+c3a split catch (anything) n
+c3a split phantom (lines|waves) formation
+c3a split phantom columns formation
+c3a stable c
+c3a stampede
+c3a strip (the diamond|hourglass)
+c3a swap the top
+c3a swing chain thru
+c3a tagger's delight
+c3a tagger's dilemma
+c3a tandem twosome c
+c3a team up
+c3a touch by (fract) by (fract)
+c3a trade the deucey
+c3a travel thru
+c3a trip the set
+c3a triple diamond formation
+c3a triple play
+c3a use (a) concept (i.e., replace part n)
+c3a wind the bobbin
+c3a wrap to (d|g|h.g.|i.l.d.)
+c3b "z" axle
+c3b "z" formation
+c3b (any tag call) & scatter
+c3b (any tag call) the top
+c3b (anything) 'em up
+c3b (anything) cross nuclear reaction
+c3b (anything) cross reaction
+c3b (anything) cross reactivate
+c3b (anything) nuclear reaction
+c3b (anything) reactivate
+c3b (anything) stimulate
+c3b (anything) the key
+c3b (lift off) but (anything)
+c3b (n) step(s) at a time
+c3b (n)-some c
+c3b 1 by solid-of-(n) c
+c3b 2/3 cross cycle
+c3b bingo
+c3b boomerang
+c3b busy (anything)
+c3b cast & relay (fract)
+c3b change lanes
+c3b change the centers
+c3b change the wave
+c3b change your image
+c3b chase the (fract) tag
+c3b chuck-a-luck
+c3b criss cross the deucey
+c3b cross (n) step(s) at a time
+c3b cross chuck-a-luck
+c3b cross cycle
+c3b cross flip back
+c3b cross flip the line (fract)
+c3b cross lock the (anything)
+c3b cross lock the hinge
+c3b cross lockit
+c3b cross loop & (fract) tag
+c3b cross nuclear reaction
+c3b cross reactivate
+c3b cross swap the top
+c3b diagonal box formation
+c3b disband
+c3b divide the (ocean|sea) r
+c3b echo c
+c3b evenly c
+c3b explode the diamond
+c3b fan c
+c3b flip your lid
+c3b fourthly c
+c3b gee whiz
+c3b generous c
+c3b good show
+c3b hinge the cross lock
+c3b interlocked counter
+c3b interlocked rally
+c3b interlocked ramble
+c3b lickety split
+c3b lift off
+c3b lock 'em up
+c3b loop & (fract) tag
+c3b mirror c
+SPEC chaseright = left chase
+c3b mirror cross swap the top
+c3b nuclear reaction
+c3b oddly c
+c3b pass "z" axle
+c3b phantom (lines|waves) formation
+c3b phantom columns formation
+c3b quadruple (setup) c
+c3b reactivate
+c3b reflected (tag) c
+c3b reset (fract)
+c3b reverse checkpoint (any) by (any)
+c3b reverse order c
+c3b reverse rotate (from columns)
+c3b reverse single rotate (from columns)
+c3b reverse the pass (fract)
+c3b reverse the top
+c3b revolve to a wave
+c3b rip off
+c3b rotate (from columns)
+c3b scramble
+c3b secondly c
+c3b shake & rattle
+c3b sidetrack (fract)
+c3b single rotate (from columns)
+c3b single shake & rattle
+c3b single sidetrack (fract)
+c3b single strut (right|left) (and r|l)
+c3b split cross cycle
+c3b split phantom (setup) c
+c3b split phantom 1/4 tag formation
+c3b split phantom boxes formation
+c3b split phantom diamonds formation
+c3b split reverse rotate (columns)
+c3b split reverse single rotate (columns)
+c3b split rotate (columns)
+c3b split sidetrack (fract)
+c3b split single rotate (columns)
+c3b split turn the key
+c3b staggered (setup) formation
+c3b stimulate (the column)
+c3b stingy c
+c3b strut (right|left) (and right|left)
+c3b swing-o-late
+c3b tag the top
+c3b take n
+c3b thirdly c
+c3b trade the diamond
+c3b trapezoid formation
+c3b triple (setup) formation
+c3b triple (setups) working (direction)
+c3b turn the key
+c3b turnstyle
+c3b two-faced c
+c3b wave the (anyone)
+c3b with confidence
