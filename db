@@ -6,6 +6,9 @@ ALIAS sides move in and c = just sides
 
 ms do n c
 MATCH fail
+OUT $1 $2
+SPEC 1/2 = ms 1/2 c
+SPEC 3/2 = ms c 1-1/2
 SPEC 2 = ms c twice UPPER
 
 ms nothing
@@ -41,7 +44,6 @@ ms do your part c
 ms double pass thru
 ms eight chain (thru|n)
 ms face r
-ms face (right|left)
 ms ferris wheel
 ms first right, next left
 ms flutter wheel
@@ -147,6 +149,8 @@ a1 c & cross
 SPEC nothing = a1 cross
 a1 (cast a shadow) don't spread
 a1 r roll to a wave
+ALIAS leads roll right to a wave = rolltoawave right
+ALIAS leads roll left to a wave = rolltoawave left
 a1 1/2 top
 a1 1/4 in
 a1 1/4 out
@@ -234,7 +238,7 @@ ALIAS in roll circulate = inrollcirculate
 a2 mini busy
 a2 motivate
 a2 outroll circulate
-ALIAS out roll circulate = inrollcirculate
+ALIAS out roll circulate = outrollcirculate
 a2 pass & roll
 a2 pass & roll your neighbor
 a2 peel & trail
@@ -333,7 +337,8 @@ c1 regroup
 c1 relay the shadow
 c1 relay the top
 c1 reverse cross & turn
-c1 reverse explode (from a wave)
+c1 reverse explode
+MATCH exact REVERSE explode
 c1 reverse rotate (from sqset)
 c1 reverse single rotate (from sqset)
 c1 reverse wheel and c LOWER
@@ -372,6 +377,7 @@ c1 substitute
 c1 swing & circle n
 SPEC 1
 c1 swing the fractions
+ALIAS swing the fractions 4/5 = do 4/5 swingthefractions
 c1 switch the line
 c1 switch to an interlocked diamond
 c1 tag back (to a wave)

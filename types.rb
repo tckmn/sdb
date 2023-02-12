@@ -12,8 +12,8 @@ class Call
     end
 
     def sd; @sd; end
-    def formal; @formal || $db.to_formal(@sd); end
-    def verbal; @verbal || $db.to_verbal(self.formal); end
+    def formal; @formal || @cf || (@cf = $db.to_formal(@sd)); end
+    def verbal; @verbal || @cv || (@cv = $db.to_verbal(self.formal)); end
 
     def totxt f
         f.puts @sd

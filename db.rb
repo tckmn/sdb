@@ -173,6 +173,20 @@ class Db
                 end
             end
         end
+
+        # some special cases
+        if sd.split(', ')[0] =~ /^\d+\/\d+$/
+            frac = $&
+            x = self.parse_arg ?c, sd[frac.size+2..-1]
+            return "do #{frac} #{x}" if x
+        end
+
+        if sd =~ /^\(.*\) (\d+) TIMES$/
+            frac = $1
+            x = self.parse_arg ?c, sd[1..-9-frac.size]
+            return "do #{frac} #{x}" if x
+        end
+
         nil
         # if m = Regexp.new('^' + e.sd.gsub(/\$(\d+)/, '(?<a\1>.+)') + '$').match(sd)
         #     args = [e.formal]
