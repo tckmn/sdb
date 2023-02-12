@@ -50,7 +50,9 @@ ms flutter wheel
 ms grand square
 ms half sashay
 ms hinge
-ms ladies chain (fract)
+ms 4 ladies chain n
+MATCH prefix all 4 ladies chain
+SPEC 1/2
 ms ladies in, men sashay
 ms lead r
 ms left swing thru
@@ -112,7 +114,7 @@ plus all 8 spin the top
 plus chase right
 ALIAS chase left = mirror chaseright
 plus coordinate
-plus cross fire
+plus crossfire
 plus cut the diamond
 plus diamond circulate
 plus dixie grand
@@ -387,9 +389,7 @@ c1 tandem of 3 c
 c1 tandem-based triangle formation
 c1 track n
 c1 triangle formation
-c1 triple (line|wave) formation
-c1 triple box formation
-c1 triple column formation
+c1 triple f' c UPPER
 c1 twist and c LOWER
 c1 twist the line
 c1 vertical (fract) tag (the line)
@@ -634,8 +634,7 @@ c3a spin chain the line
 c3a spin the pulley
 c3a spin the pulley but (anything)
 c3a split catch (anything) n
-c3a split phantom (lines|waves) formation
-c3a split phantom columns formation
+c3a split phantom f' c UPPER
 c3a stable c
 c3a stampede
 c3a strip (the diamond|hourglass)
@@ -772,3 +771,5 @@ c3b turnstyle
 c3b two-faced c
 c3b wave the (anyone)
 c3b with confidence
+
+c4 like a c

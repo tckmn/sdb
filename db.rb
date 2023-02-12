@@ -1,6 +1,27 @@
-$types = 'nrdc'.chars
+def to_type c
+    case c
+    when ?n then Number
+    when ?r then Direction
+    when ?d then Designator
+    when ?f, "f'" then Formation
+    when ?c then Entry
+    end
+end
 
-class Entry
+class Constituent
+    attr_accessor :val
+    def initialize val; @val = val; end
+    def formal; self.val; end
+    def verbal; self.val; end
+    def self.consume s
+        self::Domain.each do |t|
+            return [self.new(t), s[t.size+1..-1]] if s.downcase.start_with? t
+        end
+        return [nil, s]
+    end
+end
+
+class Entry < Constituent
 
     attr_accessor :lvl, :match, :args, :sd, :formal, :verbal, :specs
 
@@ -13,12 +34,12 @@ class Entry
         upper = words[-1] == 'UPPER'
         words.pop if lower || upper
 
-        while $types.include? words[-1]
+        while to_type words[-1]
             @match = :prefix
             @args.unshift words.pop
         end
 
-        while $types.include? words[0]
+        while to_type words[0]
             @match = :suffix
             @args.push words.shift
         end
@@ -36,33 +57,24 @@ class Entry
 
 end
 
-class Number
-    attr_accessor :n
-    def initialize n
-        @n = n
+class Number < Constituent
+    def self.consume s
+        a, b = s.split ' ', 2
+        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.new(a), b || ''] : [nil, s]
     end
-    def formal; self.n; end
-    def verbal; self.n; end
 end
 
-class Direction
-    Domain = 'right|left|in|out'.split ?|
-    attr_accessor :r
-    def initialize r
-        @r = r
-    end
-    def formal; self.r; end
-    def verbal; self.r; end
+class Direction < Constituent
+    Domain = 'right|left|in|out|forward|backward'.split ?|
 end
 
-class Designator
+class Designator < Constituent
     Domain = 'boys|girls|leads|trailers|centers|ends|very centers|very ends|heads|sides'.split ?|
-    attr_accessor :d
-    def initialize d
-        @d = d
-    end
-    def formal; self.d; end
-    def verbal; self.d.sub 'very', 'very '; end
+    def verbal; self.val.sub 'very', 'very '; end
+end
+
+class Formation < Constituent
+    Domain = 'lines|waves|columns|diamonds'.split ?|
 end
 
 class Node
@@ -109,6 +121,7 @@ class Db
             when 'OUT'
                 cur.verbal = args.join ' '
             when 'SPEC'
+                # TODO concatenating lvl and sd gives wrong results after MATCH
                 k, v = args.include?(?=) ? args.join(' ').split(' = ') : [args.join(' '), cur.lvl+' '+cur.sd]
                 cur.specs[k] = Entry.new v
                 a = Entry.new v
@@ -139,17 +152,9 @@ class Db
     end
 
     def parse_arg type, sd
-        case type
-        when ?n then
-            return sd if sd =~ /^[0-9]+(\/[0-9]+)?$/
-        when ?r then
-            return sd if sd =~ /^(right|left|in|out|forward|backward)$/
-        when ?d then
-            return sd if sd =~ /^(boys|girls|leads|trailers|(very )?(centers|ends))$/
-        when ?c then
-            return self.to_formal sd
-        end
-        nil
+        return self.to_formal sd if type == ?c
+        arg, s = to_type(type).consume sd
+        s == '' ? arg.formal : nil
     end
 
     def to_formal sd
@@ -160,8 +165,16 @@ class Db
             when :prefix
                 [[' ', ''], [', ', ''], [' [', ']']].each do |s,t|
                     if sd.start_with?(e.sd + s) && sd.end_with?(t)
-                        x = self.parse_arg e.args[0], sd[e.sd.size+s.size..-1-t.size]
-                        return "#{e.formal} #{x}" if x
+                        s = sd[e.sd.size+s.size..-1-t.size]
+                        tlist = e.args.dup
+                        alist = []
+                        while tlist.size > 1
+                            typ = to_type tlist.shift
+                            arg, s = typ.consume s
+                            alist.push(arg ? arg.formal : nil)
+                        end
+                        alist.push self.parse_arg(tlist[0], s)
+                        return "#{e.formal} #{alist.join ' '}" if alist.all?{|x|x}
                     end
                 end
             when :suffix
@@ -201,14 +214,7 @@ class Db
 
     def read_token type, tokens
         head = tokens.shift
-        case type
-        when ?n then
-            return Node.new Number.new head
-        when ?r then
-            return Node.new Direction.new head
-        when ?d then
-            return Node.new Designator.new head
-        when ?c then
+        if type == ?c
             e = @lookup[head]
             return nil unless e
             args = []
@@ -219,7 +225,8 @@ class Db
             end
             return Node.new e, args
         end
-        nil
+        t = to_type type
+        return t ? Node.new(t.new head) : nil
     end
 
     def to_verbal formal
