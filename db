@@ -1,38 +1,6 @@
 ms just d c
 OUT $1 $2
 
-ALIAS boys c = just boys
-ALIAS girls c = just girls
-ALIAS heads c = just heads
-ALIAS sides c = just sides
-ALIAS centers c = just centers
-ALIAS ends c = just ends
-ALIAS very centers c = just very centers
-ALIAS very ends c = just very ends
-ALIAS leads c = just leads
-ALIAS trailers c = just trailers
-
-ALIAS boys c = just boys
-MATCH prefix boys
-ALIAS girls c = just girls
-MATCH prefix girls
-ALIAS heads c = just heads
-MATCH prefix heads
-ALIAS sides c = just sides
-MATCH prefix sides
-ALIAS centers c = just centers
-MATCH prefix centers
-ALIAS ends c = just ends
-MATCH prefix ends
-ALIAS very centers c = just very centers
-MATCH prefix very centers
-ALIAS very ends c = just very ends
-MATCH prefix very ends
-ALIAS leads c = just leads
-MATCH prefix leads
-ALIAS trailers c = just trailers
-MATCH prefix trailers
-
 ms d cross fold
 ms d cross run
 ms d fold

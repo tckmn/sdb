@@ -44,6 +44,7 @@ class Number
 end
 
 class Direction
+    Domain = 'right|left|in|out'.split ?|
     attr_accessor :r
     def initialize r
         @r = r
@@ -54,12 +55,13 @@ class Direction
 end
 
 class Designator
+    Domain = 'boys|girls|leads|trailers|centers|ends|very centers|very ends|heads|sides'.split ?|
     attr_accessor :d
     def initialize d
         @d = d
     end
     def formal; self.d; end
-    def verbal; self.d; end
+    def verbal; self.d.sub 'very', 'very '; end
     def specs; {}; end
 end
 
@@ -97,6 +99,8 @@ class Db
             when 'MATCH'
                 cur.match = args[0].to_sym
                 cur.sd = args[1..-1].join ' ' if args.size > 1
+            when 'OUT'
+                cur.verbal = args.join ' '
             when 'SPEC'
                 k, v = args.join(' ').split(' = ')
                 cur.specs[k] = v
@@ -104,6 +108,17 @@ class Db
                 cur = Entry.new line
                 @entries.push cur
             end
+        end
+
+        # some hardcoded content
+        Designator::Domain.each do |d|
+            a = Entry.new "ALIAS #{d} c"
+            a.formal = "just #{d.gsub ' ', ''}"
+            @aliases.push a
+            a = Entry.new "ALIAS #{d} c"
+            a.sd = d
+            a.formal = "just #{d.gsub ' ', ''}"
+            @aliases.push a
         end
 
         @lookup = {}
