@@ -2,31 +2,32 @@ $types = 'nrdc'.chars
 
 class Entry
 
-    attr_accessor :match, :out, :args, :sd, :formal, :verbal, :specs
+    attr_accessor :match, :args, :sd, :formal, :verbal, :specs
 
     def initialize line
         @args = []
         @match = :exact
-        @out = :exact
 
         lvl, *words = line.split
 
         while $types.include? words[-1]
             @match = :prefix
-            @out = :prefix
             @args.unshift words.pop
         end
 
         while $types.include? words[0]
             @match = :suffix
-            @out = :suffix
             @args.push words.shift
         end
 
         @sd = words.join(' ').gsub(?&, 'and')
         @sd.upcase! if @args == [?c]
+
         @formal = words.join.gsub(?-, '')
         @verbal = words.join ' '
+        @verbal = @verbal + ' ' + @args.map.with_index{|_,i| "$#{i+1}"}.join(' ') if @match == :prefix
+        @verbal = @args.map.with_index{|_,i| "$#{i+1}"}.join(' ') + ' ' + @verbal if @match == :suffix
+
         @specs = {}
     end
 
@@ -37,9 +38,9 @@ class Number
     def initialize n
         @n = n
     end
-    def out; :exact; end
     def formal; self.n; end
     def verbal; self.n; end
+    def specs; {}; end
 end
 
 class Direction
@@ -47,9 +48,9 @@ class Direction
     def initialize r
         @r = r
     end
-    def out; :exact; end
     def formal; self.r; end
     def verbal; self.r; end
+    def specs; {}; end
 end
 
 class Designator
@@ -57,9 +58,9 @@ class Designator
     def initialize d
         @d = d
     end
-    def out; :exact; end
     def formal; self.d; end
     def verbal; self.d; end
+    def specs; {}; end
 end
 
 class Node
@@ -69,22 +70,9 @@ class Node
         @children = children
     end
     def verbal
-        case self.head.out
-        when :exact
-            return self.head.verbal
-        when :prefix
-            s = self.head.specs[self.children[0].head.formal]
-            return s if s
-            return "#{self.head.verbal} #{self.children[0].verbal}"
-        when :suffix
-            s = self.head.specs[self.children[0].head.formal]
-            return s if s
-            return "#{self.children[0].verbal} #{self.head.verbal}"
-        when :groups
-            s = self.head.specs[self.children[0].head.formal]
-            return s if s
-            return self.head.verbal.gsub(/\$(\d+)/) { self.children[$1.to_i-1].verbal }
-        end
+        s = self.head.specs[self.children.map{|c| c.head.formal}.join ' ']
+        return s if s
+        return self.head.verbal.gsub(/\$(\d+)/) { self.children[$1.to_i-1].verbal }
     end
 end
 
@@ -109,9 +97,6 @@ class Db
             when 'MATCH'
                 cur.match = args[0].to_sym
                 cur.sd = args[1..-1].join ' ' if args.size > 1
-            when 'OUT'
-                cur.out = args[0].to_sym
-                cur.verbal = args[1..-1].join ' ' if args.size > 1
             when 'SPEC'
                 k, v = args.join(' ').split(' = ')
                 cur.specs[k] = v
