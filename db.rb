@@ -60,7 +60,7 @@ end
 class Number < Constituent
     def self.consume s
         a, b = s.split ' ', 2
-        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.new(a), b || ''] : [nil, s]
+        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.new(a), b] : [nil, s]
     end
 end
 
@@ -74,7 +74,7 @@ class Designator < Constituent
 end
 
 class Formation < Constituent
-    Domain = 'lines|waves|columns|diamonds'.split ?|
+    Domain = 'lines|waves|columns|diamonds|boxes'.split ?|
 end
 
 class Node
@@ -122,7 +122,8 @@ class Db
                 cur.verbal = args.join ' '
             when 'SPEC'
                 # TODO concatenating lvl and sd gives wrong results after MATCH
-                k, v = args.include?(?=) ? args.join(' ').split(' = ') : [args.join(' '), cur.lvl+' '+cur.sd]
+                k, v = args.join(' ').split ' = '
+                v ||= cur.lvl + ' ' + cur.sd
                 cur.specs[k] = Entry.new v
                 a = Entry.new v
                 a.formal = "#{cur.formal} #{k}"
@@ -154,7 +155,7 @@ class Db
     def parse_arg type, sd
         return self.to_formal sd if type == ?c
         arg, s = to_type(type).consume sd
-        s == '' ? arg.formal : nil
+        !s || s == '' ? arg.formal : nil
     end
 
     def to_formal sd

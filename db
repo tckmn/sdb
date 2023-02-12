@@ -17,7 +17,8 @@ ms d cross fold
 ms d cross run
 ms d fold
 ms d run
-ms (anyone) walk (others) dodge
+ms d walk others dodge
+SPEC leads = ms walk & dodge
 ms (anything) & 1/4 more
 ms (anything) on (n-th hand) c
 ms alamo style
@@ -99,7 +100,6 @@ ms turn thru
 ms u-turn back
 MATCH exact U-turn back
 ms veer r
-ms walk & dodge
 ms walk around the corner
 ms weave the ring
 ms wheel & deal
@@ -253,7 +253,7 @@ a2 slide
 a2 slip
 a2 slither
 a2 spin the windmill r
-a2 split counter rotate
+a2 split counter rotate n
 SPEC 1/4
 a2 split transfer
 a2 swing
