@@ -77,7 +77,7 @@ end
 
 class Designator < Constituent
     Domain = /(?i)heads|sides|(head |side |)(boys|girls)|leads|trailers|(leading |trailing |very |)(centers|ends)|#\d couple/
-    def verbal; self.val.sub 'very', 'very '; end # TODO
+    def verbal; self.val.sub /(very|head|side|ing|\d)(?!s)/, '\0 '; end
 end
 
 class Formation < Constituent
