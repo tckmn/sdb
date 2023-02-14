@@ -20,8 +20,8 @@ class Constituent
                 return [self.new(t), s[t.size+1..-1]] if s.downcase.start_with? t
             end
         when Regexp
-            if (s =~ self::Domain) == 0
-                return [self.new($&), ($'[1..-1]||'').strip] # TODO handle comma better
+            if s =~ /(?i)^(#{self::Domain.source})($|,? )/
+                return [self.new($1), $']
             end
         end
         return [nil, s]
@@ -76,7 +76,7 @@ class Direction < Constituent
 end
 
 class Designator < Constituent
-    Domain = /(?i)heads|sides|(head |side |)(boys|girls)|leads|trailers|(leading |trailing |very |)(centers|ends)|#\d couple/
+    Domain = /heads|sides|(head |side |)(boys|girls)|leads|trailers|(leading |trailing |very |)(centers|ends)|#\d couple/
     def verbal; self.val.sub /(very|head|side|ing|\d)(?!s)/, '\0 '; end
 end
 
