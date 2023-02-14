@@ -69,7 +69,7 @@ class Direction < Constituent
 end
 
 class Designator < Constituent
-    Domain = 'boys|girls|leads|trailers|centers|ends|very centers|very ends|heads|sides'.split ?|
+    Domain = 'boys|girls|leads|trailers|centers|ends|very centers|very ends|heads|sides|head boys|head girls|side boys|side girls'.split ?|
     def verbal; self.val.sub 'very', 'very '; end
 end
 
@@ -98,6 +98,8 @@ class Node
 end
 
 class Db
+
+    attr_accessor :entries, :aliases, :nilads, :polyads
 
     def initialize fname
 
@@ -150,6 +152,16 @@ class Db
             @lookup[e.formal] = e
         end
 
+        @nilads = {}
+        @polyads = []
+        (@entries+@aliases).each do |e|
+            if e.match == :exact
+                @nilads[e.sd] = e
+            else
+                @polyads.push e
+            end
+        end
+
     end
 
     def parse_arg type, sd
@@ -159,10 +171,12 @@ class Db
     end
 
     def to_formal sd
-        (@entries+@aliases).each do |e|
+        if @nilads[sd]
+            return @nilads[sd].formal
+        end
+
+        @polyads.each do |e|
             case e.match
-            when :exact
-                return e.formal if sd == e.sd
             when :prefix
                 [[' ', ''], [', ', ''], [' [', ']']].each do |s,t|
                     if sd.start_with?(e.sd + s) && sd.end_with?(t)

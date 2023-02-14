@@ -70,6 +70,21 @@ File.read(DEBUG ? 'debug' : 'sequence.C1').split("\x0c").each do |sdseq|
 
 end
 
+cnt = {}
+seqs.each do |seq|
+    seq.calls.each do |call|
+        next unless f = call.formal
+        f.split.each do |w|
+            cnt[w] = (cnt[w]||0)+1
+        end
+    end
+end
+
+$db.entries.each do |e|
+    next unless e.lvl == 'c1'
+    puts "#{cnt[e.formal] || 0} #{e.formal}"
+end
+
 File.open($FILE, ?w) do |f|
     totxt f, seqs
 end

@@ -86,7 +86,7 @@ ms star promenade
 ms star thru
 ms step thru
 ms step to a wave
-ms sweep (fract)
+ms sweep n
 ms swing (your partner|corner)
 ms swing thru
 ms n tag
@@ -323,6 +323,7 @@ c1 inside triangle formation
 c1 interlocked diamond formation
 c1 interrupt c
 c1 jaywalk
+ALIAS jay walk = jaywalk
 c1 linear action
 c1 little
 c1 magic column c
