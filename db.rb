@@ -10,12 +10,19 @@ end
 
 class Constituent
     attr_accessor :val
-    def initialize val; @val = val; end
+    def initialize val; @val = val.downcase.gsub ' ', ''; end
     def formal; self.val; end
     def verbal; self.val; end
     def self.consume s
-        self::Domain.each do |t|
-            return [self.new(t), s[t.size+1..-1]] if s.downcase.start_with? t
+        case self::Domain
+        when Array
+            self::Domain.each do |t|
+                return [self.new(t), s[t.size+1..-1]] if s.downcase.start_with? t
+            end
+        when Regexp
+            if (s =~ self::Domain) == 0
+                return [self.new($&), ($'[1..-1]||'').strip] # TODO handle comma better
+            end
         end
         return [nil, s]
     end
@@ -69,8 +76,8 @@ class Direction < Constituent
 end
 
 class Designator < Constituent
-    Domain = 'boys|girls|leads|trailers|centers|ends|very centers|very ends|heads|sides|head boys|head girls|side boys|side girls'.split ?|
-    def verbal; self.val.sub 'very', 'very '; end
+    Domain = /(?i)heads|sides|(head |side |)(boys|girls)|leads|trailers|(leading |trailing |very |)(centers|ends)|#\d couple/
+    def verbal; self.val.sub 'very', 'very '; end # TODO
 end
 
 class Formation < Constituent
@@ -136,17 +143,6 @@ class Db
             end
         end
 
-        # some hardcoded content
-        Designator::Domain.each do |d|
-            a = Entry.new "ALIAS #{d} c"
-            a.formal = "just #{d.gsub ' ', ''}"
-            @aliases.push a
-            a = Entry.new "ALIAS #{d} c"
-            a.sd = d
-            a.formal = "just #{d.gsub ' ', ''}"
-            @aliases.push a
-        end
-
         @lookup = {}
         @entries.each do |e|
             @lookup[e.formal] = e
@@ -203,6 +199,12 @@ class Db
         end
 
         # some special cases
+        d, rest = Designator.consume sd
+        if d
+            rest = self.to_formal rest
+            return "just #{d.formal} #{rest}" if rest
+        end
+
         if sd.split(', ')[0] =~ /^\d+\/\d+$/
             frac = $&
             x = self.parse_arg ?c, sd[frac.size+2..-1]
