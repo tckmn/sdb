@@ -716,7 +716,9 @@ c3b lock 'em up
 c3b loop & (fract) tag
 c3b mirror c
 SPEC chaseright = plus left chase
+SPEC cross&turn = c1 reverse cross & turn
 ALIAS left c = mirror
+ALIAS reverse c = mirror
 c3b mirror cross swap the top
 c3b nuclear reaction
 c3b oddly c
