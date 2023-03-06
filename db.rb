@@ -36,11 +36,11 @@ class Constituent
         case self::Domain
         when Array
             self::Domain.each do |t|
-                return [self.new(t), s[t.size+1..-1]] if s.downcase.start_with? t
+                return [self.new(t), s[t.size+1..-1] || ''] if s.downcase.start_with? t
             end
         when Regexp
             if s =~ /(?i)^(#{self::Domain.source})($|,? )/
-                return [self.new($1), $']
+                return [self.new($1), $' || '']
             end
         end
         return [nil, s]
@@ -78,6 +78,7 @@ end
 class Number < Constituent
     def self.head s
         a, b = s.split ' ', 2
+        a.sub! /,$/, '' if a # TODO a more unified way of doing this would be nice
         a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.new(a), b] : [nil, s]
     end
     def self.tail s
@@ -191,7 +192,7 @@ class Db
             token = slist.shift
             case token
             when String
-                return unless sd.start_with? token
+                return unless sd.start_with?(token)
                 sd = sd[token.size+1..-1] || ''
                 # TODO hacks
                 sd = sd[1..-1] || '' if sd[0] == ' ' # for commas
@@ -208,7 +209,7 @@ class Db
             token = slist.pop
             case token
             when String
-                return unless sd.end_with? token
+                return unless sd.end_with?(token)
                 sd = sd[0...-(token.size+1)] || ''
             else
                 ret, sd = token.tail sd
@@ -239,18 +240,6 @@ class Db
         end
 
         # some special cases
-        d, rest = Designator.head sd
-        if d
-            rest = self.to_formal rest
-            return "just #{d.formal} #{rest}" if rest
-        end
-
-        if sd.split(', ')[0] =~ /^\d+\/\d+$/
-            frac = $&
-            x = self.parse_arg ?c, sd[frac.size+2..-1]
-            return "do #{frac} #{x}" if x
-        end
-
         if sd =~ /^\(.*\) (\d+) TIMES$/
             frac = $1
             x = self.parse_arg ?c, sd[1..-9-frac.size]

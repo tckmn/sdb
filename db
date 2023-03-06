@@ -1,11 +1,11 @@
 ms just d c
-MATCH failTODOmakethisbetter d c
+MATCH d c
 OUT $1 $2
 ALIAS heads move in and c = just heads
 ALIAS sides move in and c = just sides
 
 ms do n c
-MATCH failTODOmakethisbetter n c
+MATCH n c
 OUT $1 $2
 SPEC 1/2 = ms 1/2 c
 SPEC 3/2 = ms c 1-1/2
