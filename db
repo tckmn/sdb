@@ -1,11 +1,11 @@
 ms just d c
-MATCH fail
+MATCH failTODOmakethisbetter d c
 OUT $1 $2
 ALIAS heads move in and c = just heads
 ALIAS sides move in and c = just sides
 
 ms do n c
-MATCH fail
+MATCH failTODOmakethisbetter n c
 OUT $1 $2
 SPEC 1/2 = ms 1/2 c
 SPEC 3/2 = ms c 1-1/2
@@ -39,7 +39,7 @@ ms cloverleaf
 ms courtesy turn
 ms dive thru
 ms dixie style
-MATCH exact dixie style to a wave
+MATCH dixie style to a wave
 ms do paso
 ms do your part c
 ms double pass thru
@@ -52,7 +52,7 @@ ms grand square
 ms half sashay
 ms hinge
 ms 4 ladies chain n
-MATCH prefix all 4 ladies chain
+MATCH all 4 ladies chain n
 SPEC 1/2
 ms ladies in, men sashay
 ms lead r
@@ -98,7 +98,7 @@ ALIAS partner trade = trade
 ms trade by
 ms turn thru
 ms u-turn back
-MATCH exact U-turn back
+MATCH U-turn back
 ms veer r
 ms walk around the corner
 ms weave the ring
@@ -132,7 +132,7 @@ plus load the boat
 plus peel off
 plus peel the top
 plus ping pong circulate
-MATCH exact ping-pong circulate
+MATCH ping-pong circulate
 plus relay the deucey
 plus c & roll
 SPEC nothing = plus roll
@@ -157,13 +157,13 @@ a1 1/2 top
 a1 1/4 in
 a1 1/4 out
 a1 1/4 thru
-MATCH exact quarter thru
+MATCH quarter thru
 a1 1/4 top
 a1 3/4 thru
-MATCH exact three quarter thru
+MATCH three quarter thru
 a1 3/4 top
 a1 6 by 2 acey deucey
-MATCH exact 6X2 acey deucey
+MATCH 6X2 acey deucey
 a1 any hand c LOWER
 a1 as couples c
 SPEC circulate = ms couples circulate
@@ -177,7 +177,7 @@ a1 chain reaction
 a1 clover and c LOWER
 a1 couple of 3 c
 a1 cross clover and c
-MATCH prefix CROSS clover and
+MATCH CROSS clover and c LOWER
 a1 cross cloverleaf
 a1 cross trail thru
 a1 crossover circulate
@@ -206,9 +206,9 @@ a1 replace (any) with (any) c
 a1 reverse swap around
 a1 scoot & dodge
 a1 split square chain thru
-MATCH exact SPLIT square chain thru
+MATCH SPLIT square chain thru
 a1 split square thru n
-MATCH prefix SPLIT square thru
+MATCH SPLIT square thru n
 a1 square chain thru
 a1 start (a) c
 a1 step & slide
@@ -341,7 +341,7 @@ c1 relay the shadow
 c1 relay the top
 c1 reverse cross & turn
 c1 reverse explode
-MATCH exact REVERSE explode
+MATCH REVERSE explode
 c1 reverse rotate (from sqset)
 c1 reverse single rotate (from sqset)
 c1 reverse wheel and c LOWER
@@ -357,14 +357,14 @@ c1 siamese c
 c1 single rotate (from sqset)
 c1 skip (delete) (the) c
 c1 split dixie diamond
-MATCH exact SPLIT dixie diamond
+MATCH SPLIT dixie diamond
 c1 split dixie sashay
-MATCH exact SPLIT dixie sashay
+MATCH SPLIT dixie sashay
 c1 split dixie style
-MATCH exact SPLIT dixie style to a wave
+MATCH SPLIT dixie style to a wave
 c1 split recycle
 c1 split square chain the top
-MATCH exact SPLIT square chain the top
+MATCH SPLIT square chain the top
 c1 square chain the top
 c1 square the bases
 c1 squeeze

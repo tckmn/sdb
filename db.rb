@@ -8,12 +8,31 @@ def to_type c
     end
 end
 
+def concept? arr
+    arr.size == 2 && arr[-1] == Entry
+end
+
+# WARNING: mutates words
+def to_sd words
+    lower = words[-1] == 'LOWER'
+    upper = words[-1] == 'UPPER'
+    words.pop if lower || upper
+
+    ret = words.slice_when{|w,v| to_type(w) || to_type(v)}.map{|x|
+        to_type(x[0]) || x.join(' ').gsub(?&, 'and')
+    }
+    ret.map!{|x| x.is_a?(String) ? x.upcase : x} if upper || (concept?(ret) && !lower)
+
+    ret
+end
+
 class Constituent
     attr_accessor :val
     def initialize val; @val = val.downcase.gsub ' ', ''; end
     def formal; self.val; end
     def verbal; self.val; end
-    def self.consume s
+
+    def self.head s
         case self::Domain
         when Array
             self::Domain.each do |t|
@@ -26,38 +45,30 @@ class Constituent
         end
         return [nil, s]
     end
+
+    def self.tail s
+        case self::Domain
+        when Array
+            self::Domain.each do |t|
+                return [self.new(t), s[0...-t.size-1]] if s.downcase.end_with? t
+            end
+        end
+        return [nil, s]
+    end
+
 end
 
 class Entry < Constituent
 
-    attr_accessor :lvl, :match, :args, :sd, :formal, :verbal, :specs
+    attr_accessor :lvl, :sd, :formal, :verbal, :specs
 
     def initialize line
-        @args = []
-        @match = :exact
-
         @lvl, *words = line.split
-        lower = words[-1] == 'LOWER'
-        upper = words[-1] == 'UPPER'
-        words.pop if lower || upper
+        @sd = to_sd words
 
-        while to_type words[-1]
-            @match = :prefix
-            @args.unshift words.pop
-        end
-
-        while to_type words[0]
-            @match = :suffix
-            @args.push words.shift
-        end
-
-        @sd = words.join(' ').gsub(?&, 'and')
-        @sd.upcase! if upper || (@args == [?c] && @match == :prefix && !lower)
-
-        @formal = words.join.gsub(?-, '')
-        @verbal = words.join ' '
-        @verbal = @verbal + ' ' + @args.map.with_index{|_,i| "$#{i+1}"}.join(' ') if @match == :prefix
-        @verbal = @args.map.with_index{|_,i| "$#{i+1}"}.join(' ') + ' ' + @verbal if @match == :suffix
+        i = 0
+        @formal = words.reject{|w| to_type(w) }.join.gsub(?-, '')
+        @verbal = words.map{|w| to_type(w) ? "$#{i+=1}" : w }.join ' '
 
         @specs = {}
     end
@@ -65,9 +76,12 @@ class Entry < Constituent
 end
 
 class Number < Constituent
-    def self.consume s
+    def self.head s
         a, b = s.split ' ', 2
         a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.new(a), b] : [nil, s]
+    end
+    def self.tail s
+        [nil, s]
     end
 end
 
@@ -125,14 +139,14 @@ class Db
                 cur.formal = dest
                 @aliases.push cur
             when 'MATCH'
-                cur.match = args[0].to_sym
-                cur.sd = args[1..-1].join ' ' if args.size > 1
+                cur.sd = to_sd args
             when 'OUT'
                 cur.verbal = args.join ' '
             when 'SPEC'
                 # TODO concatenating lvl and sd gives wrong results after MATCH
+                # oh no this is now even more wrong help
                 k, v = args.join(' ').split ' = '
-                v ||= cur.lvl + ' ' + cur.sd
+                v ||= cur.lvl + ' ' + cur.sd.filter{|x|String===x}.join(' ')
                 cur.specs[k] = Entry.new v
                 a = Entry.new v
                 a.formal = "#{cur.formal} #{k}"
@@ -151,8 +165,8 @@ class Db
         @nilads = {}
         @polyads = []
         (@entries+@aliases).each do |e|
-            if e.match == :exact
-                @nilads[e.sd] = e
+            if e.sd.size == 1
+                @nilads[e.sd[0]] = e
             else
                 @polyads.push e
             end
@@ -162,8 +176,56 @@ class Db
 
     def parse_arg type, sd
         return self.to_formal sd if type == ?c
-        arg, s = to_type(type).consume sd
+        arg, s = to_type(type).head sd
         !s || s == '' ? arg.formal : nil
+    end
+
+    def try_parse sd, slist
+        slist = slist.dup
+        headlist = []
+        midlist = []
+        taillist = []
+
+        # head
+        until slist.empty? || slist[0] == Entry
+            token = slist.shift
+            case token
+            when String
+                return unless sd.start_with? token
+                sd = sd[token.size+1..-1] || ''
+                # TODO hacks
+                sd = sd[1..-1] || '' if sd[0] == ' ' # for commas
+                sd = sd[1..-2] || '' if sd[0] == '[' # for brackets
+            else
+                ret, sd = token.head sd
+                return unless ret
+                headlist.push ret.formal
+            end
+        end
+
+        # tail
+        until slist.empty? || slist[-1] == Entry
+            token = slist.pop
+            case token
+            when String
+                return unless sd.end_with? token
+                sd = sd[0...-(token.size+1)] || ''
+            else
+                ret, sd = token.tail sd
+                return unless ret
+                taillist.push ret.formal
+            end
+        end
+
+        raise "couldn't peel enough" if slist.length > 1
+        if slist.length == 1
+            ret = to_formal sd
+            sd = nil
+            return unless ret
+            midlist.push ret
+        end
+
+        return (headlist+midlist+taillist).join ' ' unless sd && sd.size > 0
     end
 
     def to_formal sd
@@ -172,34 +234,12 @@ class Db
         end
 
         @polyads.each do |e|
-            case e.match
-            when :prefix
-                [[' ', ''], [', ', ''], [' [', ']']].each do |s,t|
-                    if sd.start_with?(e.sd + s) && sd.end_with?(t)
-                        s = sd[e.sd.size+s.size..-1-t.size]
-                        tlist = e.args.dup
-                        alist = []
-                        while tlist.size > 1
-                            typ = to_type tlist.shift
-                            arg, s = typ.consume s
-                            alist.push(arg ? arg.formal : nil)
-                        end
-                        alist.push self.parse_arg(tlist[0], s)
-                        return "#{e.formal} #{alist.join ' '}" if alist.all?{|x|x}
-                    end
-                end
-            when :suffix
-                [['', ' '], ['[', '] ']].each do |s,t|
-                    if sd.end_with?(t + e.sd)
-                        x = self.parse_arg e.args[0], sd[s.size...-e.sd.size-t.size]
-                        return "#{e.formal} #{x}" if x
-                    end
-                end
-            end
+            ret = self.try_parse sd, e.sd
+            return "#{e.formal} #{ret}" if ret
         end
 
         # some special cases
-        d, rest = Designator.consume sd
+        d, rest = Designator.head sd
         if d
             rest = self.to_formal rest
             return "just #{d.formal} #{rest}" if rest
@@ -231,24 +271,25 @@ class Db
 
     def read_token type, tokens
         head = tokens.shift
-        if type == ?c
+        if type == Entry
             e = @lookup[head]
             return nil unless e
             args = []
-            e.args.each do |a|
-                t = self.read_token a, tokens
-                return nil unless t
-                args.push t
+            e.sd.each do |a|
+                unless String === a
+                    t = self.read_token a, tokens
+                    return nil unless t
+                    args.push t
+                end
             end
             return Node.new e, args
         end
-        t = to_type type
-        return t ? Node.new(t.new head) : nil
+        return Node.new(type.new head)
     end
 
     def to_verbal formal
         return nil unless formal
-        tree = self.read_token ?c, formal.split
+        tree = self.read_token Entry, formal.split
         return nil unless tree
         tree.verbal
     end
