@@ -3,7 +3,7 @@
 require 'date'
 require_relative 'types'
 
-DEBUG = true
+DEBUG = false
 STATS = false
 
 $FILE = 'seqs'
@@ -26,6 +26,10 @@ File.read(DEBUG ? 'debug' : 'sequence.C1').split("\x0c").each do |sdseq|
         metadata.delete_at 1
         chunks.pop while chunks[-1][0] =~ /[1234][GB][<>V^]/
     end
+
+    date = DateTime.parse(metadata[0].split('     ')[0]).strftime('%F %T')
+    name = metadata[1..-1].join ' '
+    next if seqs.any?{|seq| seq.date == date}
 
     opener = if chunks[0] == ['From squared set']
         # chunks[0] = ['just as they are']
@@ -58,9 +62,7 @@ File.read(DEBUG ? 'debug' : 'sequence.C1').split("\x0c").each do |sdseq|
     end
 
     tcl = false
-    seq = Sequence.new opener+closer,
-        DateTime.parse(metadata[0].split('     ')[0]).strftime('%F %T'),
-        ['generated'], metadata[1..-1].join(' '),
+    seq = Sequence.new opener+closer, date, ['generated'], name,
         chunks.map{|ch|
             tcl = true if ch.include? 'Warning:  This concept is not allowed at this level.'
             Call.new ch.take_while{|x| !x.start_with?('Warning:') }.join(' ')

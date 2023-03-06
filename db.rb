@@ -239,7 +239,7 @@ class Db
             return "#{e.formal} #{ret}" if ret
         end
 
-        # some special cases
+        # TODO special case
         if sd =~ /^\(.*\) (\d+) TIMES$/
             frac = $1
             x = self.parse_arg ?c, sd[1..-9-frac.size]
@@ -247,15 +247,6 @@ class Db
         end
 
         nil
-        # if m = Regexp.new('^' + e.sd.gsub(/\$(\d+)/, '(?<a\1>.+)') + '$').match(sd)
-        #     args = [e.formal]
-        #     e.args.each.with_index do |a,i|
-        #         x = self.parse_arg e, m["a#{i+1}"]
-        #         return nil unless x
-        #         args.push x
-        #     end
-        #     return args.join ' '
-        # end
     end
 
     def read_token type, tokens
