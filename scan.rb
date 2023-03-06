@@ -4,6 +4,7 @@ require 'date'
 require_relative 'types'
 
 DEBUG = true
+STATS = false
 
 $FILE = 'seqs'
 
@@ -70,19 +71,21 @@ File.read(DEBUG ? 'debug' : 'sequence.C1').split("\x0c").each do |sdseq|
 
 end
 
-cnt = {}
-seqs.each do |seq|
-    seq.calls.each do |call|
-        next unless f = call.formal
-        f.split.each do |w|
-            cnt[w] = (cnt[w]||0)+1
+if STATS
+    cnt = {}
+    seqs.each do |seq|
+        seq.calls.each do |call|
+            next unless f = call.formal
+            f.split.each do |w|
+                cnt[w] = (cnt[w]||0)+1
+            end
         end
     end
-end
 
-$db.entries.each do |e|
-    next unless e.lvl == 'c1'
-    puts "#{cnt[e.formal] || 0} #{e.formal}"
+    $db.entries.each do |e|
+        next unless e.lvl == 'c1'
+        puts "#{cnt[e.formal] || 0} #{e.formal}"
+    end
 end
 
 File.open($FILE, ?w) do |f|
