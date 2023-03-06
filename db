@@ -294,7 +294,9 @@ c1 butterfly c
 c1 cast back
 c1 chase your neighbor
 c1 checkover
-c1 circle by (fract) by (anything)
+c1 circle by n c
+MATCH circle by n X c
+OUT circle by $1 by $2
 c1 concentric c
 c1 counter rotate n
 SPEC 1/4
