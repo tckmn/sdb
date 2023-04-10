@@ -91,8 +91,8 @@ class Direction < Constituent
 end
 
 class Designator < Constituent
-    Domain = /heads|sides|(head |side |)(boys|girls)|leads|trailers|(leading |trailing |very |)(centers|ends)|#\d couple/
-    def verbal; self.val.sub /(very|head|side|ing|\d)(?!s)/, '\0 '; end
+    Domain = /heads|sides|(head |side |)(boys|girls)|leads|trailers|beaus|belles|(leading |trailing |very |)(centers|ends)|center \d|#\d couple/
+    def verbal; self.val.sub /(very|head|side|ing|center|#\d)(?!s)/, '\0 '; end
 end
 
 class Formation < Constituent
@@ -121,7 +121,7 @@ end
 
 class Db
 
-    attr_accessor :entries, :aliases, :nilads, :polyads
+    attr_accessor :entries, :aliases, :lookup, :nilads, :polyads
 
     def initialize fname
 
@@ -211,6 +211,7 @@ class Db
             when String
                 return unless sd.end_with?(token)
                 sd = sd[0...-(token.size+1)] || ''
+                sd = sd[1..-2] || '' if sd[0] == '[' # for brackets
             else
                 ret, sd = token.tail sd
                 return unless ret
@@ -244,6 +245,11 @@ class Db
             frac = $1
             x = self.parse_arg ?c, sd[1..-9-frac.size]
             return "do #{frac} #{x}" if x
+        end
+
+        if sd.end_with? '(and adjust)'
+            x = self.to_formal sd.sub(' (and adjust)', '')
+            return x if x
         end
 
         nil

@@ -1,0 +1,14 @@
+The following tags have mechanical effects:
+
+  generated
+    Added by default when sequences are transferred from sd output. Remove this
+    once manual verification has been performed.
+
+  bad worse sus
+    Filters out sequences for all purposes. Various semantic meanings.
+
+  ![theme]
+    Indicates a sequence written for a particular novelty tip.
+
+  @[number]
+    Indicates a sequence that was called at a particular dance. 

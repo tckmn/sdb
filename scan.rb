@@ -3,12 +3,13 @@
 require 'date'
 require_relative 'types'
 
-DEBUG = false
-STATS = false
+PERSIST = true
+DEBUG   = false
+BETTER  = true
 
 $FILE = 'seqs'
 
-seqs = !DEBUG && File.exists?($FILE) ? File.open($FILE, ?r) do |f|
+seqs = PERSIST && File.exists?($FILE) ? File.open($FILE, ?r) do |f|
      fromtxt f
 end : []
 
@@ -17,9 +18,14 @@ def frac s
     (8 * n / d).to_s
 end
 
-File.read(DEBUG ? 'debug' : 'sequence.C1').split("\x0c").each do |sdseq|
+snew = 0
+sold = 0
+sdates = seqs.map{|seq| seq.date}
 
-    metadata, *chunks, resolve = sdseq.split("\r\n\r\n").map{|x| x.strip.lines.map(&:strip)}
+Dir['in/*'].each do |fname|
+File.read(fname).split("\x0c").each do |sdseq|
+
+    metadata, *chunks, resolve = sdseq.gsub("\r\n", "\n").split("\n\n").map{|x| x.strip.lines.map(&:strip)}
 
     if metadata[1] == 'NOT RESOLVED'
         # TODO maybe crosscheck with rline==nil
@@ -29,7 +35,11 @@ File.read(DEBUG ? 'debug' : 'sequence.C1').split("\x0c").each do |sdseq|
 
     date = DateTime.parse(metadata[0].split('     ')[0]).strftime('%F %T')
     name = metadata[1..-1].join ' '
-    next if seqs.any?{|seq| seq.date == date}
+    if sdates.include? date
+        sold += 1
+        next
+    end
+    snew += 1
 
     opener = if chunks[0] == ['From squared set']
         # chunks[0] = ['just as they are']
@@ -51,18 +61,20 @@ File.read(DEBUG ? 'debug' : 'sequence.C1').split("\x0c").each do |sdseq|
         'N0'
     elsif rline =~ /^circle left (.*) or right .*$/
         'C' + frac($1)
-    elsif rline =~ /^(.*)  \((?:(.*) promenade|at home)\)$/
+    elsif rline =~ /^(.*)  \((?:(.*) promenade|at home)/
         {
             'right and left grand' => ?R,
+            'mini-grand' => ?M,
             'left allemande' => ?L,
             'promenade' => ?P,
             'reverse promenade' => ?E,
+            'single file promenade' => ?S,
             'dixie grand, left allemande' => ?D
         }[$1] + ($2 ? frac($2) : ?0)
     end
 
     tcl = false
-    seq = Sequence.new opener+closer, date, ['generated'], name,
+    seq = Sequence.new opener+closer, date, ['generated', fname.split(?.)[-1]], name,
         chunks.map{|ch|
             tcl = true if ch.include? 'Warning:  This concept is not allowed at this level.'
             Call.new ch.take_while{|x| !x.start_with?('Warning:') }.join(' ')
@@ -72,24 +84,9 @@ File.read(DEBUG ? 'debug' : 'sequence.C1').split("\x0c").each do |sdseq|
     seqs.push seq
 
 end
-
-if STATS
-    cnt = {}
-    seqs.each do |seq|
-        seq.calls.each do |call|
-            next unless f = call.formal
-            f.split.each do |w|
-                cnt[w] = (cnt[w]||0)+1
-            end
-        end
-    end
-
-    $db.entries.each do |e|
-        next unless e.lvl == 'c1'
-        puts "#{cnt[e.formal] || 0} #{e.formal}"
-    end
 end
 
 File.open($FILE, ?w) do |f|
-    totxt f, seqs
+    totxt f, seqs, nil
 end
+puts "#{seqs.size} sequences written (#{snew} new, #{sold} old)"
