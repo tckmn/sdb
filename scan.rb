@@ -21,7 +21,7 @@ snew = 0
 sold = 0
 sdates = seqs.map{|seq| seq.date}
 
-Dir['in/sequence.*'].each do |fname|
+Dir['in/*'].each do |fname|
 File.read(fname).split("\x0c").each do |sdseq|
 
     metadata, *chunks, resolve = sdseq.gsub("\r\n", "\n").split("\n\n").map{|x| x.strip.lines.map(&:strip)}
