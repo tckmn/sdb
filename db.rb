@@ -219,8 +219,21 @@ class Db
             end
         end
 
-        raise "couldn't peel enough" if slist.length > 1
-        if slist.length == 1
+        # midpoint (oops it's getting dicey TODO)
+        if slist.length == 3 && String === slist[1]
+            abort 'what' if slist[0] != Entry || slist[2] != Entry
+            parts = sd.split " #{slist[1]} "
+            sd = nil
+            return unless parts.size == 2
+            ret = to_formal parts[0]
+            return unless ret
+            midlist.push ret
+            ret = to_formal parts[1]
+            return unless ret
+            midlist.push ret
+        elsif slist.length > 1
+            raise "couldn't peel enough"
+        elsif slist.length == 1
             ret = to_formal sd
             sd = nil
             return unless ret

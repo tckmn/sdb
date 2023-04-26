@@ -1,3 +1,5 @@
+ms comment
+
 ms just d c
 MATCH d c
 OUT $1 $2
@@ -12,6 +14,9 @@ SPEC 3/2 = ms c 1-1/2
 SPEC 2 = ms c twice UPPER
 
 ms nothing
+
+ms left c
+ms reverse c
 
 ms d cross fold
 ms d cross run
@@ -409,25 +414,25 @@ c1 zing
 c2 (along) but circulate twice
 c2 (any tag call) your criss cross neighbor
 c2 (any tag call) your neighbor
-c2 (anyone) cross kick off
-c2 (anyone) kick off
-c2 (anyone) like a ripple c
-c2 (anyone) ripple (the wave) n
-c2 (anything) & circle (fract)
-c2 (anything) coordinate
-c2 (anything) motivate
-c2 (anything) percolate
-c2 (anything) perk up
-c2 (anything) the "k"
+c2 d cross kick off
+c2 d kick off
+c2 d like a ripple c
+c2 d ripple (the wave) n
+c2 c & circle (fract)
+c2 asdftodo c coordinate
+c2 asdftodo c motivate
+c2 asdftodo c percolate
+c2 asdftodo c perk up
+c2 asdftodo c the "k"
 c2 (n) by (m) concept (transfer|checkmate)
 c2 (sets in motion) hold the column
 c2 3 by 1 triangle formation
 c2 along
 c2 alter & circulate
-c2 bounce (anyone)
+c2 bounce the d
 c2 catch n
 c2 chain the square
-c2 checkpoint (anything) by (anything)
+c2 checkpoint c by c UPPER
 c2 chisel thru
 c2 circle (fract) to a wave
 c2 counter
@@ -722,8 +727,6 @@ c3b loop & (fract) tag
 c3b mirror c
 SPEC chaseright = plus left chase
 SPEC cross&turn = c1 reverse cross & turn
-ALIAS left c = mirror
-ALIAS reverse c = mirror
 c3b mirror cross swap the top
 c3b nuclear reaction
 c3b oddly c
