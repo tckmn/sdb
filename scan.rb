@@ -4,7 +4,6 @@ require 'date'
 require_relative 'types'
 
 PERSIST = true
-DEBUG   = false
 BETTER  = true
 
 $FILE = 'seqs'
@@ -22,7 +21,7 @@ snew = 0
 sold = 0
 sdates = seqs.map{|seq| seq.date}
 
-Dir['in/*'].each do |fname|
+Dir['in/sequence.*'].each do |fname|
 File.read(fname).split("\x0c").each do |sdseq|
 
     metadata, *chunks, resolve = sdseq.gsub("\r\n", "\n").split("\n\n").map{|x| x.strip.lines.map(&:strip)}
@@ -87,6 +86,6 @@ end
 end
 
 File.open($FILE, ?w) do |f|
-    totxt f, seqs, nil
+    totxt f, seqs, {}
 end
 puts "#{seqs.size} sequences written (#{snew} new, #{sold} old)"
