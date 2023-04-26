@@ -3,7 +3,7 @@
 require 'optparse'
 require_relative 'types'
 
-opts = {}
+opts = Struct.new(:filter, :merge, :stats, :restrict, :old).new
 OptionParser.new do |opt|
 
     opt.on('-h', '--help', 'outputs this help message') do
@@ -11,31 +11,79 @@ OptionParser.new do |opt|
         exit
     end
 
+    opt.on('-fNAME', '--filter=NAME', 'file to output filtered sequences to') do |f|
+        opts.filter = f
+    end
+
+    opt.on('-mNAME', '--merge=NAME', 'file to remerge into seqs') do |m|
+        opts.merge = m
+    end
+
+    opt.on('-sLEVEL', '--stats=LEVEL', 'level to compute call stats for') do |s|
+        opts.stats = s
+    end
+
+    opt.on('-rLEVEL', '--restrict=LEVEL', 'level to restrict to') do |r|
+        opts.restrict = r
+    end
+
+    opt.on('-o', '--old', 'include old sequences') do |o|
+        opts.old = true
+    end
+
 end.parse!
 
-abort 'no seqs' unless File.exists?('seqs')
-seqs =  File.open('seqs', ?r) do |f| fromtxt f end
+def filt seq, opts
+    return false if seq.tags.any?{|tag|
+        tag[0] == ?! || %w[bad sus worse].include?(tag)
+        # tag[0] == ?! || %w[bad sus worse].include?(tag)
+    }
 
-if ARGV.include? 'summary'
-    cnts = $lvl.map{|x|[x,0]}.to_h
-    seqs.each do |seq|
-        next if seq.tags.any?{|tag|
-            tag[0] == ?! || tag[0] == ?@ || %w[bad sus worse].include?(tag)
-        }
-        cnts[(seq.tags & $lvl)[0]] += 1
-    end
-    p cnts
+    return false if opts.restrict && !seq.tags.include?(opts.restrict)
+    return false if !opts.old && seq.tags.any?{|tag| tag[0] == ?@ }
+
+    return true
 end
 
-if ARGV.include? 'stats2'
+abort 'no seqs' unless File.exists?('seqs')
+allseqs = File.open('seqs', ?r) do |f| fromtxt f end
+seqs = allseqs.filter{|seq| filt seq, opts }
+
+if opts.filter
+    if opts.filter == '-'
+        totxt STDOUT, seqs, {}
+    else
+        File.open(opts.filter, ?w) do |f|
+            totxt f, seqs, {}
+        end
+    end
+    puts "#{seqs.size} sequences filtered"
+end
+
+if opts.merge
+    nmerge = 0
+    File.open(opts.merge, ?r){|f| fromtxt f }.each do |seq|
+        idx = allseqs.index{|s2| seq.date == s2.date}
+        abort "couldn't find #{seq.date} in seqs" unless idx
+        allseqs[idx] = seq
+        nmerge += 1
+    end
+    `mv seqs bkp`
+    File.open('seqs', ?w) do |g|
+        totxt g, allseqs, {}
+    end
+    puts "#{nmerge} sequences merged"
+end
+
+if opts.stats
     cnt = {}
     seqs.each do |seq|
-        next if seq.tags.any?{|tag|
-            tag[0] == ?! || tag[0] == ?@ || %w[bad sus worse].include?(tag)
-        }
-        next unless seq.tags.include? 'C2'
+        next unless seq.tags.include? opts.stats
         seq.calls.each do |call|
-            next unless f = call.formal
+            unless f = call.formal
+                # p call
+                next
+            end
             f.split.each do |w|
                 cnt[w] = (cnt[w]||0)+1
             end
@@ -43,9 +91,17 @@ if ARGV.include? 'stats2'
     end
 
     $db.entries.each do |e|
-        next unless e.lvl == 'c2'
+        next unless e.lvl == opts.stats.downcase
         puts "#{cnt[e.formal]} #{e.formal}"
     end
+end
+
+if ARGV.include? 'summary'
+    cnts = $lvl.map{|x|[x,0]}.to_h
+    seqs.each do |seq|
+        cnts[(seq.tags & $lvl)[0]] += 1
+    end
+    p cnts
 end
 
 if ARGV.include? 'stats'
@@ -137,10 +193,8 @@ if ARGV.include? 'stats'
     # end
 end
 
-if ARGV.include? 'verbal'
-    seqs.each do |seq|
-        puts seq.verbal
-    end
+if ARGV.include? 'prod'
+    totxt STDOUT, seqs, {mode: :prod}
 end
 
 if ARGV.include? 'level'

@@ -3,6 +3,9 @@ require_relative 'db'
 $db = Db.new 'db'
 $lvl = ['MS', 'Plus', 'A1', 'A2', 'C1', 'C2', 'C3A', 'C3B', 'C4', 'all']
 
+# TODO what an ugly hack
+$flag = ""
+
 class Call
     attr_writer :formal, :verbal
 
@@ -21,14 +24,31 @@ class Call
     def verbal; @verbal || @cv || (@cv = $db.to_verbal(self.formal)); end
 
     def totxt f, opts
-        f.puts @sd
-        if !self.formal
-            f.puts "%%% formal"
-        elsif !self.verbal
-            f.puts "%%% verbal"
+        if opts[:mode] == :prod
+            if @sd == 'comment' && @verbal == '"hard"'
+                $flag = '*** '
+            elsif @sd == 'comment' && @verbal.start_with?('"form ')
+                f.puts @verbal[6..-2].gsub('\n', "\n")
+            elsif self.verbal == ?^
+                #nop
+            else
+                f.puts "    #{$flag}#{self.verbal || @sd}"
+                $flag = ''
+            end
         else
-            f.puts "=#{self.formal}" if @formal || DEBUG
-            f.puts "\"#{self.verbal}\"" if @verbal || DEBUG
+            if @sd == 'comment'
+                f.puts "!#{self.verbal[1..-2]}"
+            else
+                f.puts @sd
+                if !self.formal && !self.verbal
+                    f.puts "%%% formal"
+                elsif !self.verbal
+                    f.puts "%%% verbal"
+                else
+                    f.puts "=#{self.formal}" if @formal || opts[:debug]
+                    f.puts "\"#{self.verbal}\"" if @verbal || opts[:debug]
+                end
+            end
         end
     end
 end
@@ -49,7 +69,7 @@ class Sequence
         f.puts @name
         f.puts
         calls.each do |c| c.totxt f, opts end
-        unless BETTER
+        if opts[:mode] == :prod
             f.puts('    ' + {
                 ?N => 'at home',
                 ?C => 'circle home',
@@ -76,6 +96,10 @@ def fromtxt f
         case line[0]
         when nil then nil
         when ?% then nil
+        when ?!
+            comm = Call.new 'comment'
+            comm.verbal = ?" + line[1..-1] + ?"
+            cur.calls.push comm
         when ?*
             parts = line[2..-1].split
             cur = Sequence.new parts[0], parts[1..2].join(' '), parts[3..-1]
