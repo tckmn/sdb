@@ -217,3 +217,38 @@ if ARGV.include? 'level'
         }.join ' '
     end
 end
+
+if ARGV.include? 'live'
+    sidebar = []
+    loop {
+        lookup = {}
+        tbl = seqs.map.with_index{|seq,i|
+            lookup[k = i.to_s(26).tr('0-9a-z', 'a-z')] = seq
+            [k, seq.calls.size.to_s, seq.name[0..40], seq.tags.join(' ')]
+            [k, seq.calls.size.to_s, seq.name[0..40]]
+        }.transpose.map{|arr|
+            sz = arr.map(&:size).max
+            arr.map{|x| x.ljust(sz+2, ' ') }
+        }.transpose.map(&:join)
+
+        tbl += [tbl.size == 0 ? '' : ' '*tbl[0].size] * (sidebar.size-tbl.size) if sidebar.size>tbl.size
+        sidebar += [''] * (tbl.size-sidebar.size) if tbl.size>sidebar.size
+
+        puts [tbl,sidebar].transpose.map{|x| x.join '   '}
+
+        q = STDIN.gets
+        break unless q
+        if q = lookup[q.chomp]
+            ss = StringIO.new
+            q.totxt ss, {mode: :prod}
+            sidebar = ss.string.split "\n"
+            seqs.filter!{|seq| seq != q}
+            File.open('livedone', ?a) do |livedone|
+                livedone.puts q.date
+            end
+        else
+            sidebar = []
+        end
+
+    }
+end
