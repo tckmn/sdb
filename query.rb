@@ -209,6 +209,10 @@ if ARGV.include? 'prod'
     totxt STDOUT, seqs, {mode: :prod}
 end
 
+if ARGV.include? 'debug'
+    totxt STDOUT, seqs, {debug: true}
+end
+
 if ARGV.include? 'level'
     seqs.each do |seq|
         puts "#{seq.name} #{seq.tags*' '}"
