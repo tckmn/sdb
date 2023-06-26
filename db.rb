@@ -91,8 +91,8 @@ class Direction < Constituent
 end
 
 class Designator < Constituent
-    Domain = /heads|sides|(head |side |)(boys|girls)|leads|trailers|beaus|belles|(leading |trailing |very |)(centers|ends)|center \d|#\d couple/
-    def verbal; self.val.sub /(very|head|side|ing|center|#\d)(?!s)/, '\0 '; end
+    Domain = /heads|sides|(head |side |)(boys|girls)|leads|trailers|beaus|belles|(leading |trailing |very |)(centers|ends)|center \d|#\d couple|near \d|far \d|those facing/
+    def verbal; self.val.sub /(very|head|side|ing|center|#\d|near|far|those)(?!s)/, '\0 '; end
 end
 
 class Formation < Constituent
@@ -196,7 +196,7 @@ class Db
                 sd = sd[token.size+1..-1] || ''
                 # TODO hacks
                 sd = sd[1..-1] || '' if sd[0] == ' ' # for commas
-                sd = sd[1..-2] || '' if sd[0] == '[' # for brackets
+                sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
             else
                 ret, sd = token.head sd
                 return unless ret
@@ -211,7 +211,7 @@ class Db
             when String
                 return unless sd.end_with?(token)
                 sd = sd[0...-(token.size+1)] || ''
-                sd = sd[1..-2] || '' if sd[0] == '[' # for brackets
+                sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
             else
                 ret, sd = token.tail sd
                 return unless ret

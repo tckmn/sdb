@@ -27,13 +27,14 @@ ms d walk others dodge
 SPEC trailers = ms walk & dodge
 ms (anything) & 1/4 more
 ms (anything) on (n-th hand) c
-ms alamo style
+ms allemande left
+ms allemande left in the alamo style
 ms around (n) to a line
 ms bend the line
 ms box circulate
 ms box the gnat
 ms california twirl
-ms cast (right|left) (fract)
+ms cast (right|left) n
 ms cast off n
 ms centers in
 ms centers out
@@ -41,6 +42,7 @@ ms chain down the line
 ms circle (left|right)
 ms circle to a line
 ms circulate
+ALIAS column circulate = circulate
 ms cloverleaf
 ms courtesy turn
 ms dive thru
@@ -49,7 +51,8 @@ MATCH dixie style to a wave
 ms do paso
 ms do your part c
 ms double pass thru
-ms eight chain (thru|n)
+ms eight chain n
+SPEC 8 = eight chain thru
 ms face r
 ms ferris wheel
 ms first right, next left
@@ -67,7 +70,7 @@ ms move along (to lines)
 ms pass the ocean
 ms pass thru
 ms pass to the center
-ms promenade (fract)
+ms promenade n
 ms recycle
 ms reverse flutter wheel
 ms right & left grand
@@ -114,7 +117,7 @@ ms wheel & deal
 ms wheel around
 ms wrong way
 ms wrong way grand
-ms wrong way promenade (fract)
+ms wrong way promenade n
 ms zoom
 plus (chase (r|l)) but
 plus acey deucey
@@ -161,17 +164,15 @@ a1 c & cross
 SPEC nothing = a1 cross
 a1 (cast a shadow) don't spread
 a1 r roll to a wave
+ALIAS roll right to a wave = rolltoawave right
 ALIAS leads roll right to a wave = rolltoawave right
 ALIAS leads roll left to a wave = rolltoawave left
-a1 1/2 top
-a1 1/4 in
-a1 1/4 out
-a1 1/4 thru
-MATCH quarter thru
-a1 1/4 top
-a1 3/4 thru
-MATCH three quarter thru
-a1 3/4 top
+a1 n top
+a1 n in
+a1 n out
+a1 n thru
+ALIAS quarter thru = thru 1/4
+ALIAS three quarter thru = thru 3/4
 a1 6 by 2 acey deucey
 MATCH 6X2 acey deucey
 a1 any hand c LOWER
@@ -234,7 +235,7 @@ a2 (pass & roll) but (anything)
 a2 (the windmill) (dir) but (anything)
 a2 all 4 couples c
 a2 all 8 c
-a2 box counter rotate (fract)
+a2 box counter rotate n
 a2 box transfer
 a2 checkmate
 ALIAS checkmate the column = checkmate
@@ -276,6 +277,10 @@ a2 trail off
 a2 transfer and c LOWER
 a2 zag
 a2 zig
+a2 zig zag
+a2 zag zig
+a2 zig zig
+a2 zag zag
 c1 O c
 c1 (any tag call) back (to a wave)
 c1 (any tag call) your cross neighbor
@@ -294,6 +299,7 @@ c1 (replace) each (occurrence of)
 c1 (square the bases) but (anything)
 c1 2/3 recycle
 c1 3 by 2 acey deucey
+MATCH 3X2 acey deucey
 c1 ah so
 c1 all 8 recycle
 c1 alter the wave
@@ -405,7 +411,7 @@ c1 triangle formation
 c1 triple f' c UPPER
 c1 twist and c LOWER
 c1 twist the line
-c1 vertical (fract) tag (the line)
+c1 vertical n tag (the line)
 c1 vertical tag back (to a wave)
 c1 wave-based triangle formation
 c1 weave
@@ -420,7 +426,7 @@ c2 d cross kick off
 c2 d kick off
 c2 d like a ripple c
 c2 d ripple (the wave) n
-c2 c & circle (fract)
+c2 c & circle n
 c2 asdftodo c coordinate
 c2 asdftodo c motivate
 c2 asdftodo c percolate
@@ -436,7 +442,7 @@ c2 catch n
 c2 chain the square
 c2 checkpoint c by c UPPER
 c2 chisel thru
-c2 circle (fract) to a wave
+c2 circle n to a wave
 c2 counter
 c2 crazy c
 c2 criss cross the shadow
@@ -444,7 +450,7 @@ c2 criss cross your neighbor
 c2 cross & wheel
 c2 cross back
 c2 cross concentric c
-c2 cross invert the column (fract)
+c2 cross invert the column n
 c2 cross ramble
 c2 cross the "k"
 c2 cross trade & wheel
@@ -452,7 +458,7 @@ c2 detour
 c2 disconnected (setup) c
 c2 dodge c LOWER
 c2 drop r
-c2 exchange the diamonds (fract)
+c2 exchange the diamonds n
 c2 fascinate
 c2 fascinating c LOWER
 c2 file to a line
@@ -472,10 +478,10 @@ c2 inlet
 c2 interlocked (setup) c
 c2 interlocked 3 by 1 triangles formation
 c2 interlocked triangle formation
-c2 invert the column (fract)
+c2 invert the column n
 c2 invert the tag
 c2 lateral substitute
-c2 lines (anything) thru
+c2 lines c thru UPPER
 c2 little more
 c2 loop n
 c2 offset (c|l|w) formation
@@ -548,19 +554,29 @@ c3a (anything fan) the top
 c3a (anything) (like a) couple up
 c3a (anything) like a recoil
 c3a (anything) reaction
-c3a (anything) the gamut
+c3a c the gamut
+SPEC nothing
 c3a (anything) the lock
 c3a (anything) the pulley
 c3a (anything) the pulley but (anything)
 c3a (anything) your leader
 c3a (fancy) but (anything)
 c3a (rally) but (anything)
-c3a 1/4 mix
-c3a 1/4 the deucey
-c3a 1/4 wheel the (ocean|sea)
-c3a 3/4 mix
-c3a 3/4 the deucey
-c3a 3/4 wheel the (ocean|sea)
+c3a n frac mix
+OUT $1 mix
+ALIAS quarter mix = fracmix 1/4
+ALIAS three quarter mix = fracmix 3/4
+c3a n the deucey
+ALIAS quarter the deucey = thedeucey 1/4
+ALIAS three quarter the deucey = thedeucey 3/4
+c3a n frac wheel the ocean
+OUT $1 wheel the ocean
+ALIAS quarter wheel the ocean = fracwheeltheocean 1/4
+ALIAS three quarter wheel the ocean = fracwheeltheocean 3/4
+c3a n frac wheel the sea
+OUT $1 wheel the sea
+ALIAS quarter wheel the sea = fracwheelthesea 1/4
+ALIAS three quarter wheel the sea = fracwheelthesea 3/4
 c3a bias circulate
 c3a big block c
 c3a breaker (anything)
@@ -571,17 +587,18 @@ c3a checker board c
 c3a checker box c
 c3a choice
 c3a couple up
-c3a couple(s) twosome c
+c3a couples twosome c
 c3a cross chain reaction
 c3a cross counter
 c3a delight
 c3a dilemma
 c3a drift apart
 c3a ease off
-c3a eight by (anything)
-c3a exchange the 3 by 1 triangles (fract)
-c3a exchange the boxes (fract)
-c3a exchange the triangles (fract)
+c3a eight by c
+MATCH 8 by c LOWER
+c3a exchange the 3 by 1 triangles n
+c3a exchange the boxes n
+c3a exchange the triangles n
 c3a expand (the column)
 c3a explode the top
 c3a fancy
@@ -604,7 +621,8 @@ c3a interlocked scoot (back)
 c3a interlocked scoot chain thru
 c3a jay c
 c3a keep busy
-c3a latch on (fract)
+c3a latch on n
+SPEC 1/4
 c3a link up
 c3a lock the (anything)
 c3a lock the hinge
@@ -612,8 +630,8 @@ c3a locker's choice
 c3a mini chase
 c3a open up but (anything)
 c3a open up the column
-c3a own the (anyone) c
-c3a patch (anyone)
+c3a own the d c by c UPPER
+c3a patch the d
 c3a peel chain thru
 c3a plan ahead
 c3a polly wally
@@ -657,7 +675,7 @@ c3a tagger's delight
 c3a tagger's dilemma
 c3a tandem twosome c
 c3a team up
-c3a touch by (fract) by (fract)
+c3a touch by n by n
 c3a trade the deucey
 c3a travel thru
 c3a trip the set
@@ -686,29 +704,30 @@ c3b 2/3 cross cycle
 c3b bingo
 c3b boomerang
 c3b busy c LOWER
-c3b cast & relay (fract)
+c3b cast & relay n
 c3b change lanes
 c3b change the centers
 c3b change the wave
 c3b change your image
-c3b chase the (fract) tag
+c3b chase the n tag
 c3b chuck-a-luck
 c3b criss cross the deucey
 c3b cross (n) step(s) at a time
 c3b cross chuck-a-luck
 c3b cross cycle
 c3b cross flip back
-c3b cross flip the line (fract)
+c3b cross flip the line n
 c3b cross lock the (anything)
 c3b cross lock the hinge
 c3b cross lockit
-c3b cross loop & (fract) tag
+c3b cross loop & n tag
 c3b cross nuclear reaction
 c3b cross reactivate
 c3b cross swap the top
 c3b diagonal box formation
 c3b disband
-c3b divide the (ocean|sea) r
+c3b divide the ocean r
+c3b divide the sea r
 c3b echo c
 c3b evenly c
 c3b explode the diamond
@@ -725,7 +744,7 @@ c3b interlocked ramble
 c3b lickety split
 c3b lift off
 c3b lock 'em up
-c3b loop & (fract) tag
+c3b loop & n tag
 c3b mirror c
 c3b mirror cross swap the top
 c3b nuclear reaction
@@ -736,12 +755,12 @@ c3b phantom columns formation
 c3b quadruple (setup) c
 c3b reactivate
 c3b reflected (tag) c
-c3b reset (fract)
+c3b reset n
 c3b reverse checkpoint (any) by (any)
 c3b reverse order c
 c3b reverse rotate (from columns)
 c3b reverse single rotate (from columns)
-c3b reverse the pass (fract)
+c3b reverse the pass n
 c3b reverse the top
 c3b revolve to a wave
 c3b rip off
@@ -749,10 +768,10 @@ c3b rotate (from columns)
 c3b scramble
 c3b secondly c
 c3b shake & rattle
-c3b sidetrack (fract)
+c3b sidetrack n
 c3b single rotate (from columns)
 c3b single shake & rattle
-c3b single sidetrack (fract)
+c3b single sidetrack n
 c3b single strut (right|left) (and r|l)
 c3b split cross cycle
 c3b split phantom (setup) c
@@ -762,7 +781,7 @@ c3b split phantom diamonds formation
 c3b split reverse rotate (columns)
 c3b split reverse single rotate (columns)
 c3b split rotate (columns)
-c3b split sidetrack (fract)
+c3b split sidetrack n
 c3b split single rotate (columns)
 c3b split turn the key
 c3b staggered (setup) formation
