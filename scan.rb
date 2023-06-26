@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'date'
+require 'fileutils'
 require_relative 'types'
 
 PERSIST = true
@@ -16,6 +17,19 @@ def frac s
     n, d = s.split(?/).map &:to_i
     (8 * n / d).to_s
 end
+
+sd2real = {
+    'MS'   => 'ms',
+    'Plus' => 'plus',
+    'A1'   => 'a1',
+    'A2'   => 'a2',
+    'C1'   => 'c1',
+    'C2'   => 'c2',
+    'C3A'  => 'c3a',
+    'C3'   => 'c3b',
+    'C4'   => 'c4',
+    'all'  => 'all'
+}
 
 snew = 0
 sold = 0
@@ -73,7 +87,7 @@ File.read(fname).split("\x0c").each do |sdseq|
     end
 
     tcl = false
-    seq = Sequence.new opener+closer, date, ['generated', fname.split(?.)[-1]], name,
+    seq = Sequence.new opener+closer, date, ['generated', sd2real[fname.split(?.)[-1]]], name,
         chunks.map{|ch|
             tcl = true if ch.include? 'Warning:  This concept is not allowed at this level.'
             Call.new ch.take_while{|x| !x.start_with?('Warning:') }.join(' ')
@@ -85,6 +99,8 @@ File.read(fname).split("\x0c").each do |sdseq|
 end
 end
 
+FileUtils.mkdir_p 'bkp'
+FileUtils.cp $FILE, "bkp/seqs-#{Time.new.strftime '%F_%T'}"
 File.open($FILE, ?w) do |f|
     totxt f, seqs, {}
 end

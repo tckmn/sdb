@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
+require 'stringio'
+require 'fileutils'
 require_relative 'types'
 
 opts = Struct.new(:filter, :merge, :stats, :restrict, :old).new
@@ -68,7 +70,8 @@ if opts.merge
         allseqs[idx] = seq
         nmerge += 1
     end
-    `mv seqs bkp`
+    FileUtils.mkdir_p 'bkp'
+    FileUtils.cp 'seqs', "bkp/seqs-#{Time.new.strftime '%F_%T'}"
     File.open('seqs', ?w) do |g|
         totxt g, allseqs, {}
     end
