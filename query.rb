@@ -21,7 +21,7 @@ OptionParser.new do |opt|
         opts.merge = m
     end
 
-    opt.on('-sLEVEL', '--stats=LEVEL', 'level to compute call stats for') do |s|
+    opt.on('-sLEVEL', '--stats=LEVEL', 'level(s) to compute call stats for') do |s|
         opts.stats = s
     end
 
@@ -37,8 +37,7 @@ end.parse!
 
 def filt seq, opts
     return false if seq.tags.any?{|tag|
-        tag[0] == ?! || %w[bad sus worse].include?(tag)
-        # tag[0] == ?! || %w[bad sus worse].include?(tag)
+        tag[0] == ?! || %w[bad sus worse todo].include?(tag)
     }
 
     return false if opts.restrict && !seq.tags.include?(opts.restrict)
@@ -79,9 +78,11 @@ if opts.merge
 end
 
 if opts.stats
+    lvls = opts.stats.split ?,
+
     cnt = {}
     seqs.each do |seq|
-        next unless seq.tags.include? opts.stats
+        next unless lvls.any?{|lvl| seq.tags.include? lvl}
         seq.calls.each do |call|
             unless f = call.formal
                 # p call
@@ -93,15 +94,23 @@ if opts.stats
         end
     end
 
-    $db.entries.each do |e|
-        next unless e.lvl == opts.stats.downcase
-        puts "#{cnt[e.formal]} #{e.formal}"
+    lvls.each do |lvl|
+        puts "#{lvl}:"
+        $db.entries.each do |e|
+            next unless e.lvl == lvl.downcase
+            puts "#{cnt[e.formal]} #{e.formal}"
+        end
     end
 end
 
 if ARGV.include? 'summary'
     cnts = $lvl.map{|x|[x,0]}.to_h
     seqs.each do |seq|
+        if (seq.tags & $lvl).size != 1
+            puts 'bad sequence'
+            totxt STDOUT, [seq], {mode: :prod}
+            abort
+        end
         cnts[(seq.tags & $lvl)[0]] += 1
     end
     p cnts
