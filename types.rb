@@ -1,7 +1,7 @@
 require_relative 'db'
 
 $db = Db.new 'db'
-$lvl = ['MS', 'Plus', 'A1', 'A2', 'C1', 'C2', 'C3A', 'C3B', 'C4', 'all']
+$lvl = ['ms', 'plus', 'a1', 'a2', 'c1', 'c2', 'c3a', 'c3b', 'c4', 'all']
 
 # TODO what an ugly hack
 $flag = ""
