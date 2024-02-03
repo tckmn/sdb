@@ -44,6 +44,9 @@ ms circle to a line
 ms circulate
 ALIAS column circulate = circulate
 ms cloverleaf
+ms couples circulate
+ms couples hinge
+ms couples trade
 ms courtesy turn
 ms dive thru
 ms dixie style
@@ -177,9 +180,9 @@ a1 6 by 2 acey deucey
 MATCH 6X2 acey deucey
 a1 any hand c LOWER
 a1 as couples c
-SPEC circulate = ms couples circulate
-SPEC hinge = ms couples hinge
-SPEC trade = ms couples trade
+#SPEC circulate = ms couples circulate
+#SPEC hinge = ms couples hinge
+#SPEC trade = ms couples trade
 a1 beau(s) identifier
 a1 belle(s) identifier
 a1 brace thru
