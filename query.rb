@@ -5,7 +5,7 @@ require 'stringio'
 require 'fileutils'
 require_relative 'types'
 
-opts = Struct.new(:filter, :merge, :stats, :restrict, :old).new
+opts = Struct.new(:filter, :merge, :stats, :restrict, :old, :theme).new
 OptionParser.new do |opt|
 
     opt.on('-h', '--help', 'outputs this help message') do
@@ -33,15 +33,20 @@ OptionParser.new do |opt|
         opts.old = true
     end
 
+    opt.on('-tTHEME', '--theme=THEME', 'which theme pool to draw from') do |t|
+        opts.theme = t
+    end
+
 end.parse!
 
 def filt seq, opts
     return false if seq.tags.any?{|tag|
-        tag[0] == ?! || %w[bad sus worse todo].include?(tag)
+        (!opts.theme && tag[0] == ?!) || (!opts.old && tag[0] == ?@) || %w[bad sus worse todo].include?(tag)
     }
 
-    return false if opts.restrict && !seq.tags.include?(opts.restrict)
-    return false if !opts.old && seq.tags.any?{|tag| tag[0] == ?@ }
+    t = seq.tags.map{|t| t.split(?.)[0] }
+    return false if opts.restrict && !t.include?(opts.restrict)
+    return false if opts.theme && !t.include?(?!+opts.theme)
 
     return true
 end
