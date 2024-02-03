@@ -446,6 +446,7 @@ c2 chain the square
 c2 checkpoint c by c UPPER
 c2 chisel thru
 c2 circle n to a wave
+SPEC 1/4
 c2 counter
 c2 crazy c
 c2 criss cross the shadow
@@ -469,6 +470,7 @@ c2 flip your neighbor
 c2 funny c
 c2 funny square thru n
 c2 grand chain eight
+MATCH grand chain 8
 c2 grand cross back
 c2 grand cross trade & wheel
 c2 grand single cross & wheel
