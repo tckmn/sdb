@@ -28,21 +28,23 @@ end
 
 class Constituent
     attr_accessor :val
+
+    # this is given formal input (see Db#read_token)
     def initialize val; @val = val.downcase.gsub ' ', ''; end
     def formal; self.val; end
     def verbal; self.val; end
 
-    def self.mapping x; x; end
+    def self.from_sd x; x; end
 
     def self.head s
         case self::Domain
         when Array
             self::Domain.each do |t|
-                return [self.new(self.mapping t), s[t.size+1..-1] || ''] if s.downcase.start_with? t
+                return [self.new(self.from_sd t), s[t.size+1..-1] || ''] if s.downcase.start_with? t
             end
         when Regexp
             if s =~ /(?i)^(#{self::Domain.source})($|,? )/
-                return [self.new(self.mapping $1), $' || '']
+                return [self.new(self.from_sd $1), $' || '']
             end
         end
         return [nil, s]
@@ -52,7 +54,7 @@ class Constituent
         case self::Domain
         when Array
             self::Domain.each do |t|
-                return [self.new(self.mapping t), s[0...-t.size-1]] if s.downcase.end_with? t
+                return [self.new(self.from_sd t), s[0...-t.size-1]] if s.downcase.end_with? t
             end
         end
         return [nil, s]
@@ -94,7 +96,7 @@ end
 
 class Designator < Constituent
     Domain = /heads|sides|(head |side |)(boys|girls)|lead(er)?s|trailers|beaus|belles|(leading |trailing |very |)(centers|ends)|center \d|#\d couple|near \d|far \d|those facing/
-    def self.mapping x; x == 'leaders' ? 'leads' : x; end
+    def self.from_sd x; x == 'leaders' ? 'leads' : x; end
     def verbal; self.val.sub /(very|head|side|ing|center|#\d|near|far|those)(?!s)/, '\0 '; end
 end
 
