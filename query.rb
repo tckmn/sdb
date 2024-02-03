@@ -262,4 +262,4 @@ if ARGV.include? 'live'
     }
 end
 
-File.open('cache', ?w) do |f| Marshal.dump $db.cache, f end
+File.open('cache', ?w) do |f| Marshal.dump $db.cache, f end if File.exists? 'cache'
