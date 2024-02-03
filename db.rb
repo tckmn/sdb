@@ -121,9 +121,12 @@ end
 
 class Db
 
-    attr_accessor :entries, :aliases, :lookup, :nilads, :polyads
+    attr_accessor :entries, :aliases, :lookup, :nilads, :polyads, :cache
 
     def initialize fname
+
+        @cache = {}
+        File.open('cache') do |f| @cache = Marshal.load f end rescue nil
 
         @entries = []
         @aliases = []
@@ -244,25 +247,27 @@ class Db
     end
 
     def to_formal sd
+        return @cache[sd] if @cache[sd]
+
         if @nilads[sd]
-            return @nilads[sd].formal
+            return @cache[sd] = @nilads[sd].formal
         end
 
         @polyads.each do |e|
             ret = self.try_parse sd, e.sd
-            return "#{e.formal} #{ret}" if ret
+            return @cache[sd] = "#{e.formal} #{ret}" if ret
         end
 
         # TODO special case
         if sd =~ /^\(.*\) (\d+) TIMES$/
             frac = $1
             x = self.parse_arg ?c, sd[1..-9-frac.size]
-            return "do #{frac} #{x}" if x
+            return @cache[sd] = "do #{frac} #{x}" if x
         end
 
         if sd.end_with? '(and adjust)'
             x = self.to_formal sd.sub(' (and adjust)', '')
-            return x if x
+            return @cache[sd] = x if x
         end
 
         nil
