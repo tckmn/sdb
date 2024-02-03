@@ -414,7 +414,8 @@ c1 triangle formation
 c1 triple f' c UPPER
 c1 twist and c LOWER
 c1 twist the line
-c1 vertical n tag (the line)
+c1 vertical n tag
+SPEC 1 = c1 vertical tag
 c1 vertical tag back (to a wave)
 c1 wave-based triangle formation
 c1 weave
@@ -428,7 +429,8 @@ c2 (any tag call) your neighbor
 c2 d cross kick off
 c2 d kick off
 c2 d like a ripple c
-c2 d ripple (the wave) n
+c2 d ripple n
+c2 d ripple the wave
 c2 c & circle n
 c2 asdftodo c coordinate
 c2 asdftodo c motivate
@@ -441,6 +443,7 @@ c2 3 by 1 triangle formation
 c2 along
 c2 alter & circulate
 c2 bounce the d
+SPEC noone = c2 bounce
 c2 catch n
 c2 chain the square
 c2 checkpoint c by c UPPER
@@ -488,7 +491,7 @@ c2 invert the tag
 c2 lateral substitute
 c2 lines c thru UPPER
 c2 little more
-c2 loop n
+c2 r loop n
 c2 offset (c|l|w) formation
 c2 offset (setup) c
 c2 once removed c
@@ -709,7 +712,7 @@ c3b 2/3 cross cycle
 c3b bingo
 c3b boomerang
 c3b busy c LOWER
-c3b cast & relay n
+c3b n cast & relay
 c3b change lanes
 c3b change the centers
 c3b change the wave
@@ -790,7 +793,8 @@ c3b split sidetrack n
 c3b split single rotate (columns)
 c3b split turn the key
 c3b staggered (setup) formation
-c3b stimulate (the column)
+c3b stimulate
+ALIAS stimulate the column = stimulate
 c3b stingy c
 c3b strut (right|left) (and right|left)
 c3b swing-o-late
