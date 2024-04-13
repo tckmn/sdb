@@ -5,7 +5,36 @@ require 'stringio'
 require 'fileutils'
 require_relative 'types'
 
-opts = Struct.new(:filter, :merge, :stats, :restrict, :old, :theme).new
+def genrestrict r
+    r = r[1...-1] while r[0] == ?( && r[-1] == ?)
+
+    orpos = nil
+    andpos = nil
+    dpth = 0
+    r.chars.each.with_index do |ch,idx|
+        case ch
+        when ?( then dpth += 1
+        when ?) then dpth -= 1
+        when ?| then orpos = idx if !orpos && dpth == 0
+        when ?& then andpos = idx if !andpos && dpth == 0
+        end
+    end
+
+    if !orpos && !andpos
+        if r[0] == ?!
+            f = genrestrict r[1..-1]
+            return ->ts { !f[ts] }
+        end
+        return ->ts { ts.any?{|t| t == r || (t.start_with?(r) && t[r.size] == ?.) } }
+    end
+
+    pos = orpos || andpos
+    f1 = genrestrict r[0...pos]
+    f2 = genrestrict r[pos+1..-1]
+    orpos ? ->ts { f1[ts] || f2[ts] } : ->ts { f1[ts] && f2[ts] }
+end
+
+opts = Struct.new(:filter, :merge, :stats, :class, :restrict, :old, :theme).new
 OptionParser.new do |opt|
 
     opt.on('-h', '--help', 'outputs this help message') do
@@ -25,8 +54,12 @@ OptionParser.new do |opt|
         opts.stats = s
     end
 
+    opt.on('-cNAME', '--class=NAME', 'class list for stats breakdown') do |c|
+        opts.class = c
+    end
+
     opt.on('-rLEVEL', '--restrict=LEVEL', 'level to restrict to') do |r|
-        opts.restrict = r
+        opts.restrict = genrestrict r.gsub(/\s/, '')
     end
 
     opt.on('-o', '--old', 'include old sequences') do |o|
@@ -41,11 +74,10 @@ end.parse!
 
 def filt seq, opts
     return false if seq.tags.any?{|tag|
-        (!opts.theme && tag[0] == ?!) || (!opts.old && tag[0] == ?@) || %w[bad sus worse todo].include?(tag)
+        (!opts.theme && tag[0] == ?!) || (!opts.old && tag[0] == ?@) || %w[bad skip sus worse todo].include?(tag)
     }
 
-    t = seq.tags.map{|t| t.split(?.)[0] }
-    return false if opts.restrict && !t.include?(opts.restrict)
+    return false if opts.restrict && !opts.restrict[seq.tags]
     return false if opts.theme && !t.include?(?!+opts.theme)
 
     return true
@@ -68,17 +100,30 @@ end
 
 if opts.merge
     nmerge = 0
-    File.open(opts.merge, ?r){|f| fromtxt f }.each do |seq|
-        idx = allseqs.index{|s2| seq.date == s2.date}
-        abort "couldn't find #{seq.date} in seqs" unless idx
-        allseqs[idx] = seq
-        nmerge += 1
+
+    if opts.merge[0] == ?@
+        puts 'paste sdj data:'
+        gets.chomp.split('.').filter{|d| d.size>0}.each do |d|
+            idx = allseqs.index{|s2| d == s2.date}
+            abort "couldn't find #{d} in seqs" unless idx
+            allseqs[idx].tags.push opts.merge
+            nmerge += 1
+        end
+    else
+        File.open(opts.merge, ?r){|f| fromtxt f }.each do |seq|
+            idx = allseqs.index{|s2| seq.date == s2.date}
+            abort "couldn't find #{seq.date} in seqs" unless idx
+            allseqs[idx] = seq
+            nmerge += 1
+        end
     end
+
     FileUtils.mkdir_p 'bkp'
     FileUtils.cp 'seqs', "bkp/seqs-#{Time.new.strftime '%F_%T'}"
     File.open('seqs', ?w) do |g|
         totxt g, allseqs, {}
     end
+
     puts "#{nmerge} sequences merged"
 end
 
@@ -87,7 +132,6 @@ if opts.stats
 
     cnt = {}
     seqs.each do |seq|
-        next unless lvls.any?{|lvl| seq.tags.include? lvl}
         seq.calls.each do |call|
             unless f = call.formal
                 # p call
@@ -99,11 +143,22 @@ if opts.stats
         end
     end
 
-    lvls.each do |lvl|
-        puts "#{lvl}:"
-        $db.entries.each do |e|
-            next unless e.lvl == lvl.downcase
-            puts "#{cnt[e.formal]} #{e.formal}"
+    if opts.class
+        File.readlines(opts.class).each do |line|
+            line.chomp!
+            if line == '==='
+                puts
+            elsif line[0] && line[0] != ?#
+                puts "#{cnt[line].to_s.rjust(3, ' ')} #{line}"
+            end
+        end
+    else
+        lvls.each do |lvl|
+            puts "#{lvl}:"
+            $db.entries.each do |e|
+                next unless e.lvl == lvl.downcase
+                puts "#{cnt[e.formal]} #{e.formal}"
+            end
         end
     end
 end
