@@ -87,7 +87,9 @@ File.read(fname).split("\x0c").each do |sdseq|
     end
 
     tcl = false
-    seq = Sequence.new opener+closer, date, ['generated', sd2real[fname.split(?.)[-1]]], name,
+    tags = ['generated', sd2real[fname.split(?.)[-1]]]
+    [tags.push($1), (name = $')] while name =~ /^\[([^\]]+)\] /
+    seq = Sequence.new opener+closer, date, tags, name,
         chunks.map{|ch|
             tcl = true if ch.include? 'Warning:  This concept is not allowed at this level.'
             Call.new ch.take_while{|x| !x.start_with?('Warning:') }.join(' ')
