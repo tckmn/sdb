@@ -4,11 +4,7 @@ require 'date'
 require 'fileutils'
 require_relative 'types'
 
-PERSIST = true
-
-$FILE = 'seqs'
-
-seqs = PERSIST && File.exists?($FILE) ? File.open($FILE, ?r) do |f|
+seqs = File.exists?($FILE) ? File.open($FILE, ?r) do |f|
      fromtxt f
 end : []
 

@@ -83,8 +83,8 @@ def filt seq, opts
     return true
 end
 
-abort 'no seqs' unless File.exists?('seqs')
-allseqs = File.open('seqs', ?r) do |f| fromtxt f end
+abort 'no seqs' unless File.exists?($FILE)
+allseqs = File.open($FILE, ?r) do |f| fromtxt f end
 seqs = allseqs.filter{|seq| filt seq, opts }
 
 if opts.filter
@@ -119,8 +119,8 @@ if opts.merge
     end
 
     FileUtils.mkdir_p 'bkp'
-    FileUtils.cp 'seqs', "bkp/seqs-#{Time.new.strftime '%F_%T'}"
-    File.open('seqs', ?w) do |g|
+    FileUtils.cp $FILE, "bkp/seqs-#{Time.new.strftime '%F_%T'}"
+    File.open($FILE, ?w) do |g|
         totxt g, allseqs, {}
     end
 
