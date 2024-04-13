@@ -325,6 +325,7 @@ c1 cross cast back
 c1 cross chain & roll
 c1 cross chain thru
 c1 cross extend
+MATCH CROSS extend
 c1 cross roll
 ALIAS cross roll to a wave = crossroll
 c1 cross your neighbor
@@ -421,7 +422,8 @@ c1 wave-based triangle formation
 c1 weave
 c1 wheel and c LOWER
 c1 wheel fan thru
-c1 with the flow
+c1 c with the flow
+SPEC nothing = c1 with the flow
 c1 zing
 c2 (along) but circulate twice
 c2 (any tag call) your criss cross neighbor
