@@ -1,14 +1,41 @@
-The following tags have mechanical effects:
+generated
+  Added by default when sequences are transferred from sd output. Remove this
+  once manual verification has been performed.
 
-  generated
-    Added by default when sequences are transferred from sd output. Remove this
-    once manual verification has been performed.
+![theme]
+  Indicates a sequence written for a particular novelty tip.
 
-  bad worse sus
-    Filters out sequences for all purposes. Various semantic meanings.
+@[id]
+  Indicates a sequence that was called at a particular dance.
+  @x just says it was called at dance x.
+  @x.y says it was the yth sequence called at dance x.
+  @x.y.z says it was the zth sequence of the yth tip of dance x.
 
-  ![theme]
-    Indicates a sequence written for a particular novelty tip.
+&[group].[index]
+  Indicates that these sequences only work when glued together in this order.
 
-  @[number]
-    Indicates a sequence that was called at a particular dance. 
+Filters out sequences for all purposes:
+  bad:   i just would not want to ever call this
+  skip:  i no longer intend to call this
+  worse: i have since written a better version of this
+  todo:  needs work before being callable
+  sus:   ???
+
+Properties of sequences (suffix with copies of + or - as is sensible):
+  [objective]
+    asym:  asymmetric, i.e. cannot swap heads and sides
+    bigon: only resolves in a bigon
+  [difficulty]
+    easy:  like, opening biggie level
+    chal:  hard by normal means, e.g. parallelogram [c2 call] at c2
+    weird: hard by nonstandard applications, e.g. crashing lockit at a2
+    novel: hard by making stuff up, e.g. cuing
+  [quality]
+    pun:   some notable call/formation (eg cool double, 25% offset)
+    joke:  funnier than a pun, very clearly the point, makes the dancers laugh
+    cool:  impressive that it works
+
+Documentation of some of my ad hoc tags:
+  fcw: planned for fall challenge weekend 2023
+  cc.n.m: challenge class week n part m
+  teach: designed to teach a particular call
