@@ -214,6 +214,10 @@ if ARGV.include? 'prod'
     totxt STDOUT, seqs, {mode: :prod}
 end
 
+if ARGV.include? 'json'
+    tojson STDOUT, seqs
+end
+
 if ARGV.include? 'debug'
     totxt STDOUT, seqs, {debug: true}
 end
