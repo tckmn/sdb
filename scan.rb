@@ -5,7 +5,6 @@ require 'fileutils'
 require_relative 'types'
 
 PERSIST = true
-BETTER  = true
 
 $FILE = 'seqs'
 
