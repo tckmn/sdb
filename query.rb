@@ -83,20 +83,12 @@ def filt seq, opts
     return true
 end
 
+# prepare for below
+
 abort 'no seqs' unless File.exists?($FILE)
 allseqs = File.open($FILE, ?r) do |f| fromtxt f end
-seqs = allseqs.filter{|seq| filt seq, opts }
 
-if opts.filter
-    if opts.filter == '-'
-        totxt STDOUT, seqs, {}
-    else
-        File.open(opts.filter, ?w) do |f|
-            totxt f, seqs, {}
-        end
-    end
-    puts "#{seqs.size} sequences filtered"
-end
+# actions that modify seqs / write to seqs file
 
 if opts.merge
     nmerge = 0
@@ -126,6 +118,25 @@ if opts.merge
 
     puts "#{nmerge} sequences merged"
 end
+
+# prepare for below
+
+seqs = allseqs.filter{|seq| filt seq, opts }
+
+# actions that write elsewhere
+
+if opts.filter
+    if opts.filter == '-'
+        totxt STDOUT, seqs, {}
+    else
+        File.open(opts.filter, ?w) do |f|
+            totxt f, seqs, {}
+        end
+    end
+    puts "#{seqs.size} sequences filtered"
+end
+
+# query actions
 
 if opts.stats
     lvls = opts.stats.split ?,
@@ -174,95 +185,6 @@ if ARGV.include? 'summary'
         cnts[(seq.tags & $lvl)[0]] += 1
     end
     p cnts
-end
-
-if ARGV.include? 'stats'
-    cnt = {}
-    seqstr = ''
-    seqs.each do |seq|
-        seq.calls.each do |call|
-            unless call.formal
-                # p call
-                next
-            end
-            seqstr += call.formal + "\n"
-            next unless f = call.formal
-            f.split.each do |w|
-                cnt[w] = (cnt[w]||0)+1
-            end
-        end
-    end
-    %w[
-        beaus|belles
-        bracethru
-        tripletrade
-        grand\ followyourneighbor
-        ./4thru
-        wheelthru
-        turn&deal
-        pass(in|out)
-        chainreaction
-        (cross)?cloverand
-        .
-        mix
-        splitsquarethru
-        crossovercirculate
-        step&slide
-        lockit
-        castashadow
-        rolltoawave
-        6by2aceydeucey
-        1/4(in|out)
-        partnertag
-        &cross
-        .
-        passthesea
-        explodeand
-        swaparound
-        pairoff
-        ascouples
-        transferthecolumn
-        squarechainthru
-        crosstrailthru
-        horseshoeturn
-        .
-        endsbend
-        scoot&dodge
-        (double|triple)starthru
-        ./[24]top
-        cycle&wheel
-        anyhand
-        splitsquarechainthru
-        (double|triple)cross
-        .
-        motivate
-        singlewheel
-        slip
-        splitcounterrotate
-        inrollcirculate
-        scoot&weave
-        tradecirculate
-        switchthewave
-    ].each do |x|
-        if x == ?.
-            puts
-        else
-            puts "#{seqstr.scan(/( |^)(#{x})( |$)/).size} #{x}"
-        end
-    end
-
-    # $db.entries.each do |e|
-    #     next unless e.lvl == 'c1'
-    #     puts "#{cnt[e.formal] || 0} #{e.formal}"
-    # end
-
-    # $db.entries.each do |e|
-    #     next unless %w[
-    #         bracethru
-    #         tripletrade
-    #     ].include? e.formal
-    #     puts "#{cnt[e.formal] || 0} #{e.formal}"
-    # end
 end
 
 if ARGV.include? 'prod'

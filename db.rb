@@ -83,7 +83,7 @@ class Number < Constituent
     def self.head s
         a, b = s.split ' ', 2
         a.sub! /,$/, '' if a # TODO a more unified way of doing this would be nice
-        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.new(a), b] : [nil, s]
+        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.new(a), b || ''] : [nil, s]
     end
     def self.tail s
         [nil, s]

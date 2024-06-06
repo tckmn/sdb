@@ -245,6 +245,7 @@ ALIAS checkmate the column = checkmate
 a2 cut the hourglass
 a2 diamond chain thru
 a2 flip the hourglass
+# TODO what???
 a2 grand c
 a2 grand remake
 a2 hourglass circulate
@@ -289,7 +290,8 @@ c1 (any tag call) back (to a wave)
 c1 (any tag call) your cross neighbor
 c1 (anyone) point triangle formation
 c1 (anyone)-based (setup) identifier
-c1 (anything diamond) chain thru
+c1 c chain thru
+# make sure this doesn't catch too many things
 c1 (anything the axle) but (cast 1/4|3/4)
 c1 c the axle
 SPEC nothing
@@ -315,6 +317,10 @@ c1 chase your neighbor
 c1 checkover
 c1 circle by n c
 MATCH circle by n X c
+OUT circle by $1 by $2
+# TODO surely there is a better way
+c1 casty circle by n n
+MATCH circle by n X n
 OUT circle by $1 by $2
 c1 concentric c
 c1 counter rotate n
