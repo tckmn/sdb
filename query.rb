@@ -95,10 +95,10 @@ if opts.merge
 
     if opts.merge[0] == ?@
         puts 'paste sdj data:'
-        gets.chomp.split('.').filter{|d| d.size>0}.each do |d|
+        gets.chomp.split('.').filter{|d| d.size>0}.each.with_index do |d, di|
             idx = allseqs.index{|s2| d == s2.date}
             abort "couldn't find #{d} in seqs" unless idx
-            allseqs[idx].tags.push opts.merge
+            allseqs[idx].tags.push "#{opts.merge}#{di if opts.merge[-1] == ?.}"
             nmerge += 1
         end
     else
