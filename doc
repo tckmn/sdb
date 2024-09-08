@@ -20,6 +20,7 @@ Filters out sequences for all purposes:
   worse: i have since written a better version of this
   todo:  needs work before being callable
   sus:   ???
+  self:  for me, not for calling (e.g. mental image practice)
 
 Properties of sequences (suffix with copies of + or - as is sensible):
   [objective]
@@ -39,3 +40,4 @@ Documentation of some of my ad hoc tags:
   fcw: planned for fall challenge weekend 2023
   cc.n.m: challenge class week n part m
   teach: designed to teach a particular call
+  amateur-run, -ez, -hd: amateur night 2024
