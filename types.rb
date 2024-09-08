@@ -108,6 +108,7 @@ class Sequence
             ?P => 'promenade',
             ?E => 'reverse promenade',
             ?S => 'single file promenade',
+            ?F => 'reverse single file promenade',
             ?D => 'dixie grand, left allemande',
             ?- => 'NOT RESOLVED'
         }[@periphery[1]] + "  (#{@periphery[2]}/8 promenade)"
