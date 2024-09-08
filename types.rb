@@ -33,7 +33,7 @@ class Call
             f.puts prod.gsub(/^/, '    ') if prod
         else
             if @sd == 'comment'
-                f.puts "!#{self.verbal[1..-2]}"
+                f.puts "!#{self.verbal}"
             else
                 f.puts @sd
                 if !self.formal && !self.verbal
@@ -54,10 +54,12 @@ class Call
 
     def prod
         ret = nil
-        if @sd == 'comment' && @verbal == '"hard"'
+        if @sd == 'comment' && @verbal == 'hard'
             $flag = '*** '
-        elsif @sd == 'comment' && @verbal.start_with?('"form ')
-            ret = @verbal[6..-2].gsub('\n', "\n")
+        elsif @sd == 'comment' && @verbal == 'fast'
+            $flag = '    '
+        elsif @sd == 'comment' && @verbal.start_with?('form ')
+            ret = @verbal[5..-1].gsub('\n', "\n")
         elsif self.verbal == ?^
             #nop
         else
@@ -126,7 +128,7 @@ def fromtxt f
         when ?% then nil
         when ?!
             comm = Call.new 'comment'
-            comm.verbal = ?" + line[1..-1] + ?"
+            comm.verbal = line[1..-1]
             cur.calls.push comm
         when ?*
             parts = line[2..-1].split
