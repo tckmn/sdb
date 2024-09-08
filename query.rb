@@ -94,12 +94,25 @@ if opts.merge
     nmerge = 0
 
     if opts.merge[0] == ?@
+        tipnr = 1
+        seqnr = 1
         puts 'paste sdj data:'
-        gets.chomp.split('.').filter{|d| d.size>0}.each.with_index do |d, di|
-            idx = allseqs.index{|s2| d == s2.date}
-            abort "couldn't find #{d} in seqs" unless idx
-            allseqs[idx].tags.push "#{opts.merge}#{di if opts.merge[-1] == ?.}"
-            nmerge += 1
+        gets.chomp.split('.').filter{|d| d.size>0}.each do |d|
+            if d.include? '|'
+                tipnr += 1
+                seqnr = 1
+                d.gsub! '|', ''
+            end
+            if d.size > 0 #TODO this is a silly check in case you hit end tip at the end
+                idx = allseqs.index{|s2| d == s2.date}
+                abort "couldn't find #{d} in seqs" unless idx
+                parts = [opts.merge.sub(/\.*$/, '')]
+                parts.push tipnr if opts.merge.end_with? '..'
+                parts.push seqnr if opts.merge.end_with? '.'
+                allseqs[idx].tags.push parts.join(?.)
+                nmerge += 1
+                seqnr += 1
+            end
         end
     else
         File.open(opts.merge, ?r){|f| fromtxt f }.each do |seq|
