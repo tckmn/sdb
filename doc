@@ -21,6 +21,10 @@ Filters out sequences for all purposes:
   todo:  needs work before being callable
   sus:   ???
   self:  for me, not for calling (e.g. mental image practice)
+  no:    not intended for db, saved for other purposes
+
+Other mechanical tags:
+  noplayback: make it not try to plug it back into sd
 
 Properties of sequences (suffix with copies of + or - as is sensible):
   [objective]

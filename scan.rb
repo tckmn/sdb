@@ -28,6 +28,7 @@ sd2real = {
 
 snew = 0
 sold = 0
+sfail = 0
 sdates = seqs.map{|seq| seq.date}
 
 Dir['in/*'].each do |fname|
@@ -59,7 +60,10 @@ File.read(fname).split("\x0c").each do |sdseq|
         chunks[0][0] = chunks[0][0][6..-1]
         r
     else
-        abort 'what'
+        puts "#{date} is bad"
+        snew -= 1
+        sfail += 1
+        next
     end
 
     rline = resolve[0] ? resolve[0].sub('approximately ', '') : nil
@@ -102,4 +106,4 @@ FileUtils.cp $FILE, "bkp/seqs-#{Time.new.strftime '%F_%T'}"
 File.open($FILE, ?w) do |f|
     totxt f, seqs, {}
 end
-puts "#{seqs.size} sequences written (#{snew} new, #{sold} old)"
+puts "#{seqs.size} sequences written (#{snew} new, #{sold} old, #{sfail} failed)"

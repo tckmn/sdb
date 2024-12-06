@@ -23,15 +23,19 @@ def genrestrict r
     if !orpos && !andpos
         if r[0] == ?!
             f = genrestrict r[1..-1]
-            return ->ts { !f[ts] }
+            return ->seq { !f[seq] }
         end
-        return ->ts { ts.any?{|t| t == r || (t.start_with?(r) && t[r.size] == ?.) } }
+        if r =~ /^(\d{4}-\d\d-\d\d)(\d\d:\d\d:\d\d)$/
+            d = $1+' '+$2
+            return ->seq { seq.date == d }
+        end
+        return ->seq { seq.tags.any?{|t| t == r || (t.start_with?(r) && t[r.size] == ?.) } }
     end
 
     pos = orpos || andpos
     f1 = genrestrict r[0...pos]
     f2 = genrestrict r[pos+1..-1]
-    orpos ? ->ts { f1[ts] || f2[ts] } : ->ts { f1[ts] && f2[ts] }
+    orpos ? ->seq { f1[seq] || f2[seq] } : ->seq { f1[seq] && f2[seq] }
 end
 
 opts = Struct.new(:filter, :merge, :stats, :class, :restrict, :old, :theme).new
@@ -74,10 +78,10 @@ end.parse!
 
 def filt seq, opts
     return false if seq.tags.any?{|tag|
-        (!opts.theme && tag[0] == ?!) || (!opts.old && tag[0] == ?@) || %w[bad skip sus worse todo].include?(tag)
+        (!opts.theme && tag[0] == ?!) || (!opts.old && tag[0] == ?@) || %w[bad skip sus worse todo no].include?(tag)
     }
 
-    return false if opts.restrict && !opts.restrict[seq.tags]
+    return false if opts.restrict && !opts.restrict[seq]
     return false if opts.theme && !t.include?(?!+opts.theme)
 
     return true
@@ -202,6 +206,10 @@ end
 
 if ARGV.include? 'prod'
     totxt STDOUT, seqs, {mode: :prod}
+end
+
+if ARGV.include? 'playback'
+    totxt STDOUT, seqs, {mode: :playback}
 end
 
 if ARGV.include? 'json'
