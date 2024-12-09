@@ -177,6 +177,11 @@ class Sequence
     def totxt f, opts
         f.puts "* #{@periphery} #{@date} #{@tags.join ' '}"
         f.puts @name
+        # TODO
+        if opts[:mode] == :prod
+            t = self.timing
+            f.puts "timing: #{t}" if t
+        end
         f.puts
         f.puts('    ' + {
             ?H => 'heads start',
@@ -252,8 +257,14 @@ class Sequence
             ?S => 'single file promenade',
             ?F => 'reverse single file promenade',
             ?D => 'dixie grand, left allemande',
+            ?W => 'swing and promenade',
             ?- => 'NOT RESOLVED'
         }[@periphery[1]] + "  (#{@periphery[2]}/8 promenade)"
+    end
+
+    def timing
+        # TODO don't assume unknown calls take 5 beats
+        @calls.sum{|c| $db.to_timing(c.formal) || 5 }
     end
 end
 

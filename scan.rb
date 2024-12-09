@@ -82,7 +82,8 @@ File.read(fname).split("\x0c").each do |sdseq|
             'reverse promenade' => ?E,
             'single file promenade' => ?S,
             'reverse single file promenade' => ?F,
-            'dixie grand, left allemande' => ?D
+            'dixie grand, left allemande' => ?D,
+            'swing and promenade' => ?W
         }[$1] + ($2 ? frac($2) : ?0)
     end
 

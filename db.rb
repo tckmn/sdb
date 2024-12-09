@@ -64,7 +64,7 @@ end
 
 class Entry < Constituent
 
-    attr_accessor :lvl, :sd, :formal, :verbal, :specs
+    attr_accessor :lvl, :sd, :formal, :verbal, :specs, :timing
 
     def initialize line
         @lvl, *words = line.split
@@ -75,6 +75,7 @@ class Entry < Constituent
         @verbal = words.map{|w| to_type(w) ? "$#{i+=1}" : w }.join ' '
 
         @specs = {}
+        @timing = 'untimed'
     end
 
 end
@@ -88,6 +89,8 @@ class Number < Constituent
     def self.tail s
         [nil, s]
     end
+    # TODO sometimes 1/4s and sometimes 1s oops. also this sucks lmao
+    def timing; (4*self.val.to_r).to_i.to_s; end
 end
 
 class Direction < Constituent
@@ -122,6 +125,15 @@ class Node
         end
         return self.head.verbal.gsub(/\$(\d+)/) { self.children[$1.to_i-1].verbal }
     end
+    def timing
+        # TODO add features gradually. also this sucks lmao
+        t = self.head.timing
+        return nil unless t
+        bad = false
+        t.gsub!(/\$(\d+)/) { tt = self.children[$1.to_i-1].timing; bad ||= !tt; tt }
+        return nil if bad
+        eval t
+    end
 end
 
 class Db
@@ -151,6 +163,8 @@ class Db
                 cur.sd = to_sd args
             when 'OUT'
                 cur.verbal = args.join ' '
+            when 'TIME'
+                cur.timing = args.join ' '
             when 'SPEC'
                 # TODO concatenating lvl and sd gives wrong results after MATCH
                 # oh no this is now even more wrong help
@@ -296,11 +310,21 @@ class Db
         return Node.new(type.new head)
     end
 
-    def to_verbal formal
+    def to_tree formal
         return nil unless formal
-        tree = self.read_token Entry, formal.split
+        self.read_token Entry, formal.split
+    end
+
+    def to_verbal formal
+        tree = self.to_tree formal
         return nil unless tree
         tree.verbal
+    end
+
+    def to_timing formal
+        tree = self.to_tree formal
+        return nil unless tree
+        tree.timing
     end
 
 end
