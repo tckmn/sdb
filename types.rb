@@ -263,8 +263,7 @@ class Sequence
     end
 
     def timing
-        # TODO don't assume unknown calls take 5 beats
-        @calls.sum{|c| $db.to_timing(c.formal) || 5 }
+        @calls.sum{|c| $db.to_timing(c.formal) } rescue nil
     end
 end
 
