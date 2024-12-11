@@ -197,12 +197,6 @@ class Db
 
     end
 
-    def parse_arg type, sd
-        return self.to_formal sd if type == ?c
-        arg, s = to_type(type).head sd
-        !s || s == '' ? arg.formal : nil
-    end
-
     def try_parse sd, slist
         slist = slist.dup
         headlist = []
@@ -277,14 +271,31 @@ class Db
             return @cache[sd] = "#{e.formal} #{ret}" if ret
         end
 
-        # TODO special case
+        # TODO special cases
         if sd =~ /^\(.*\) (\d+) TIMES$/
             frac = $1
-            x = self.parse_arg ?c, sd[1..-9-frac.size]
+            x = self.to_formal sd[1..-9-frac.size]
             return @cache[sd] = "do #{frac} #{x}" if x
         end
 
-        if sd.end_with? '(and adjust)'
+        if sd[0] == ?( && sd[-1] == ?)
+            dpth = 0
+            depths = sd.chars.each.map do |ch,idx|
+                case ch
+                when ?(, ?[ then dpth += 1; dpth-1
+                when ?), ?] then dpth -= 1; dpth
+                else dpth
+                end
+            end
+            idx = sd.gsub(/;/).map { $`.size }.find{|p| depths[p] == 1 }
+            if idx
+                x = self.to_formal sd[1..idx-2]
+                y = self.to_formal sd[idx+2...-1]
+                return @cache[sd] = "seq #{x} #{y}" if x && y
+            end
+        end
+
+        if sd.end_with? ' (and adjust)'
             x = self.to_formal sd.sub(' (and adjust)', '')
             return @cache[sd] = x if x
         end

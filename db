@@ -18,6 +18,10 @@ SPEC 1/2 = ms 1/2 c
 SPEC 3/2 = ms c 1-1/2
 SPEC 2 = ms c twice UPPER
 
+ms seq c c
+TIME $1+$2
+OUT $1; $2
+
 ms nothing
 TIME 0
 
