@@ -1091,7 +1091,7 @@ c4 d zoom (n, n=2 or 3)
 c4 (anything an anchor) but (anything)
 c4 (anything coord|react) to a diamond
 c4 (anything) an anchor
-c4 (anything) and anything
+c4 c and anything
 c4 (anything) but cross it
 c4 (anything) by golly
 c4 (anything) clear out
@@ -1242,8 +1242,8 @@ c4 contour the line
 c4 convert the triangle (wave-based)
 c4 cooperate
 c4 corner's change n
-c4 counter point
-c4 counter shake
+c4 counterpoint
+c4 countershake
 c4 counteract
 c4 couplet c (by c)
 c4 cover up
@@ -1265,7 +1265,7 @@ c4 cross & turn the wave
 c4 cross d hop
 c4 cross d tie
 c4 cross breed thru
-c4 cross counter point
+c4 cross counterpoint
 c4 cross cy-kick
 c4 cross double down
 c4 cross double your pleasure
@@ -1328,7 +1328,7 @@ c4 detract (anything | n)
 c4 deuces wild
 c4 diagonal (c|l|w) formation
 c4 diagonal 1/4 tag formation
-c4 diamond (swth|sirot) c
+c4 diamond c
 c4 diamond inlet
 c4 diamond outlet
 c4 diamond recycle
@@ -1348,7 +1348,7 @@ c4 double the wave
 c4 double your pleasure
 c4 double-bent (setup) formation
 c4 dovetail c with c
-c4 drag the d for c
+c4 drag the d c UPPER
 c4 dream
 c4 drift around
 c4 dunlap (setup) c
@@ -1456,6 +1456,7 @@ c4 lines pair r
 c4 lines walk r
 c4 link up but c
 c4 long trip
+ALIAS finish a long trip = finish longtrip
 c4 longer c
 c4 looking good
 c4 m.c.p.
@@ -1467,6 +1468,7 @@ c4 make a pass
 c4 mark time
 c4 matrix c
 c4 may day r
+# TODO this is a little unfortunate
 c4 melded (as couples|tandem) c
 c4 melded skewsome c
 c4 mesh
@@ -1764,3 +1766,5 @@ c4 zing-a-ling
 c4 zip the top
 c4 zippered (setup) formation
 c4 zoom roll circulate
+
+c4 rectify c
