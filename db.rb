@@ -198,6 +198,7 @@ class Db
     end
 
     def try_parse sd, slist
+        origsd = sd.dup
         slist = slist.dup
         headlist = []
         midlist = []
@@ -248,7 +249,7 @@ class Db
             return unless ret
             midlist.push ret
         elsif slist.length > 1
-            raise "couldn't peel enough"
+            raise "couldn't peel enough (#{[origsd, sd, slist].inspect})"
         elsif slist.length == 1
             ret = to_formal sd
             sd = nil

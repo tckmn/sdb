@@ -1039,4 +1039,728 @@ c3b two-faced c
 c3b wave the (anyone)
 c3b with confidence
 
+c4 "i" formation
+c4 "l" formation
+c4 "ox" formation
+c4 "x" c
+c4 "z"-(c|l|w) formation
+c4 (any courtesy turn) by
+c4 (any tag call) & spin r
+c4 (any tag call) & trade
+c4 (any tag call) back & dodge
+c4 (any tag call) eroo
+c4 (any tag call) flow
+c4 (any tag call) flow but criss cross it
+c4 (any tag call) flow but cross it
+c4 (any tag call) the yellow brick road
+c4 (any tag call) the yellow bricking (anything)
+c4 (any tag call) to a diamond
+c4 (any tag call) to an (h.g.|i.l.d.)
+c4 d "l" formation
+c4 d r & cast away n
+c4 d advance to a column
+c4 d boomerang (n, n=2 or 3)
+c4 d box "l" formation
+c4 d break the alamo
+c4 d by pass
+c4 d cross run the tag r
+c4 d cross run the top
+c4 d cross swivel
+c4 d finish the stack
+c4 d kick by n
+c4 d leap frog n
+c4 d mix & mingle
+c4 d pin wheel
+c4 d rolling ripple n (by n)
+c4 d run by n
+c4 d run the tag r
+c4 d run the top
+c4 d run the wheel
+c4 d shove off
+c4 d swivel
+c4 d swivel by n by n
+c4 d tie
+c4 d tip toe
+c4 d tip toe thru the tulips
+c4 d tow train
+c4 d tow train leave the caboose
+c4 d tow truck
+c4 d wheel & turn
+c4 d zing (n, n=2 or 3)
+c4 d zoom (n, n=2 or 3)
+c4 (anything an anchor) but (anything)
+c4 (anything coord|react) to a diamond
+c4 (anything) an anchor
+c4 (anything) and anything
+c4 (anything) but cross it
+c4 (anything) by golly
+c4 (anything) clear out
+c4 (anything) cooperate
+c4 (anything) cover up
+c4 (anything) in dixie style c
+c4 (anything) like a rigger
+c4 (anything) like a squeeze
+c4 (anything) plus n
+c4 (anything) single the wave c
+c4 (anything) the action
+c4 (anything) the boat
+c4 (anything) the coop
+c4 (anything) the deucey
+c4 (anything) the difference
+c4 (anything) the fractions
+c4 (anything) the plank
+c4 (anything) the wave c
+c4 (anything) to a "z"
+c4 (anything)-o-late
+c4 (anything)er's pace
+c4 (cloverflow) but (anything)
+c4 (clover|cross clover) the horn
+c4 (cooperate) but (anything)
+c4 (cover up) but (anything)
+c4 n chain & circulate in
+# TODO surely there is a better way
+c4 n fracemulate c
+MATCH n emulate c
+OUT $1 emulate $2
+c4 n fracstable c
+MATCH n stable c
+OUT $1 stable $2
+c4 (generalized) unwrap c
+c4 (grand linear cycle) but (anything)
+c4 (head|side) corners identifier
+c4 (head|side) liners identifier
+c4 (i-j-k) 1/4 the alter
+c4 (i-j-k) alter & circulate
+c4 (i-j-k-l) 1/4 the deucey
+c4 (i-j-k-l) change the web
+c4 (i-j-k-l) relay the top
+c4 (i-j-k-l) spin chain the gears
+c4 (in|out|zoom) roll to a wave
+c4 (i|o|r|l) anchor n
+c4 (i|o|r|l) rigger c
+c4 (make a pass) but (anything)
+c4 (mark time) but (anything)
+c4 (mixed up square thru) but (anything)
+c4 n by n matrix c
+c4 n by n c
+c4 n by 1 diamond formation|concept
+c4 (n-some) n (solid) c
+c4 (nuclear reaction) but (anything)
+c4 (outpost) but (anything)
+c4 (peel & trail|trail & peel) the deal
+c4 (replace the column) but (anything)
+c4 r on n
+c4 r roll the
+c4 r side up and (anything)
+c4 r wing c
+c4 (solid) n threesome c
+c4 (solid) n twosome c
+c4 (straight away) but (anything)
+c4 (triple play) but (anything)
+c4 1 by n-some c
+c4 1 by tandem-of-3 c
+c4 1/4 cross
+c4 1/4 the alter
+c4 1/4 wheel to a (d|h.g.|i.l.d.)
+c4 12-matrix c
+c4 16-matrix c
+c4 20-matrix c
+c4 3 by 1 "l" formation
+c4 3 by 2 c
+c4 3 square 2 & 1
+c4 3/4 r
+c4 3/4 cross
+c4 3/4 the alter
+c4 3/4 wheel to a (d|h.g.|i.l.d)
+c4 6 by 2 c
+c4 about
+c4 add (a) c
+c4 alter the diamond
+c4 alter the galaxy
+c4 alternate from (a) to (b) c
+c4 anchor the d for c
+c4 any shoulder c
+c4 arced (line|wave)(s) formation
+c4 arky allemande
+c4 arky c
+c4 arky grand
+c4 arky star thru
+c4 assume (formation) c
+c4 assume symmetry c
+c4 away
+c4 baby grand
+c4 back-to-back (setup) c
+c4 bail out
+c4 barge the action
+c4 barge thru
+c4 barrel of fun
+c4 beep beep
+c4 bent (setup) formation
+c4 bias trade circulate
+c4 bits & pieces
+c4 boxsome c
+c4 brace yourself
+c4 break away
+c4 bridge the gap
+c4 bring us together
+c4 buckle and c
+c4 can do c
+c4 cast a net
+c4 cast an anchor
+c4 cast the column
+c4 centers cut out
+c4 centers thru & close the gate
+c4 change (jay|"z"s) c
+c4 change the apex n by n (by n)
+c4 change the diagonal c
+c4 change the web
+c4 change-o
+c4 checker (setup) c
+c4 cheerio
+c4 chip off
+c4 circle n to a two-faced line
+c4 circle the n tag
+c4 circular c
+c4 clean sweep n
+c4 clear out
+c4 clear the centers
+c4 clear the centers but cross it
+c4 clear the way
+c4 clover the column
+c4 cloverflo
+c4 cloverleaf turn
+c4 collapse (the setup)
+c4 common spot (setup) c
+c4 complete c
+c4 complete the tag
+c4 concentric triple box formation
+c4 connect the diamond
+c4 continue to c
+c4 continue to cross invert n
+c4 continue to invert n
+c4 contour the line
+c4 convert the triangle (wave-based)
+c4 cooperate
+c4 corner's change n
+c4 counter point
+c4 counter shake
+c4 counteract
+c4 couplet c (by c)
+c4 cover up
+c4 crackle
+c4 crazy daisy
+c4 crazy phantom (setup) c
+c4 create a column
+c4 create a diamond
+c4 criss cross n step(s) at a time
+c4 criss cross double your pleasure
+c4 criss cross follow to a diamond
+c4 criss cross scoot apart
+c4 criss cross shadow the column
+c4 criss cross shadow to a diamond
+c4 criss cross the diamond
+c4 criss cross wind the bobbin
+c4 cross & divide
+c4 cross & turn the wave
+c4 cross d hop
+c4 cross d tie
+c4 cross breed thru
+c4 cross counter point
+c4 cross cy-kick
+c4 cross double down
+c4 cross double your pleasure
+c4 cross drop r
+c4 cross flare out to a line
+c4 cross follow thru
+c4 cross follow to a (h.g.|i.l.d.)
+c4 cross follow to a diamond
+c4 cross horseshoe turn
+c4 cross invert the tag
+c4 cross linear cycle
+c4 cross make a pass
+c4 cross mini-pleasure
+c4 cross pair the line
+c4 cross reach out
+c4 cross reduce the column
+c4 cross replace the column
+c4 cross roll to a diamond
+c4 cross run away
+c4 cross sashay
+c4 cross scoot & weave (from 1/4 tag)
+c4 cross scoot apart
+c4 cross select an c
+c4 cross shadow setup c
+c4 cross shadow to a diamond
+c4 cross straight away
+c4 cross swap the windmill
+c4 cross the ocean
+c4 cross the top
+c4 cross to a diamond
+c4 cross to a line (or wave)
+c4 cross to an (h.g.|i.l.d)
+c4 cross town roll
+c4 cross trade your neighbor r
+c4 cross walk & dodge
+c4 cross wind the bobbin
+c4 cross zip the top
+c4 crossed triple boxes formation
+c4 curl apart
+c4 curl thru
+c4 curli-cross
+c4 curli-cross the top
+c4 curli-pass
+c4 curli-wheel
+c4 curlique
+c4 curve r
+c4 cut across
+c4 cut the (line|wave)
+c4 cut the (setup)
+c4 cy-kick
+c4 cycle and c
+c4 decreasing diamond c
+c4 deflate the (setup)
+c4 delay c
+c4 deluxe
+c4 deny d c
+c4 derby
+c4 detach
+c4 detract (anything | n)
+c4 deuces wild
+c4 diagonal (c|l|w) formation
+c4 diagonal 1/4 tag formation
+c4 diamond (swth|sirot) c
+c4 diamond inlet
+c4 diamond outlet
+c4 diamond recycle
+c4 disperse
+c4 divi-up
+c4 divide & pair
+c4 dixie n tag
+c4 dixie (h.g.|i.l.d.)
+c4 dixie chain
+c4 dixie daisy
+c4 dixie derby
+c4 dixie spin
+c4 double down
+c4 double echo c
+c4 double offset (setup) c
+c4 double the wave
+c4 double your pleasure
+c4 double-bent (setup) formation
+c4 dovetail c with c
+c4 drag the d for c
+c4 dream
+c4 drift around
+c4 dunlap (setup) c
+c4 duplicate d c
+c4 e.r.a.
+c4 easy does it
+c4 eight roll away with a half sashay
+c4 emulate c
+c4 ends cut in
+c4 erase
+c4 except for (part n) c
+c4 exchange the (setup) n
+c4 explode the clover
+c4 explosion
+c4 facing (setup) c
+c4 fall into a column
+c4 fan & cross thru
+c4 fan back
+c4 fan the gate
+c4 fan the gating c
+c4 fan thru
+c4 ferris c
+c4 ferris to a column
+c4 ferris trade & wheel
+c4 fiddle around
+c4 first c
+c4 first choice
+c4 first half c
+c4 flare the star
+c4 flip the (setup)
+c4 flowing c
+c4 fly away
+c4 fly the coop
+c4 follow & criss cross
+c4 follow & cross
+c4 follow the yellow brick road
+c4 follow the yellow bricking c
+c4 follow to a (h.g.|i.l.d.)
+c4 fractal c
+c4 front-to-back (setup) c
+c4 go first class
+c4 good & (little|more|plenty|rally)
+c4 grand cross roll (to a line|wave)
+c4 grand erase
+c4 grand linear cycle
+c4 grand run wild
+c4 grand single concentric c
+c4 grand single cross concentric c
+c4 grand spin the top
+c4 grand switch (the line|wave)
+c4 grand working r c
+c4 grand working as (ends|centers) c
+c4 gravitate
+c4 gruesome skewsome c
+c4 gruesome twosome c
+c4 half and half c by c
+c4 hammerlane
+c4 hang a r
+c4 hang loose
+c4 hinge & circulate r
+c4 hinge & trade
+c4 hinge by n by n (by n)
+c4 hinge the top
+c4 hit the wall
+c4 hoop de do
+c4 hot foot spin
+c4 hourglass (inlet|outlet)
+#c4 in c out c c
+c4 in style
+c4 increasing diamond c
+c4 inner code n
+c4 inneracting c
+c4 inneractives identifier
+c4 inside phantom boxes formation
+c4 interchange c
+c4 interlace c with c
+c4 interlocked pairs c
+c4 interlocked parallelogram formation
+c4 interlocked phantom (c|l|w) formation
+c4 interlocked phantom (setup) c
+c4 interlocked phantom 1/4 tag formation
+c4 interlocked phantom boxes formation
+c4 interlocked phantom diamonds formation
+c4 interlocked sterling chain thru
+c4 interlocked trace (any) by (any)
+c4 invert (ends & centers c)
+c4 isolate
+c4 jam thru
+c4 kick the habit
+c4 ladder c
+c4 last half c
+c4 lateral c
+c4 lead the class
+c4 lead the way
+c4 less or more c
 c4 like a c
+c4 line of 3 (wheel & spread) c
+c4 line to line
+c4 linear action but cross it
+c4 linear flow
+c4 linear flow but criss cross it
+c4 linear flow but cross it
+c4 lines divide
+c4 lines pair r
+c4 lines walk r
+c4 link up but c
+c4 long trip
+c4 longer c
+c4 looking good
+c4 m.c.p.
+c4 magic (line|wave) c
+c4 magic diamond c
+c4 magic interlocked diamond c
+c4 magic walk out to a column
+c4 make a pass
+c4 mark time
+c4 matrix c
+c4 may day r
+c4 melded (as couples|tandem) c
+c4 melded skewsome c
+c4 mesh
+c4 middle half c
+c4 mimic c
+c4 mini "o" formation
+c4 mini butterfly formation
+c4 mini pleasure
+c4 mix the line
+c4 mixed up square thru
+c4 more or less c
+c4 mystic c
+c4 nice & easy
+c4 nicely
+c4 nightmare
+c4 nip & tuck
+c4 offset triple (setup) c
+c4 offset triple (setups) working (direction)
+c4 on your own c
+c4 opt for (a setup) c
+c4 orbit (setup) c
+c4 orbit board c
+c4 orbit box c
+c4 orbit circulate
+c4 oreo (anything around anything)
+c4 outer code n
+c4 outeracting c
+c4 outeractives identifier
+c4 outpost
+c4 overlapping (setup) c
+c4 overlapping diamond formation
+c4 pair the line
+c4 parallelogram block formation
+c4 pass & roll the axle
+c4 pass r
+c4 pass the top
+c4 pass to the outside
+c4 peel the deal
+c4 peel to a (h.g.|i.l.d.)
+c4 phantom "o" or butterfly c
+c4 phantom (setup) c
+c4 phantom 1/4 tag formation
+c4 phantom boxes formation
+c4 phantom couples c
+c4 phantom couples twosome c
+c4 phantom diamonds formation
+c4 phantom interlocked blocks formation
+c4 phantom offset (c|l|w) c
+c4 phantom tandem c
+c4 phantom tandem twosome c
+c4 phantom triangular boxes formation
+c4 piece of cake
+c4 piecewise c
+c4 pin c
+c4 ping to a diamond
+c4 pitch r
+c4 pop
+c4 press for time
+c4 presto
+c4 progressive c
+c4 progressive triangle c
+c4 push off
+c4 push open the gate
+c4 quadruple (setups) working (direction)
+c4 quadruple (setups) working apart
+c4 quadruple (setups) working together
+c4 quick change
+c4 quick wrap
+c4 quintuple (setup) c
+c4 randomize between (any) and (any)
+c4 reciprocate
+c4 recount
+c4 reduce the column
+c4 relay shadow to a diamond
+c4 relay the diamond
+c4 relay your pleasure
+c4 remember the alamo
+c4 replace the column
+c4 retain your lane
+c4 retreat the line
+c4 return to the coop
+c4 reverse (used as mirror) c
+c4 reverse change-o
+c4 reverse cut the (setup)
+c4 reverse echo c
+c4 reverse explode (from a line)
+c4 reverse flip the (setup)
+c4 reverse flip the hourglass
+c4 reverse stack the line
+c4 reverse the diamond
+c4 revert (the) (any tag call)
+c4 rewind c
+c4 ride the tide
+c4 right & left roll
+c4 rip saw
+c4 rip the line
+c4 roll out the barrel
+c4 roll out to a column
+c4 roll the line
+c4 roll the wave
+c4 roll'em
+c4 rolling c
+c4 rotary circulate
+c4 rotary spin the windmill
+c4 round & cross
+c4 round & spread
+c4 round off
+c4 round the horn
+c4 run away
+c4 run wild
+c4 sandwich (anything around anything)
+c4 sashay thru
+c4 scamper
+c4 scatter c
+c4 scoot apart
+c4 set back
+c4 set your pace
+c4 sets in motion plus (1|2)
+c4 settle back
+c4 sextuple (setup) c
+c4 shadow (setup) c
+c4 shadow the column
+c4 shadow the hourglass
+c4 shadow to a diamond
+c4 shift n c
+c4 ship ahoy
+c4 short & sweet
+c4 short cut
+c4 short cycle
+c4 short six formation
+c4 short trip
+c4 shorter c
+c4 shuffle & wheel
+c4 shuffle the deck
+c4 shuttle c
+c4 siamese breakdown
+c4 single circle to a line
+c4 single concentric c
+c4 single c
+c4 single counter shake
+c4 single cross concentric c
+c4 single file c
+c4 single hang a r
+c4 single hinge & trade
+c4 single mark time
+c4 single mix the line
+c4 single scoot & trade
+c4 single shuffle
+c4 single spin a wheel
+c4 skew c
+c4 skewsome c
+c4 slice c
+c4 slim down
+c4 snag circulate
+c4 snag c
+c4 snake
+c4 snap
+c4 snap back
+c4 snap the n tag
+c4 snap the diamond
+c4 snap, crackle, & pop
+c4 soft c
+c4 spin a wheel
+c4 spin back
+c4 spin chain & circulate in
+c4 spin chain & circulate the gears
+c4 spin chain the star
+c4 spin tag the deucey r
+c4 spin the web
+c4 splash c
+c4 split & cross
+c4 split cast n
+c4 split mixed up square thru
+c4 split swap the wave
+c4 split the difference
+c4 square around
+c4 square chain cross the top
+c4 square out
+c4 square the barge
+c4 square the bases plus 2
+c4 square turn thru n
+c4 squeeky c
+c4 squeeky wheel
+c4 stack the wheel
+c4 stairstep c
+c4 standard c
+c4 star to a wave
+c4 start with (a) c
+c4 step lively
+c4 sterling chain thru
+c4 straight away
+c4 straight c
+c4 straight fire
+c4 stretched (diamond|triangle) c
+c4 stretched phantom (setup) c
+c4 strike out
+c4 stroll & cycle
+c4 stroll and c
+c4 stroll down the lane
+c4 swap the windmill
+c4 swat the flea
+c4 sweeping c
+c4 swing (chain) c
+c4 swing about
+c4 swing across
+c4 swing an anchor
+c4 swing back
+c4 swing to a column
+c4 switch-eroo
+c4 tag & spin r
+c4 tag & trade
+c4 tag back & dodge
+c4 tag circulate
+c4 tag the star n
+c4 tall eight formation
+c4 tall six formation
+c4 tap the d
+c4 teacup like a daisy
+c4 thrice removed c
+c4 tickle
+c4 touch & go n by c
+c4 touch of class
+c4 touch tone (any) by (any)
+c4 trace c by c
+c4 track and c
+c4 traction c
+c4 trade counter rotate
+c4 trade your neighbor r
+c4 trail & peel
+c4 trail (instead of peel) c
+c4 trail chain thru
+c4 trail to a (h.g.|i.l.d.)
+c4 trans-c
+c4 transaction
+c4 transition c
+c4 travel r
+c4 traveling cer c
+c4 traveling apex c
+c4 triangle (working as a box) c
+c4 triangular box formation
+c4 trim the web
+c4 triple (setups) working apart
+c4 triple (setups) working together
+c4 triple cast
+c4 triple diagonal (setup) formation
+c4 triple turn
+c4 triple twin (c|l|w) formation
+c4 triple wheel
+c4 trixie
+c4 trixie spin
+c4 tunnel c
+c4 tunnel thru r
+c4 turn & flip
+c4 turn & left thru
+c4 turn & q
+c4 turn & weave
+c4 turn away
+c4 turn by
+c4 turn four
+c4 turn on
+c4 turn over
+c4 turntable
+c4 twice removed c
+c4 twin (formation) identifier
+c4 twin orbit (setup) c
+c4 twin orbit board c
+c4 twin orbit box c
+c4 twin orbit circulate
+c4 twin parallelogram formation
+c4 twisted c
+c4 un c
+c4 veer & turn n by n
+c4 veering c
+c4 vertical squeeze
+c4 vertical turn & deal
+c4 walk out to a column
+c4 walk the clover
+c4 walk the cross clover
+c4 walk the plank
+c4 wedged c
+c4 wheel & spread
+c4 wheel across
+c4 wheel fan & cross thru
+c4 wheel to a (h.g.|i.l.d.)
+c4 wheel to a diamond
+c4 wheel to a line
+c4 who's on (first, second, etc.)
+c4 wipe out
+c4 with finesse
+c4 with magnetism
+c4 yo-yo c
+c4 you all
+c4 zing roll circulate
+c4 zing-a-ling
+c4 zip the top
+c4 zippered (setup) formation
+c4 zoom roll circulate
