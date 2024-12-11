@@ -182,17 +182,30 @@ class Db
 
         @lookup = {}
         @entries.each do |e|
-            @lookup[e.formal] = e
+            f = e.formal
+            abort "duplicate key #{f}" if @lookup.include? f
+            @lookup[f] = e
         end
 
         @nilads = {}
+        @prefixes = Hash.new{|h,v| h[v] = []}
+        @suffixes = Hash.new{|h,v| h[v] = []}
         @polyads = []
         (@entries+@aliases).each do |e|
             if e.sd.size == 1
                 @nilads[e.sd[0]] = e
+            elsif String === e.sd[0]
+                @prefixes[e.sd[0].split[0]].push e
+            elsif String === e.sd[-1]
+                @suffixes[e.sd[-1].split[-1]].push e
             else
                 @polyads.push e
             end
+        end
+
+        # stupid hack lmao
+        @prefixes.keys.each do |k|
+            @prefixes[k+?,] = @prefixes[k]
         end
 
     end
@@ -265,6 +278,20 @@ class Db
 
         if @nilads[sd]
             return @cache[sd] = @nilads[sd].formal
+        end
+
+        if pref = @prefixes[sd.split[0]]
+            pref.each do |e|
+                ret = self.try_parse sd, e.sd
+                return @cache[sd] = "#{e.formal} #{ret}" if ret
+            end
+        end
+
+        if suff = @suffixes[sd.split[-1]]
+            suff.each do |e|
+                ret = self.try_parse sd, e.sd
+                return @cache[sd] = "#{e.formal} #{ret}" if ret
+            end
         end
 
         @polyads.each do |e|

@@ -32,3 +32,8 @@ cross, reverse, etc
 
 single cross trade and wheel
 single file dixie style
+
+prefixes:
+"AS COUPLES [chase right] and roll" now parses wrong
+suffixes:
+"SIDES circulate 1-1/2" now parses wrong
