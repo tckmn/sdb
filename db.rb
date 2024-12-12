@@ -299,10 +299,10 @@ class Db
             return @cache[sd] = "#{e.formal} #{ret}" if ret
         end
 
-        # TODO special cases
-        if sd =~ /^\(.*\) (\d+) TIMES$/
-            frac = $1
-            x = self.to_formal sd[1..-9-frac.size]
+        # TODO special cases involving parentheses
+        if sd =~ /^\(.*\) ((\d+) TIMES|TWICE|1-(\d+)\/(\d+))$/
+            frac = $2 || ($1 == 'TWICE' ? '2' : "#{$3.to_i+$4.to_i}/#$4")
+            x = self.to_formal sd[1..-3-$1.size]
             return @cache[sd] = "do #{frac} #{x}" if x
         end
 
