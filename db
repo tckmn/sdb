@@ -1,5 +1,3 @@
-# TODO times with $1
-
 ms comment
 TIME 0
 
@@ -57,12 +55,10 @@ ms box the gnat
 TIME 4
 ms california twirl
 TIME 4
-#ms cast (right|left) n
 ms cast off n
 TIME 2*$1
 ms centers in
 TIME 2
-ms centers out
 ms chain down the line
 TIME 8
 ms circle (left|right)
@@ -96,6 +92,8 @@ TIME 4
 ms eight chain n
 TIME 2*$1
 SPEC 8 = eight chain thru
+ms extend
+TIME 2
 ms face r
 TIME 2
 # is that right lmao
@@ -207,7 +205,7 @@ ms wrong way grand
 ms wrong way promenade n
 ms zoom
 TIME 4
-plus (chase (r|l)) but
+
 plus acey deucey
 TIME 4
 plus all 8 spin the top
@@ -225,16 +223,12 @@ plus diamond circulate
 TIME 3
 plus dixie grand
 TIME 6
-plus do the centers part concept (central)
-plus do the ends part concept (peripheral)
 plus explode
 TIME 2
 plus explode the wave
 TIME 6
 plus explode and c LOWER
 TIME 2+$1
-ms extend
-TIME 2
 plus fan the top
 TIME 4
 plus flip the diamond
@@ -262,7 +256,6 @@ TIME 2+$1
 SPEC nothing = plus roll
 plus single circle to a wave
 TIME 4
-plus slide (right|left) to a line
 plus spin chain & exchange the gears
 TIME 26
 plus spin chain the gears
@@ -279,6 +272,7 @@ plus trade the wave
 TIME 6
 plus triple scoot
 TIME 6
+
 # TODO
 a1 (anyone) cross
 TIME 2
@@ -407,6 +401,7 @@ a1 turn & deal
 TIME 4
 a1 wheel thru
 TIME 4
+
 a2 (anyone) scoot chain thru (others) dodge
 a2 (pass & roll) but (anything)
 a2 (the windmill) (dir) but (anything)
@@ -505,6 +500,7 @@ a2 zig zig
 TIME 2
 a2 zag zag
 TIME 2
+
 c1 O c
 c1 (any tag call) back (to a wave)
 c1 (any tag call) your cross neighbor
@@ -651,6 +647,7 @@ c1 wheel fan thru
 c1 c with the flow
 SPEC nothing = c1 with the flow
 c1 zing
+
 c2 (along) but circulate twice
 c2 (any tag call) your criss cross neighbor
 c2 (any tag call) your neighbor
@@ -784,6 +781,7 @@ c2 walk out to a wave
 c2 wheel the ocean
 c2 wheel the sea
 c2 zip code n
+
 c3a (any tag call) chain thru
 c3a (anyone) hop
 c3a (anything fan) the top
@@ -920,6 +918,7 @@ c3a triple play
 c3a use (a) concept (i.e., replace part n)
 c3a wind the bobbin
 c3a wrap to (d|g|h.g.|i.l.d.)
+
 c3b "z" axle
 c3b "z" formation
 c3b (any tag call) & scatter
