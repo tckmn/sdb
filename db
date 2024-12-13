@@ -2,15 +2,15 @@ ms comment
 TIME 0
 
 ms just d c
-TIME $2
 MATCH d c
+TIME $2
 OUT $1 $2
 ALIAS heads move in and c = just heads
 ALIAS sides move in and c = just sides
 
 ms do n c
-TIME $1*$2
 MATCH n c
+TIME $1*$2
 OUT $1 $2
 SPEC 1/2 = ms 1/2 c
 SPEC 3/2 = ms c 1-1/2
@@ -23,7 +23,9 @@ OUT $1; $2
 ms nothing
 TIME 0
 
-ms left c
+# need to avoid colliding with the direction left
+ms leftcpt c
+MATCH left c
 TIME $1
 SPEC chaseright = plus left chase
 ms reverse c
@@ -82,8 +84,8 @@ ms dive thru
 TIME 2
 # actually 6 for outsides
 ms dixie style
-TIME 6
 MATCH dixie style to a wave
+TIME 6
 ms do paso
 TIME 12
 ms do your part c
@@ -111,8 +113,8 @@ TIME 4
 ms hinge
 TIME 2
 ms 4 ladies chain n
-TIME 4+2*$n
 MATCH all 4 ladies chain n
+TIME 4+2*$n
 SPEC 1/2
 ms ladies in, men sashay
 TIME 4
@@ -191,8 +193,8 @@ TIME 4
 ms turn thru
 TIME 4
 ms u-turn back
-TIME 2
 MATCH U-turn back
+TIME 2
 ms veer r
 TIME 2
 ms walk around the corner
@@ -249,8 +251,8 @@ TIME 4
 plus peel the top
 TIME 6
 plus ping pong circulate
-TIME 6
 MATCH ping-pong circulate
+TIME 6
 plus relay the deucey
 TIME 20
 plus c & roll
@@ -290,18 +292,19 @@ ALIAS leads roll right to a wave = rolltoawave right
 ALIAS leads roll left to a wave = rolltoawave left
 a1 n top
 TIME 2+2*$1
-a1 n in
-TIME 2
-a1 n out
-TIME 2
+# TODO
+#a1 n in
+#TIME 2
+#a1 n out
+#TIME 2
 a1 n thru
 TIME 5+$1
 # hmm doesn't match swing thru
 ALIAS quarter thru = thru 1/4
 ALIAS three quarter thru = thru 3/4
 a1 6 by 2 acey deucey
-TIME 4
 MATCH 6X2 acey deucey
+TIME 4
 a1 any hand c LOWER
 TIME 1+$1
 # made this up
@@ -324,9 +327,9 @@ TIME 4+$1
 # is that true?
 a1 couple of 3 c
 a1 cross clover and c
+MATCH CROSS clover and c LOWER
 TIME 8+$1
 # callerlab says 10??? downgraded to 8 which i still think is ridiculous
-MATCH CROSS clover and c LOWER
 a1 cross cloverleaf
 a1 cross trail thru
 TIME 6
@@ -379,11 +382,11 @@ TIME 4
 a1 scoot & dodge
 TIME 8
 a1 split square chain thru
-TIME 12
 MATCH SPLIT square chain thru
+TIME 12
 a1 split square thru n
-TIME 2+2*$1
 MATCH SPLIT square thru n
+TIME 2+2*$1
 a1 square chain thru
 TIME 14
 a1 start (a) c
@@ -1182,7 +1185,6 @@ c4 20-matrix c
 c4 3 by 1 "l" formation
 c4 3 by 2 c
 c4 3 square 2 & 1
-c4 3/4 r
 c4 3/4 cross
 c4 3/4 the alter
 c4 3/4 wheel to a (d|h.g.|i.l.d)

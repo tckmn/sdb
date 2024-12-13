@@ -183,7 +183,7 @@ if opts.stats
     else
         lvls.each do |lvl|
             puts "#{lvl}:"
-            $db.entries.each do |e|
+            $db.get_entries.each do |e|
                 next unless e.lvl == lvl.downcase
                 puts "#{cnt[e.formal]} #{e.formal}"
             end
@@ -224,7 +224,7 @@ if ARGV.include? 'level'
     seqs.each do |seq|
         puts "#{seq.name} #{seq.tags*' '}"
         puts seq.calls.flat_map{|call|
-            call.formal ? call.formal.split.map{|x| $db.lookup[x] ? $db.lookup[x].lvl : nil}.compact : []
+            call.formal ? call.formal.split.map{|x| $db.get_level x }.compact : []
         }.join ' '
     end
 end
@@ -264,4 +264,4 @@ if ARGV.include? 'live'
     }
 end
 
-File.open('cache', ?w) do |f| Marshal.dump $db.cache, f end if File.exists? 'cache'
+$db.save_cache

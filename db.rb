@@ -29,24 +29,30 @@ def to_sd words
 end
 
 class Constituent
-    attr_accessor :val
+    attr_accessor :sd, :val
 
     # this is given formal input (see Db#read_token)
-    def initialize val; @val = val.downcase.gsub ' ', ''; end
     def formal; self.val; end
     def verbal; self.val; end
 
+    def self.fakenew val
+        thing = self.new
+        thing.val = val.downcase.gsub ' ', ''
+        thing.sd = ['hi']
+        thing
+    end
+    def self.from_formal formal; self.fakenew formal; end
     def self.from_sd x; x; end
 
     def self.head s
         case self::Domain
         when Array
             self::Domain.each do |t|
-                return [self.new(self.from_sd t), s[t.size+1..-1] || ''] if s.downcase.start_with? t
+                return [self.fakenew(self.from_sd t), s[t.size+1..-1] || ''] if s.downcase.start_with? t
             end
         when Regexp
             if s =~ /(?i)^(#{self::Domain.source})($|,? )/
-                return [self.new(self.from_sd $1), $' || '']
+                return [self.fakenew(self.from_sd $1), $' || '']
             end
         end
         return [nil, s]
@@ -56,7 +62,7 @@ class Constituent
         case self::Domain
         when Array
             self::Domain.each do |t|
-                return [self.new(self.from_sd t), s[0...-t.size-1]] if s.downcase.end_with? t
+                return [self.fakenew(self.from_sd t), s[0...-t.size-1]] if s.downcase.end_with? t
             end
         end
         return [nil, s]
@@ -67,6 +73,10 @@ end
 class Entry < Constituent
 
     attr_accessor :lvl, :sd, :formal, :verbal, :specs, :timing
+
+    def self.fakenew val
+        abort "called fakenew on Entry with #{val}"
+    end
 
     def initialize line
         @lvl, *words = line.split
@@ -87,7 +97,7 @@ class Number < Constituent
     def self.head s
         a, b = s.split ' ', 2
         a.sub! /,$/, '' if a # TODO a more unified way of doing this would be nice
-        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.new(a), b || ''] : [nil, s]
+        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.fakenew(a), b || ''] : [nil, s]
     end
     def self.tail s
         [nil, s]
@@ -148,16 +158,15 @@ end
 
 class Db
 
-    attr_accessor :entries, :aliases, :lookup, :cache
-
     def initialize fname
 
         @cache = {}
         File.open('cache') do |f| @cache = Marshal.load f end rescue nil
 
-        @entries = []
-        @aliases = []
+        @entries = [] # real calls (excluding aliases and specs), used to generate @lookup
+        items = []    # everything
         @taggers = Shortener.new
+
         cur = nil
         File.open(fname).each_line do |line|
             line.chomp!
@@ -169,7 +178,7 @@ class Db
                 src, dest = line.split ' = '
                 cur = Entry.new src
                 cur.formal = dest
-                @aliases.push cur
+                items.push cur
             when 'MATCH'
                 cur.sd = to_sd args
             when 'OUT'
@@ -186,10 +195,11 @@ class Db
                 cur.specs[k] = Entry.new v
                 a = Entry.new v
                 a.formal = "#{cur.formal} #{k}"
-                @aliases.push a
+                items.push a
             else
                 cur = Entry.new line
                 @entries.push cur
+                items.push cur
             end
         end
 
@@ -204,7 +214,7 @@ class Db
         @prefixes = Hash.new{|h,v| h[v] = []}
         @suffixes = Hash.new{|h,v| h[v] = []}
         @polyads = []
-        (@entries+@aliases).each do |e|
+        items.each do |e|
             if e.sd.size == 1
                 @nilads[e.sd[0]] = e
             elsif String === e.sd[0]
@@ -344,24 +354,24 @@ class Db
         nil
     end
 
+    # only called from to_tree
     def read_token type, tokens
         head = tokens.shift
-        if type == Entry
-            e = @lookup[head]
-            return nil unless e
-            args = []
-            e.sd.each do |a|
-                unless String === a
-                    t = self.read_token a, tokens
-                    return nil unless t
-                    args.push t
-                end
+        return nil unless head
+        e = @lookup[head] || type.from_formal(head)
+        return nil unless e
+        args = []
+        e.sd.each do |a|
+            unless String === a
+                t = self.read_token a, tokens
+                return nil unless t
+                args.push t
             end
-            return Node.new e, args
         end
-        return Node.new(type.new head)
+        return Node.new e, args
     end
 
+    # only called from to_verbal and to_timing
     def to_tree formal
         return nil unless formal
         self.read_token Entry, formal.split
@@ -377,6 +387,14 @@ class Db
         tree = self.to_tree formal
         return nil unless tree
         tree.timing
+    end
+
+    # TODO maybe better way to expose these (for query)
+    def get_entries; @entries; end
+    def get_level formal; @lookup[formal] ? @lookup[formal].lvl : nil; end
+
+    def save_cache
+        File.open('cache', ?w) do |f| Marshal.dump $db.cache, f end if File.exists? 'cache'
     end
 
 end
