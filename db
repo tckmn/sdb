@@ -89,9 +89,10 @@ TIME 12
 ms do your part c
 ms double pass thru
 TIME 4
+TAGGER double pass
 ms eight chain n
 TIME 2*$1
-SPEC 8 = eight chain thru
+SPEC 8 = ms eight chain thru
 ms extend
 TIME 2
 ms face r
@@ -177,6 +178,7 @@ TIME 6
 ms n tag
 TIME 2+$1
 SPEC 1 = ms tag the line
+TAGGER tag
 ms those who can c
 ms touch n
 TIME 1+$1
@@ -502,7 +504,7 @@ a2 zag zag
 TIME 2
 
 c1 O c
-c1 (any tag call) back (to a wave)
+c1 t back
 c1 (any tag call) your cross neighbor
 c1 (anyone) point triangle formation
 c1 (anyone)-based (setup) identifier
@@ -556,9 +558,10 @@ c1 distorted (setup) c
 c1 dixie diamond
 c1 dixie sashay
 c1 finish c
-c1 flip back
 c1 flip the galaxy
-c1 flip the line
+c1 flip the line n
+SPEC 1
+TAGGER flip
 c1 follow thru
 c1 galaxy circulate
 c1 galaxy formation
@@ -632,14 +635,16 @@ c1 tally ho
 c1 tandem c
 c1 tandem of 3 c
 c1 tandem-based triangle formation
+# TODO check this
 c1 track n
+TAGGER track
 c1 triangle formation
 c1 triple f' c UPPER
 c1 twist and c LOWER
 c1 twist the line
 c1 vertical n tag
-SPEC 1 = c1 vertical tag
-c1 vertical tag back (to a wave)
+SPEC 1
+TAGGER vertical tag
 c1 wave-based triangle formation
 c1 weave
 c1 wheel and c LOWER
@@ -683,6 +688,7 @@ c2 cross & wheel
 c2 cross back
 c2 cross concentric c
 c2 cross invert the column n
+SPEC 1
 c2 cross ramble
 c2 cross the "k"
 c2 cross trade & wheel
@@ -712,7 +718,9 @@ c2 interlocked (setup) c
 c2 interlocked 3 by 1 triangles formation
 c2 interlocked triangle formation
 c2 invert the column n
-c2 invert the tag
+SPEC 1
+TAGGER invert
+#c2 invert the tag
 c2 lateral substitute
 c2 lines c thru UPPER
 c2 little more
@@ -945,17 +953,22 @@ c3b change the centers
 c3b change the wave
 c3b change your image
 c3b chase the n tag
+SPEC 1
+TAGGER chase
 c3b chuck-a-luck
 c3b criss cross the deucey
 c3b cross (n) step(s) at a time
 c3b cross chuck-a-luck
 c3b cross cycle
-c3b cross flip back
 c3b cross flip the line n
+SPEC 1
+TAGGER cross flip
 c3b cross lock the (anything)
 c3b cross lock the hinge
 c3b cross lockit
 c3b cross loop & n tag
+SPEC 1
+TAGGER cross loop & tag
 c3b cross nuclear reaction
 c3b cross reactivate
 c3b cross swap the top
@@ -980,6 +993,8 @@ c3b lickety split
 c3b lift off
 c3b lock 'em up
 c3b loop & n tag
+SPEC 1
+TAGGER loop & tag
 c3b mirror c
 c3b mirror cross swap the top
 c3b nuclear reaction
@@ -1219,6 +1234,7 @@ c4 cheerio
 c4 chip off
 c4 circle n to a two-faced line
 c4 circle the n tag
+TAGGER circle the tag
 c4 circular c
 c4 clean sweep n
 c4 clear out
@@ -1335,6 +1351,7 @@ c4 disperse
 c4 divi-up
 c4 divide & pair
 c4 dixie n tag
+TAGGER dixie tag
 c4 dixie (h.g.|i.l.d.)
 c4 dixie chain
 c4 dixie daisy
@@ -1627,6 +1644,8 @@ c4 snake
 c4 snap
 c4 snap back
 c4 snap the n tag
+SPEC 1
+TAGGER snap the tag
 c4 snap the diamond
 c4 snap, crackle, & pop
 c4 soft c
@@ -1682,6 +1701,8 @@ c4 tag & trade
 c4 tag back & dodge
 c4 tag circulate
 c4 tag the star n
+SPEC 1
+TAGGER tag the star
 c4 tall eight formation
 c4 tall six formation
 c4 tap the d

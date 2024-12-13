@@ -1,3 +1,5 @@
+$lvl = ['ms', 'plus', 'a1', 'a2', 'c1', 'c2', 'c3a', 'c3b', 'c4', 'all']
+
 def to_type c
     case c
     when ?n then Number
@@ -68,6 +70,7 @@ class Entry < Constituent
 
     def initialize line
         @lvl, *words = line.split
+        abort "unknown level in #{line}" unless $lvl.include?(@lvl) || @lvl == 'ALIAS'
         @sd = to_sd words
 
         i = 0
@@ -136,9 +139,16 @@ class Node
     end
 end
 
+class Shortener
+    def initialize; @short2long = {}; @long2short = {}; end
+    def add long, short; @long2short[long] = short; @short2long[short] = long; end
+    def short long; @long2short[long]; end
+    def long short; @short2long[short]; end
+end
+
 class Db
 
-    attr_accessor :entries, :aliases, :lookup, :nilads, :polyads, :cache
+    attr_accessor :entries, :aliases, :lookup, :cache
 
     def initialize fname
 
@@ -147,6 +157,7 @@ class Db
 
         @entries = []
         @aliases = []
+        @taggers = Shortener.new
         cur = nil
         File.open(fname).each_line do |line|
             line.chomp!
@@ -165,6 +176,8 @@ class Db
                 cur.verbal = args.join ' '
             when 'TIME'
                 cur.timing = args.join ' '
+            when 'TAGGER'
+                @taggers.add cur.formal, args.join(' ')
             when 'SPEC'
                 # TODO concatenating lvl and sd gives wrong results after MATCH
                 # oh no this is now even more wrong help

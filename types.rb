@@ -6,7 +6,6 @@ require_relative 'db'
 $FILE = 'seqs'
 
 $db = Db.new 'db'
-$lvl = ['ms', 'plus', 'a1', 'a2', 'c1', 'c2', 'c3a', 'c3b', 'c4', 'all']
 
 # TODO what an ugly hack
 $flag = ""
