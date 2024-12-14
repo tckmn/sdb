@@ -28,53 +28,11 @@ def to_sd words
     ret
 end
 
-class Constituent
-    def self.read_token token
-        return self.lookup[token] if self.instance_variable_defined? :@lookup
-        return self.from_formal token if self.respond_to? :from_formal
-    end
-end
-
-class CustomItem < Constituent
-    attr_accessor :sd, :val
-
-    def formal; self.val; end
-    def verbal; self.val; end
-
-    def from_formal formal; @val = formal; @sd = [formal]; self; end
-    def self.from_formal formal; self.new.from_formal formal; end
-    def self.from_sd x; x.downcase.gsub ' ', ''; end
-
-    def self.head s
-        case self::Domain
-        when Array
-            self::Domain.each do |t|
-                return [self.from_formal(self.from_sd t), s[t.size+1..-1] || ''] if s.downcase.start_with? t
-            end
-        when Regexp
-            if s =~ /(?i)^(#{self::Domain.source})($|,? )/
-                return [self.from_formal(self.from_sd $1), $' || '']
-            end
-        end
-        return [nil, s]
-    end
-
-    def self.tail s
-        case self::Domain
-        when Array
-            self::Domain.each do |t|
-                return [self.from_formal(self.from_sd t), s[0...-t.size-1]] if s.downcase.end_with? t
-            end
-        end
-        return [nil, s]
-    end
-
-end
-
-class DbItem < Constituent
+class DbItem
 
     attr_accessor :lvl, :sd, :formal, :verbal, :specs, :timing
     class << self; attr_accessor :lookup; end
+    def self.read_token token; self.lookup[token]; end
 
     def from_line line, register=false
         @lvl, *words = line.split
@@ -123,15 +81,25 @@ class Direction < DbItem; end; Direction.lookup = {}
 class Formation < DbItem; end; Formation.lookup = {}
 class Designator < DbItem; end; Designator.lookup = {}
 
-class Number < CustomItem
+class Number
+    attr_accessor :sd, :val
+    def self.read_token token; self.new.from_formal token; end
+
+    def formal; self.val; end
+    def verbal; self.val; end
+
+    def from_formal formal; @val = formal; @sd = [formal]; self; end
+
     def self.head s
         a, b = s.split ' ', 2
         a.sub! /,$/, '' if a # TODO a more unified way of doing this would be nice
-        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.from_formal(a), b || ''] : [nil, s]
+        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.read_token(a), b || ''] : [nil, s]
     end
+
     def self.tail s
         [nil, s]
     end
+
     # TODO sometimes 1/4s and sometimes 1s oops. also this sucks lmao
     def timing; (4*self.val.to_r).to_i.to_s; end
 end
