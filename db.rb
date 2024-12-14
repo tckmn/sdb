@@ -344,32 +344,27 @@ class Db
         end
 
         # TODO special cases involving parentheses
-        if sd =~ /^\(.*\) ((\d+) TIMES|TWICE|1-(\d+)\/(\d+))$/
-            frac = $2 || ($1 == 'TWICE' ? '2' : "#{$3.to_i+$4.to_i}/#$4")
-            x = self.to_formal sd[1..-3-$1.size]
-            return @cache[sd] = "do #{frac} #{x}" if x
-        end
-
-        if sd[0] == ?( && sd[-1] == ?)
-            dpth = 0
-            depths = sd.chars.each.map do |ch,idx|
-                case ch
-                when ?(, ?[ then dpth += 1; dpth-1
-                when ?), ?] then dpth -= 1; dpth
-                else dpth
+        if sd[0] == ?(
+            if sd[-1] == ?)
+                dpth = 0
+                depths = sd.chars.each.map do |ch,idx|
+                    case ch
+                    when ?(, ?[ then dpth += 1; dpth-1
+                    when ?), ?] then dpth -= 1; dpth
+                    else dpth
+                    end
                 end
+                idx = sd.gsub(/;/).map { $`.size }.find{|p| depths[p] == 1 }
+                if idx
+                    x = self.to_formal sd[1..idx-2]
+                    y = self.to_formal sd[idx+2...-1]
+                    return @cache[sd] = "seq #{x} #{y}" if x && y
+                end
+            elsif sd =~ /^\(.*\) ((\d+) TIMES|TWICE|1-(\d+)\/(\d+))$/
+                frac = $2 || ($1 == 'TWICE' ? '2' : "#{$3.to_i+$4.to_i}/#$4")
+                x = self.to_formal sd[1..-3-$1.size]
+                return @cache[sd] = "do #{frac} #{x}" if x
             end
-            idx = sd.gsub(/;/).map { $`.size }.find{|p| depths[p] == 1 }
-            if idx
-                x = self.to_formal sd[1..idx-2]
-                y = self.to_formal sd[idx+2...-1]
-                return @cache[sd] = "seq #{x} #{y}" if x && y
-            end
-        end
-
-        if sd.end_with? ' (and adjust)'
-            x = self.to_formal sd.sub(' (and adjust)', '')
-            return @cache[sd] = x if x
         end
 
         nil

@@ -45,10 +45,12 @@ TIME $1
 
 ms d cross fold
 TIME 4
+ALIAS d cross fold (and adjust) = crossfold
 ms d cross run
 TIME 6
 ms d fold
 TIME 2
+ALIAS d fold (and adjust) = fold
 ms d run
 TIME 4
 ms d walk others dodge
