@@ -37,6 +37,11 @@ TIME $1
 +r base out
 +r base forward
 +r base backward
++f base lines
++f base waves
++f base columns
++f base diamonds
++f base boxes
 
 ms d cross fold
 TIME 4
@@ -649,7 +654,7 @@ c1 tandem-based triangle formation
 c1 track n
 TAGGER track
 c1 triangle formation
-c1 triple f' c UPPER
+c1 triple f c UPPER
 c1 twist and c LOWER
 c1 twist the line
 c1 vertical n tag
@@ -917,7 +922,7 @@ c3a spin chain the line
 c3a spin the pulley
 c3a spin the pulley but (anything)
 c3a split catch (anything) n
-c3a split phantom f' c UPPER
+c3a split phantom f c UPPER
 c3a stable c
 c3a stampede
 c3a strip (the diamond|hourglass)

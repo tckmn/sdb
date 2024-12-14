@@ -5,7 +5,7 @@ def to_type c
     when ?n then Number
     when ?r then Direction
     when ?d then Designator
-    when ?f, "f'" then Formation
+    when ?f then Formation
     when ?c then Entry
     end
 end
@@ -115,6 +115,7 @@ end
 
 class Entry < DbItem; def self.head s; raise 'no'; end; def self.tail s; raise 'no'; end; end; Entry.lookup = {}
 class Direction < DbItem; end; Direction.lookup = {}
+class Formation < DbItem; end; Formation.lookup = {}
 
 class Number < CustomItem
     def self.head s
@@ -133,10 +134,6 @@ class Designator < CustomItem
     Domain = /heads|sides|(head |side |)(boys|girls)|lead(er)?s|trailers|beaus|belles|(leading |trailing |very |)(centers|ends)|center \d|#\d couple|near \d|far \d|those facing/
     def self.from_sd x; x = x.downcase.gsub ' ', ''; x == 'leaders' ? 'leads' : x; end
     def verbal; self.val.sub /(very|head|side|ing|center|#\d|near|far|those)(?!s)/, '\0 '; end
-end
-
-class Formation < CustomItem
-    Domain = 'lines|waves|columns|diamonds|boxes'.split ?|
 end
 
 class Node
