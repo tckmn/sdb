@@ -1,35 +1,42 @@
-ms comment
+base comment
 TIME 0
 
-ms just d c
+base just d c
 MATCH d c
 TIME $2
 OUT $1 $2
 ALIAS heads move in and c = just heads
 ALIAS sides move in and c = just sides
 
-ms do n c
+base do n c
 MATCH n c
 TIME $1*$2
 OUT $1 $2
-SPEC 1/2 = ms 1/2 c
-SPEC 3/2 = ms c 1-1/2
-SPEC 2 = ms c twice UPPER
+SPEC 1/2 = base 1/2 c
+SPEC 3/2 = base c 1-1/2
+SPEC 2 = base c twice UPPER
 
-ms seq c c
+base seq c c
 TIME $1+$2
 OUT $1; $2
 
-ms nothing
+base nothing
 TIME 0
 
 # need to avoid colliding with the direction left
-ms leftcpt c
+base leftcpt c
 MATCH left c
 TIME $1
 SPEC chaseright = plus left chase
-ms reverse c
+base reverse c
 TIME $1
+
++r base right
++r base left
++r base in
++r base out
++r base forward
++r base backward
 
 ms d cross fold
 TIME 4

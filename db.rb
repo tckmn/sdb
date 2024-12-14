@@ -1,4 +1,4 @@
-$lvl = ['ms', 'plus', 'a1', 'a2', 'c1', 'c2', 'c3a', 'c3b', 'c4', 'all']
+$lvl = ['base', 'ms', 'plus', 'a1', 'a2', 'c1', 'c2', 'c3a', 'c3b', 'c4', 'all']
 
 def to_type c
     case c
@@ -29,30 +29,31 @@ def to_sd words
 end
 
 class Constituent
+    def self.read_token token
+        return self.lookup[token] if self.instance_variable_defined? :@lookup
+        return self.from_formal token if self.respond_to? :from_formal
+    end
+end
+
+class CustomItem < Constituent
     attr_accessor :sd, :val
 
-    # this is given formal input (see Db#read_token)
     def formal; self.val; end
     def verbal; self.val; end
 
-    def self.fakenew val
-        thing = self.new
-        thing.val = val.downcase.gsub ' ', ''
-        thing.sd = ['hi']
-        thing
-    end
-    def self.from_formal formal; self.fakenew formal; end
-    def self.from_sd x; x; end
+    def from_formal formal; @val = formal; @sd = [formal]; self; end
+    def self.from_formal formal; self.new.from_formal formal; end
+    def self.from_sd x; x.downcase.gsub ' ', ''; end
 
     def self.head s
         case self::Domain
         when Array
             self::Domain.each do |t|
-                return [self.fakenew(self.from_sd t), s[t.size+1..-1] || ''] if s.downcase.start_with? t
+                return [self.from_formal(self.from_sd t), s[t.size+1..-1] || ''] if s.downcase.start_with? t
             end
         when Regexp
             if s =~ /(?i)^(#{self::Domain.source})($|,? )/
-                return [self.fakenew(self.from_sd $1), $' || '']
+                return [self.from_formal(self.from_sd $1), $' || '']
             end
         end
         return [nil, s]
@@ -62,7 +63,7 @@ class Constituent
         case self::Domain
         when Array
             self::Domain.each do |t|
-                return [self.fakenew(self.from_sd t), s[0...-t.size-1]] if s.downcase.end_with? t
+                return [self.from_formal(self.from_sd t), s[0...-t.size-1]] if s.downcase.end_with? t
             end
         end
         return [nil, s]
@@ -70,15 +71,12 @@ class Constituent
 
 end
 
-class Entry < Constituent
+class DbItem < Constituent
 
     attr_accessor :lvl, :sd, :formal, :verbal, :specs, :timing
+    class << self; attr_accessor :lookup; end
 
-    def self.fakenew val
-        abort "called fakenew on Entry with #{val}"
-    end
-
-    def initialize line
+    def from_line line, register=false
         @lvl, *words = line.split
         abort "unknown level in #{line}" unless $lvl.include?(@lvl) || @lvl == 'ALIAS'
         @sd = to_sd words
@@ -89,15 +87,40 @@ class Entry < Constituent
 
         @specs = {}
         @timing = 'untimed'
+
+        if register
+            self.class.lookup[@formal] = self
+        end
+
+        self
+    end
+
+    def self.head s
+        self.lookup.each do |k,v|
+            t = v.sd[0]
+            return [v, s[t.size+1..-1] || ''] if s.downcase.start_with? t
+        end
+        return [nil, s]
+    end
+
+    def self.tail s
+        self.lookup.each do |k,v|
+            t = v.sd[0]
+            return [v, s[0...-t.size-1]] if s.downcase.end_with? t
+        end
+        return [nil, s]
     end
 
 end
 
-class Number < Constituent
+class Entry < DbItem; def self.head s; raise 'no'; end; def self.tail s; raise 'no'; end; end; Entry.lookup = {}
+class Direction < DbItem; end; Direction.lookup = {}
+
+class Number < CustomItem
     def self.head s
         a, b = s.split ' ', 2
         a.sub! /,$/, '' if a # TODO a more unified way of doing this would be nice
-        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.fakenew(a), b || ''] : [nil, s]
+        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.from_formal(a), b || ''] : [nil, s]
     end
     def self.tail s
         [nil, s]
@@ -106,17 +129,13 @@ class Number < Constituent
     def timing; (4*self.val.to_r).to_i.to_s; end
 end
 
-class Direction < Constituent
-    Domain = 'right|left|in|out|forward|backward'.split ?|
-end
-
-class Designator < Constituent
+class Designator < CustomItem
     Domain = /heads|sides|(head |side |)(boys|girls)|lead(er)?s|trailers|beaus|belles|(leading |trailing |very |)(centers|ends)|center \d|#\d couple|near \d|far \d|those facing/
-    def self.from_sd x; x == 'leaders' ? 'leads' : x; end
+    def self.from_sd x; x = x.downcase.gsub ' ', ''; x == 'leaders' ? 'leads' : x; end
     def verbal; self.val.sub /(very|head|side|ing|center|#\d|near|far|those)(?!s)/, '\0 '; end
 end
 
-class Formation < Constituent
+class Formation < CustomItem
     Domain = 'lines|waves|columns|diamonds|boxes'.split ?|
 end
 
@@ -163,8 +182,8 @@ class Db
         @cache = {}
         File.open('cache') do |f| @cache = Marshal.load f end rescue nil
 
-        @entries = [] # real calls (excluding aliases and specs), used to generate @lookup
-        items = []    # everything
+        @items = []   # real calls/designators/etc (excluding aliases and specs), used only for exposing lists to query
+        entries = []  # for prefix/suffix/etc
         @taggers = Shortener.new
 
         cur = nil
@@ -172,39 +191,44 @@ class Db
             line.chomp!
             next if line.empty?
             next if line[0] == ?#
-            cmd, *args = line.split
+            cmd, args = line.split ' ', 2
             case cmd
             when 'ALIAS'
                 src, dest = line.split ' = '
-                cur = Entry.new src
+                cur = Entry.new.from_line src
                 cur.formal = dest
-                items.push cur
+                entries.push cur
             when 'MATCH'
-                cur.sd = to_sd args
+                cur.sd = to_sd args.split
             when 'OUT'
-                cur.verbal = args.join ' '
+                cur.verbal = args
             when 'TIME'
-                cur.timing = args.join ' '
+                cur.timing = args
             when 'TAGGER'
-                @taggers.add cur.formal, args.join(' ')
+                @taggers.add cur.formal, args
             when 'SPEC'
                 # TODO concatenating lvl and sd gives wrong results after MATCH
                 # oh no this is now even more wrong help
-                k, v = args.join(' ').split ' = '
+                # god i have no idea what is happening here anymore i just won't touch it lmao
+                k, v = args.split ' = '
                 v ||= cur.lvl + ' ' + cur.sd.filter{|x|String===x}.join(' ')
-                cur.specs[k] = Entry.new v
-                a = Entry.new v
+                cur.specs[k] = Entry.new.from_line v
+                a = Entry.new.from_line v
                 a.formal = "#{cur.formal} #{k}"
-                items.push a
+                entries.push a
             else
-                cur = Entry.new line
-                @entries.push cur
-                items.push cur
+                kls, data = line[0] == ?+ ? [to_type(line[1]), line[3..-1]] : [Entry, line]
+                cur = kls.new.from_line data, true
+                @items.push cur
+                entries.push cur if kls == Entry
             end
         end
 
+        # this is not used anywhere any more but it might be someday
+        # and it's still useful to crosscheck for duplicates across types
+        # jk it's used exactly once to expose levels in get_level
         @lookup = {}
-        @entries.each do |e|
+        @items.each do |e|
             f = e.formal
             abort "duplicate key #{f}" if @lookup.include? f
             @lookup[f] = e
@@ -214,7 +238,7 @@ class Db
         @prefixes = Hash.new{|h,v| h[v] = []}
         @suffixes = Hash.new{|h,v| h[v] = []}
         @polyads = []
-        items.each do |e|
+        entries.each do |e|
             if e.sd.size == 1
                 @nilads[e.sd[0]] = e
             elsif String === e.sd[0]
@@ -358,7 +382,7 @@ class Db
     def read_token type, tokens
         head = tokens.shift
         return nil unless head
-        e = @lookup[head] || type.from_formal(head)
+        e = type.read_token head
         return nil unless e
         args = []
         e.sd.each do |a|
@@ -390,7 +414,7 @@ class Db
     end
 
     # TODO maybe better way to expose these (for query)
-    def get_entries; @entries; end
+    def get_entries; @items; end
     def get_level formal; @lookup[formal] ? @lookup[formal].lvl : nil; end
 
     def save_cache
