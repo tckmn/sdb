@@ -37,11 +37,55 @@ TIME $1
 +r base out
 +r base forward
 +r base backward
+
 +f base lines
 +f base waves
 +f base columns
 +f base diamonds
 +f base boxes
+
++d base heads
++d base sides
++d base boys
++d base girls
++d base head boys
++d base side boys
++d base head girls
++d base side girls
+# TODO make this an alias
++d base leaders
++d base leads
++d base trailers
++d base beaus
++d base belles
++d base centers
++d base leading centers
++d base trailing centers
++d base very centers
++d base ends
++d base leading ends
++d base trailing ends
++d base very ends
++d base center 4
++d base center 6
++d base #1 couple
++d base #2 couple
++d base #3 couple
++d base #4 couple
++d base near 2
++d base near 3
++d base near 4
++d base near 5
++d base near 6
++d base near 7
++d base far 2
++d base far 3
++d base far 4
++d base far 5
++d base far 6
++d base far 7
++d base those facing
++d base no one
 
 ms d cross fold
 TIME 4
@@ -871,6 +915,7 @@ c3a grand 3/4 mix
 c3a grand mix
 c3a grand swing & mix
 c3a hinge the lock
+# TODO oh man this is so incorrect
 c3a initially c
 c3a interlocked extend (from 1/4 tag)
 c3a interlocked little

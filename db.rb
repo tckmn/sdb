@@ -97,8 +97,13 @@ class DbItem < Constituent
 
     def self.head s
         self.lookup.each do |k,v|
+            # TODO aaahhhhlsldfj
             t = v.sd[0]
-            return [v, s[t.size+1..-1] || ''] if s.downcase.start_with? t
+            if s.downcase.start_with? t
+                ret = s[t.size+1..-1] || ''
+                ret = ret[1..-1] || '' if ret[0] == ' ' # for commas
+                return [v, ret]
+            end
         end
         return [nil, s]
     end
@@ -116,6 +121,7 @@ end
 class Entry < DbItem; def self.head s; raise 'no'; end; def self.tail s; raise 'no'; end; end; Entry.lookup = {}
 class Direction < DbItem; end; Direction.lookup = {}
 class Formation < DbItem; end; Formation.lookup = {}
+class Designator < DbItem; end; Designator.lookup = {}
 
 class Number < CustomItem
     def self.head s
@@ -128,12 +134,6 @@ class Number < CustomItem
     end
     # TODO sometimes 1/4s and sometimes 1s oops. also this sucks lmao
     def timing; (4*self.val.to_r).to_i.to_s; end
-end
-
-class Designator < CustomItem
-    Domain = /heads|sides|(head |side |)(boys|girls)|lead(er)?s|trailers|beaus|belles|(leading |trailing |very |)(centers|ends)|center \d|#\d couple|near \d|far \d|those facing/
-    def self.from_sd x; x = x.downcase.gsub ' ', ''; x == 'leaders' ? 'leads' : x; end
-    def verbal; self.val.sub /(very|head|side|ing|center|#\d|near|far|those)(?!s)/, '\0 '; end
 end
 
 class Node
