@@ -66,24 +66,13 @@ TIME $1
 +d base leading ends
 +d base trailing ends
 +d base very ends
-+d base center 4
-+d base center 6
++d base center n
 +d base #1 couple
 +d base #2 couple
 +d base #3 couple
 +d base #4 couple
-+d base near 2
-+d base near 3
-+d base near 4
-+d base near 5
-+d base near 6
-+d base near 7
-+d base far 2
-+d base far 3
-+d base far 4
-+d base far 5
-+d base far 6
-+d base far 7
++d base near n
++d base far n
 +d base those facing
 +d base no one
 

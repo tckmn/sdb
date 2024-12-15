@@ -55,21 +55,16 @@ class DbItem
 
     def self.head s
         self.lookup.each do |k,v|
-            # TODO aaahhhhlsldfj
-            t = v.sd[0]
-            if s.downcase.start_with? t
-                ret = s[t.size+1..-1] || ''
-                ret = ret[1..-1] || '' if ret[0] == ' ' # for commas
-                return [v, ret]
-            end
+            headlist, news = try_parse_head s, v.sd, true
+            return [[v.formal]+headlist, news] if headlist
         end
-        return [nil, s]
+        nil
     end
 
     def self.tail s
         self.lookup.each do |k,v|
-            t = v.sd[0]
-            return [v, s[0...-t.size-1]] if s.downcase.end_with? t
+            taillist, news = try_parse_tail s, v.sd, true
+            return [[v.formal]+taillist, news] if taillist
         end
         return [nil, s]
     end
@@ -93,7 +88,7 @@ class Number
     def self.head s
         a, b = s.split ' ', 2
         a.sub! /,$/, '' if a # TODO a more unified way of doing this would be nice
-        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [self.read_token(a), b || ''] : [nil, s]
+        a =~ /^[0-9]+(\/[0-9]+)?$/ ? [[a], b || ''] : nil
     end
 
     def self.tail s
@@ -138,6 +133,82 @@ class Shortener
     def add long, short; @long2short[long] = short; @short2long[short] = long; end
     def short long; @long2short[long]; end
     def long short; @short2long[short]; end
+end
+
+def try_parse_head sd, slist, nocase = false
+    [slist.flat_map do |token|
+        case token
+        when String
+            return unless (nocase ? sd.downcase : sd).start_with? token
+            sd = sd[token.size+1..-1] || ''
+            # TODO hacks
+            sd = sd[1..-1] || '' if sd[0] == ' ' # for commas
+            sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
+            []
+        else
+            ret, sd = token.head sd
+            return unless ret
+            ret
+        end
+    end, sd]
+end
+
+def try_parse_tail sd, slist, nocase = false
+    [slist.flat_map do |token|
+        case token
+        when String
+            return unless (nocase ? sd.downcase : sd).end_with?(token)
+            sd = sd[0...-(token.size+1)] || ''
+            sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
+            []
+        else
+            ret, sd = token.tail sd
+            return unless ret
+            ret
+        end
+    end, sd]
+end
+
+def try_parse sd, slist
+    entrylocs = slist.each_index.select{|i| slist[i] == Entry}
+    if entrylocs.empty?
+        ret, sd = try_parse_head sd, slist
+        return unless ret
+        return sd && sd.size > 0 ? nil : ret * ' '
+    end
+
+    # head
+    headlist, sd = try_parse_head sd, slist[0...entrylocs[0]]
+    return unless headlist
+
+    # tail
+    taillist, sd = try_parse_tail sd, slist[entrylocs[-1]+1..-1]
+    return unless taillist
+
+    # midpoint (oops it's getting dicey TODO)
+    slist = slist[entrylocs[0]..entrylocs[-1]]
+    midlist = []
+    if slist.length == 3 && String === slist[1]
+        abort 'what' if slist[0] != Entry || slist[2] != Entry
+        parts = sd.split " #{slist[1]} "
+        sd = nil
+        return unless parts.size == 2
+        ret = to_formal parts[0]
+        return unless ret
+        midlist.push ret
+        ret = to_formal parts[1]
+        return unless ret
+        midlist.push ret
+    elsif slist.length > 1
+        raise "couldn't peel enough"
+    elsif slist.length == 1
+        ret = to_formal sd
+        sd = nil
+        return unless ret
+        midlist.push ret
+    end
+
+    return (headlist+midlist+taillist).join ' ' unless sd && sd.size > 0
 end
 
 class Db
@@ -222,92 +293,12 @@ class Db
 
     end
 
-    def try_parse sd, slist
-        origsd = sd.dup
-        slist = slist.dup
-        headlist = []
-        midlist = []
-        taillist = []
-
-        # head
-        until slist.empty? || slist[0] == Entry
-            token = slist.shift
-            case token
-            when String
-                return unless sd.start_with?(token)
-                sd = sd[token.size+1..-1] || ''
-                # TODO hacks
-                sd = sd[1..-1] || '' if sd[0] == ' ' # for commas
-                sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
-            else
-                ret, sd = token.head sd
-                return unless ret
-                headlist.push ret.formal
-            end
-        end
-
-        # tail
-        until slist.empty? || slist[-1] == Entry
-            token = slist.pop
-            case token
-            when String
-                return unless sd.end_with?(token)
-                sd = sd[0...-(token.size+1)] || ''
-                sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
-            else
-                ret, sd = token.tail sd
-                return unless ret
-                taillist.push ret.formal
-            end
-        end
-
-        # midpoint (oops it's getting dicey TODO)
-        if slist.length == 3 && String === slist[1]
-            abort 'what' if slist[0] != Entry || slist[2] != Entry
-            parts = sd.split " #{slist[1]} "
-            sd = nil
-            return unless parts.size == 2
-            ret = to_formal parts[0]
-            return unless ret
-            midlist.push ret
-            ret = to_formal parts[1]
-            return unless ret
-            midlist.push ret
-        elsif slist.length > 1
-            raise "couldn't peel enough (#{[origsd, sd, slist].inspect})"
-        elsif slist.length == 1
-            ret = to_formal sd
-            sd = nil
-            return unless ret
-            midlist.push ret
-        end
-
-        return (headlist+midlist+taillist).join ' ' unless sd && sd.size > 0
-    end
-
     def to_formal sd
         return @cache[sd] if @cache[sd]
+        return @cache[sd] = @nilads[sd].formal if @nilads[sd]
 
-        if @nilads[sd]
-            return @cache[sd] = @nilads[sd].formal
-        end
-
-        if pref = @prefixes[sd.split[0]]
-            pref.each do |e|
-                ret = self.try_parse sd, e.sd
-                return @cache[sd] = "#{e.formal} #{ret}" if ret
-            end
-        end
-
-        if suff = @suffixes[sd.split[-1]]
-            suff.each do |e|
-                ret = self.try_parse sd, e.sd
-                return @cache[sd] = "#{e.formal} #{ret}" if ret
-            end
-        end
-
-        @polyads.each do |e|
-            ret = self.try_parse sd, e.sd
+        (@polyads + (@prefixes[sd.split[0]] || []) + (@suffixes[sd.split[-1]] || [])).each do |e|
+            ret = try_parse sd, e.sd
             return @cache[sd] = "#{e.formal} #{ret}" if ret
         end
 
