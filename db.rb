@@ -87,7 +87,7 @@ class Number
 
     def self.head s
         a, b = s.split ' ', 2
-        a.sub! /,$/, '' if a # TODO a more unified way of doing this would be nice
+        a.sub! /,$/, '' if a # TODO comma
         a =~ /^[0-9]+(\/[0-9]+)?$/ ? [[a], b || ''] : nil
     end
 
@@ -141,9 +141,7 @@ def try_parse_head sd, slist, nocase = false
         when String
             return unless (nocase ? sd.downcase : sd).start_with? token
             sd = sd[token.size+1..-1] || ''
-            # TODO hacks
-            sd = sd[1..-1] || '' if sd[0] == ' ' # for commas
-            #sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
+            sd = sd[1..-1] || '' if sd[0] == ' ' # TODO comma
             []
         else
             ret, sd = token.head sd
@@ -159,7 +157,6 @@ def try_parse_tail sd, slist, nocase = false
         when String
             return unless (nocase ? sd.downcase : sd).end_with?(token)
             sd = sd[0...-(token.size+1)] || ''
-            #sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
             []
         else
             ret, sd = token.tail sd
