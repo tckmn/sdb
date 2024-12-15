@@ -107,13 +107,13 @@ class Call
         @formal = nil
         @verbal = nil
         if true
-            @cf = $db.to_formal(@sd)
+            @cf = $db.to_formal(@sd, :ENTRY)
             @cv = $db.to_verbal(self.formal)
         end
     end
 
     def sd; @sd; end
-    def formal; @formal || @cf || (@cf = $db.to_formal(@sd)); end
+    def formal; @formal || @cf || (@cf = $db.to_formal(@sd, :ENTRY)); end
     def verbal; @verbal || @cv || (@cv = $db.to_verbal(self.formal)); end
 
     def totxt f, opts

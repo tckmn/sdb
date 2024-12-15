@@ -278,7 +278,7 @@ plus explode
 TIME 2
 plus explode the wave
 TIME 6
-plus explode and c LOWER
+plus explode and C LOWER
 TIME 2+$1
 plus fan the top
 TIME 4
@@ -302,9 +302,10 @@ MATCH ping-pong circulate
 TIME 6
 plus relay the deucey
 TIME 20
-plus c & roll
-TIME 2+$1
+plus C & roll
 SPEC nothing = plus roll
+TIME 2+$1
+ALIAS trade and roll = &roll trade
 plus single circle to a wave
 TIME 4
 plus spin chain & exchange the gears
@@ -313,7 +314,7 @@ plus spin chain the gears
 TIME 24
 plus spread
 TIME 2
-plus c and spread
+plus C and spread
 TIME 2+$1
 plus teacup chain
 TIME 32
@@ -328,9 +329,9 @@ TIME 6
 a1 (anyone) cross
 TIME 2
 a1 (anyone) scoot (others) dodge
-a1 c & cross
-TIME 2+$1
+a1 C & cross
 SPEC nothing = a1 cross
+TIME 2+$1
 a1 (cast a shadow) don't spread
 a1 r roll to a wave
 TIME 4
@@ -369,12 +370,12 @@ a1 cast a shadow
 TIME 10
 a1 chain reaction
 TIME 12
-a1 clover and c LOWER
+a1 clover and C LOWER
 TIME 4+$1
 # is that true?
 a1 couple of 3 c
-a1 cross clover and c
-MATCH CROSS clover and c LOWER
+a1 cross clover and C
+MATCH CROSS clover and C LOWER
 TIME 8+$1
 # callerlab says 10??? downgraded to 8 which i still think is ridiculous
 a1 cross cloverleaf
@@ -538,7 +539,7 @@ a2 trade circulate
 TIME 6
 a2 trail off
 TIME 6
-a2 transfer and c LOWER
+a2 transfer and C LOWER
 TIME 8
 a2 zag
 TIME 2
@@ -558,10 +559,10 @@ c1 t back
 c1 (any tag call) your cross neighbor
 c1 (anyone) point triangle formation
 c1 (anyone)-based (setup) identifier
-c1 c chain thru
+c1 C chain thru
 # make sure this doesn't catch too many things
 c1 (anything the axle) but (cast 1/4|3/4)
-c1 c the axle
+c1 C the axle
 SPEC nothing
 SPEC passthru = c1 pass the axle
 c1 (anything) the windmill r
@@ -583,8 +584,8 @@ c1 butterfly c
 c1 cast back
 c1 chase your neighbor
 c1 checkover
-c1 circle by n c
-MATCH circle by n X c
+c1 circle by n C
+MATCH circle by n X C
 OUT circle by $1 by $2
 # TODO surely there is a better way
 c1 casty circle by n n
@@ -641,7 +642,7 @@ c1 reverse explode
 MATCH REVERSE explode
 c1 reverse rotate (from sqset)
 c1 reverse single rotate (from sqset)
-c1 reverse wheel and c LOWER
+c1 reverse wheel and C LOWER
 c1 rotary spin
 c1 rotate (from sqset)
 c1 scatter scoot
@@ -690,16 +691,16 @@ c1 track n
 TAGGER track
 c1 triangle formation
 c1 triple f c UPPER
-c1 twist and c LOWER
+c1 twist and C LOWER
 c1 twist the line
 c1 vertical n tag
 SPEC 1
 TAGGER vertical tag
 c1 wave-based triangle formation
 c1 weave
-c1 wheel and c LOWER
+c1 wheel and C LOWER
 c1 wheel fan thru
-c1 c with the flow
+c1 C with the flow
 SPEC nothing = c1 with the flow
 c1 zing
 
@@ -744,7 +745,8 @@ c2 cross the "k"
 c2 cross trade & wheel
 c2 detour
 c2 disconnected (setup) c
-c2 dodge c LOWER
+c2 dodge C LOWER
+ALIAS dodge circulate = dodge circulate
 c2 drop r
 c2 exchange the diamonds n
 c2 fascinate
@@ -772,7 +774,7 @@ SPEC 1
 TAGGER invert
 #c2 invert the tag
 c2 lateral substitute
-c2 lines c thru UPPER
+c2 lines C thru UPPER
 c2 little more
 c2 r loop n
 c2 offset (c|l|w) formation
@@ -799,9 +801,9 @@ c2 reverse rotate (from lines)
 c2 reverse single rotate (from lines)
 c2 reverse split swap
 c2 reverse truck
-c2 rims trade c LOWER
+c2 rims trade C LOWER
 c2 rims trade back
-c2 rotary c LOWER
+c2 rotary C LOWER
 c2 rotate (from lines)
 c2 scoot & counter
 c2 scoot & cross ramble
@@ -834,7 +836,7 @@ c2 triangle (peel|trail off) c
 c2 truck
 c2 turn to a line
 c2 unwrap the (setup) c
-c2 vertical c LOWER
+c2 vertical C LOWER
 c2 walk out to a wave
 c2 wheel the ocean
 c2 wheel the sea
@@ -887,7 +889,7 @@ c3a dilemma
 c3a drift apart
 c3a ease off
 c3a eight by c
-MATCH 8 by c LOWER
+MATCH 8 by C LOWER
 c3a exchange the 3 by 1 triangles n
 c3a exchange the boxes n
 c3a exchange the triangles n
@@ -1156,7 +1158,7 @@ c4 d zoom (n, n=2 or 3)
 c4 (anything an anchor) but (anything)
 c4 (anything coord|react) to a diamond
 c4 (anything) an anchor
-c4 c and anything
+c4 C and anything
 c4 (anything) but cross it
 c4 (anything) by golly
 c4 (anything) clear out

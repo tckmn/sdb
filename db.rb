@@ -6,13 +6,13 @@ def to_type c
     when ?r then Direction
     when ?d then Designator
     when ?f then Formation
-    when ?c then Entry
+    when ?c then :ENTRY
+    when ?C then :BRACKET_ENTRY
     end
 end
 
-def concept? arr
-    arr.size == 2 && arr[-1] == Entry
-end
+def entry? t; t == :ENTRY || t == :BRACKET_ENTRY; end
+def concept? arr; arr.size == 2 && entry?(arr[-1]); end
 
 # WARNING: mutates words
 def to_sd words
@@ -143,7 +143,7 @@ def try_parse_head sd, slist, nocase = false
             sd = sd[token.size+1..-1] || ''
             # TODO hacks
             sd = sd[1..-1] || '' if sd[0] == ' ' # for commas
-            sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
+            #sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
             []
         else
             ret, sd = token.head sd
@@ -159,7 +159,7 @@ def try_parse_tail sd, slist, nocase = false
         when String
             return unless (nocase ? sd.downcase : sd).end_with?(token)
             sd = sd[0...-(token.size+1)] || ''
-            sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
+            #sd = sd[1..-2] || '' if sd[0] == '[' && sd[-1] == ']' # for brackets
             []
         else
             ret, sd = token.tail sd
@@ -170,7 +170,7 @@ def try_parse_tail sd, slist, nocase = false
 end
 
 def try_parse sd, slist
-    entrylocs = slist.each_index.select{|i| slist[i] == Entry}
+    entrylocs = slist.each_index.select{|i| entry? slist[i] }
     if entrylocs.empty?
         ret, sd = try_parse_head sd, slist
         return unless ret
@@ -189,20 +189,19 @@ def try_parse sd, slist
     slist = slist[entrylocs[0]..entrylocs[-1]]
     midlist = []
     if slist.length == 3 && String === slist[1]
-        abort 'what' if slist[0] != Entry || slist[2] != Entry
         parts = sd.split " #{slist[1]} "
         sd = nil
         return unless parts.size == 2
-        ret = to_formal parts[0]
+        ret = to_formal parts[0], slist[0]
         return unless ret
         midlist.push ret
-        ret = to_formal parts[1]
+        ret = to_formal parts[1], slist[2]
         return unless ret
         midlist.push ret
     elsif slist.length > 1
         raise "couldn't peel enough"
     elsif slist.length == 1
-        ret = to_formal sd
+        ret = to_formal sd, slist[0]
         sd = nil
         return unless ret
         midlist.push ret
@@ -293,7 +292,12 @@ class Db
 
     end
 
-    def to_formal sd
+    def to_formal sd, t
+        if t == :BRACKET_ENTRY
+            return if sd[0] != ?[ || sd[-1] != ?]
+            sd = sd[1..-2]
+        end
+
         return @cache[sd] if @cache[sd]
         return @cache[sd] = @nilads[sd].formal if @nilads[sd]
 
@@ -315,13 +319,13 @@ class Db
                 end
                 idx = sd.gsub(/;/).map { $`.size }.find{|p| depths[p] == 1 }
                 if idx
-                    x = self.to_formal sd[1..idx-2]
-                    y = self.to_formal sd[idx+2...-1]
+                    x = self.to_formal sd[1..idx-2], :ENTRY
+                    y = self.to_formal sd[idx+2...-1], :ENTRY
                     return @cache[sd] = "seq #{x} #{y}" if x && y
                 end
             elsif sd =~ /^\(.*\) ((\d+) TIMES|TWICE|1-(\d+)\/(\d+))$/
                 frac = $2 || ($1 == 'TWICE' ? '2' : "#{$3.to_i+$4.to_i}/#$4")
-                x = self.to_formal sd[1..-3-$1.size]
+                x = self.to_formal sd[1..-3-$1.size], :ENTRY
                 return @cache[sd] = "do #{frac} #{x}" if x
             end
         end
@@ -333,7 +337,7 @@ class Db
     def read_token type, tokens
         head = tokens.shift
         return nil unless head
-        e = type.read_token head
+        e = (entry?(type) ? Entry : type).read_token head
         return nil unless e
         args = []
         e.sd.each do |a|
@@ -349,7 +353,7 @@ class Db
     # only called from to_verbal and to_timing
     def to_tree formal
         return nil unless formal
-        self.read_token Entry, formal.split
+        self.read_token :ENTRY, formal.split
     end
 
     def to_verbal formal
