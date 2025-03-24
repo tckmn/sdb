@@ -268,4 +268,14 @@ if ARGV.include? 'live'
     }
 end
 
+if ARGV.include? 'check'
+    seqs.each do |s|
+        asymtag = s.tags.include? 'asym'
+        asymcal = s.calls.any? {|c| c.sd.include?('#') || c.sd.include?('NEAR') || c.sd.include?('FAR') }
+        if asymtag != asymcal
+            p s
+        end
+    end
+end
+
 $db.save_cache
