@@ -26,6 +26,7 @@ TIME 0
 # need to avoid colliding with the direction left
 base leftcpt c
 MATCH left c
+OUT left $1
 TIME $1
 SPEC chaseright = plus left chase
 base reverse c
