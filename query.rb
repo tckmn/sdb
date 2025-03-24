@@ -38,7 +38,7 @@ def genrestrict r
     orpos ? ->seq { f1[seq] || f2[seq] } : ->seq { f1[seq] && f2[seq] }
 end
 
-opts = Struct.new(:filter, :merge, :stats, :class, :restrict, :old, :theme).new
+opts = Struct.new(:filter, :merge, :stats, :class, :restrict, :old, :bad, :theme).new
 OptionParser.new do |opt|
 
     opt.on('-h', '--help', 'outputs this help message') do
@@ -70,6 +70,10 @@ OptionParser.new do |opt|
         opts.old = true
     end
 
+    opt.on('-b', '--bad', 'include bad sequences') do |o|
+        opts.bad = true
+    end
+
     opt.on('-tTHEME', '--theme=THEME', 'which theme pool to draw from') do |t|
         opts.theme = t
     end
@@ -78,7 +82,7 @@ end.parse!
 
 def filt seq, opts
     return false if seq.tags.any?{|tag|
-        (!opts.theme && tag[0] == ?!) || (!opts.old && tag[0] == ?@) || %w[bad skip sus worse todo no].include?(tag)
+        (!opts.theme && tag[0] == ?!) || (!opts.old && tag[0] == ?@) || (!opts.bad && %w[bad skip sus worse todo no].include?(tag))
     }
 
     return false if opts.restrict && !opts.restrict[seq]
