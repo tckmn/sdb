@@ -208,11 +208,16 @@ def try_parse sd, slist
 end
 
 class Db
+    attr_accessor :pbcache
 
     def initialize fname
 
         @cache = {}
         File.open('cache') do |f| @cache = Marshal.load f end rescue nil
+
+        # TODO this really doesn't belong here
+        @pbcache = {}
+        File.open('pbcache') do |f| @pbcache = Marshal.load f end rescue nil
 
         @items = []   # real calls/designators/etc (excluding aliases and specs), used only for exposing lists to query
         entries = []  # for prefix/suffix/etc
@@ -371,6 +376,7 @@ class Db
 
     def save_cache
         File.open('cache', ?w) do |f| Marshal.dump $db.cache, f end if File.exists? 'cache'
+        File.open('pbcache', ?w) do |f| Marshal.dump $db.pbcache, f end if File.exists? 'pbcache'
     end
 
 end
