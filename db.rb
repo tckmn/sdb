@@ -115,7 +115,13 @@ class Node
                 return s.verbal.gsub(/\$(\d+)/) { self.children[$1.to_i-1+i].verbal } if s
             end
         end
-        return self.head.verbal.gsub(/\$(\d+)/) { self.children[$1.to_i-1].verbal }
+        return self.head.verbal.gsub(/\$(\d+)/) { self.children[$1.to_i-1].verbal }.gsub(/\$-(\d+)/) { {
+            'boys' => 'girls', 'girls' => 'boys',
+            'heads' => 'sides', 'sides' => 'heads',
+            'leads' => 'trailers', 'trailers' => 'leads', 'leaders' => 'trailers',
+            'beaus' => 'belles', 'belles' => 'beaus',
+            'centers' => 'ends', 'ends' => 'centers'
+        }[self.children[$1.to_i-1].verbal] || 'others' }
     end
     def timing
         # TODO add features gradually. also this sucks lmao

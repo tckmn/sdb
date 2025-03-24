@@ -89,6 +89,7 @@ ms d run
 TIME 4
 ms d walk others dodge
 SPEC trailers = ms walk & dodge
+OUT $1 walk $-1 dodge
 TIME 4
 ms (anything) & 1/4 more
 ms (anything) on (n-th hand) c
