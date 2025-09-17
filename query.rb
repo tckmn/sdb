@@ -86,7 +86,7 @@ def filt seq, opts
     }
 
     return false if opts.restrict && !opts.restrict[seq]
-    return false if opts.theme && !t.include?(?!+opts.theme)
+    return false if opts.theme && !seq.tags.include?(?!+opts.theme)
 
     return true
 end
@@ -271,7 +271,7 @@ end
 if ARGV.include? 'check'
     seqs.each do |s|
         asymtag = s.tags.include? 'asym'
-        asymcal = s.calls.any? {|c| c.sd.include?('#') || c.sd.include?('NEAR') || c.sd.include?('FAR') }
+        asymcal = s.calls.any? {|c| c.sd.include?('#') || c.sd.include?('NEAR') || c.sd.include?('FAR') || c.sd.include?("CALLER'S") || c.sd.include?("caller's") }
         if asymtag != asymcal
             p s
         end
