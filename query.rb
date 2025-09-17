@@ -93,7 +93,7 @@ end
 
 # prepare for below
 
-abort 'no seqs' unless File.exists?($FILE)
+abort 'no seqs' unless File.exist?($FILE)
 allseqs = File.open($FILE, ?r) do |f| fromtxt f end
 
 # actions that modify seqs / write to seqs file

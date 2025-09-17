@@ -381,8 +381,8 @@ class Db
     def get_level formal; @lookup[formal] ? @lookup[formal].lvl : nil; end
 
     def save_cache
-        File.open('cache', ?w) do |f| Marshal.dump $db.cache, f end if File.exists? 'cache'
-        File.open('pbcache', ?w) do |f| Marshal.dump $db.pbcache, f end if File.exists? 'pbcache'
+        File.open('cache', ?w) do |f| Marshal.dump $db.cache, f end if File.exist? 'cache'
+        File.open('pbcache', ?w) do |f| Marshal.dump $db.pbcache, f end if File.exist? 'pbcache'
     end
 
 end
