@@ -63,6 +63,17 @@ def playback_sub sd
         return playback_dyad 'sandwich', sd[9...pos], sd[pos+8..-1]
     end
 
+    # TODO what???????
+    if sd.start_with? 'CENTER BOX '
+        return playback_monad sd[0...10], sd[11..-1]
+    end
+
+    # TODO extremely extremely bad special case hack
+    if sd.start_with? 'FINALLY USE '
+        pos = idx[/ IN /, 0]
+        return playback_dyad 'finally use', sd[12...pos], sd[pos+4..-1]
+    end
+
     # TODO bad
     if sd =~ /^DELAY: (.*) BUT (.*) WITH A \[(.*)\]$/
         return playback_dyad $2, $1, $3
@@ -71,6 +82,11 @@ def playback_sub sd
     # TODO bad
     if sd =~ /^((?:HALF|\d+\/\d+) AND (?:HALF|\d+\/\d+)) (.*) AND (.*)$/
         return playback_dyad $1, $2, $3
+    end
+
+    # TODO comically bad
+    if sd =~ /^(CENTER [A-Z]+|CENTER \d|[A-Z]+) (.*) WHILE THE (OUTER PAIRS|OUTER \d|[A-Z]+) (.*)$/
+        return playback_dyad "#$1 (while the others)", $2, $4
     end
 
     if sd.start_with? 'OWN THE '
@@ -228,12 +244,12 @@ class Sequence
                         end
                     end
                     if cj = call.tojson
-                        [cj, (setup.empty? ? prevsetup : (prevsetup=setup))[1...-1]]
+                        [cj, (setup.empty? ? prevsetup : (prevsetup=setup))]
                     elsif call.verbal == ?^
                         prevsetup.clear.concat setup
                         nil
                     end
-                end.compact
+                end.compact.map{|x| [x[0], x[1][1...-1]] }
             end
             $db.pbcache[@date] = [hsh, calls]
         end
