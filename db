@@ -662,6 +662,7 @@ c1 split dixie sashay
 MATCH SPLIT dixie sashay
 c1 split dixie style
 MATCH SPLIT dixie style to a wave
+TIME 6
 c1 split recycle
 c1 split square chain the top
 MATCH SPLIT square chain the top
