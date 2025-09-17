@@ -26,7 +26,7 @@ Filters out sequences for all purposes:
 Other mechanical tags:
   noplayback: make it not try to plug it back into sd
 
-Properties of sequences (suffix with copies of + or - as is sensible):
+Properties of sequences (suffix with + or - as is sensible):
   [objective]
     asym:  asymmetric, i.e. cannot swap heads and sides
     bigon: only resolves in a bigon
@@ -37,8 +37,12 @@ Properties of sequences (suffix with copies of + or - as is sensible):
     novel: hard by making stuff up, e.g. cuing
   [quality]
     pun:   some notable call/formation (eg cool double, 25% offset)
-    joke:  funnier than a pun, very clearly the point, makes the dancers laugh
-    cool:  impressive that it works
+    joke:  funnier than pun, very clearly the point, makes dancers laugh, memorable
+    cool:  impressive that it works (good in the puzzle way)
+    nice:  flowy, pleasant to dance (good in the dancey way)
+  [purpose]
+    drill: for teaching a specific call, not suitable for generic calling
+    todo more
 
 Documentation of some of my ad hoc tags:
   fcw: planned for fall challenge weekend 2023
